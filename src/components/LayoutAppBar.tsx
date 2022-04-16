@@ -119,7 +119,7 @@ export default function LayoutAppBar({ handleDrawerOpen, open }:props) {
         open={settingDrawer}
         onClose={handleSettingDrawerClose}
         sx={{ zIndex: 1252, }}
-        PaperProps={{ sx: { width: ['100%', '100%', 360], borderRadius: '10px 0px 0px 10px' }, }}
+        PaperProps={{ sx: { width: ['100%', 360], borderRadius: '10px 0px 0px 10px' }, }}
       >
 
         <Box
@@ -163,7 +163,7 @@ export default function LayoutAppBar({ handleDrawerOpen, open }:props) {
               <LightModeIcon />
 
               <Typography sx={{ textTransform: 'none', ml: 1 }}>
-                Light
+                {t('light')}
               </Typography>
 
             </ToggleButton>
@@ -173,7 +173,7 @@ export default function LayoutAppBar({ handleDrawerOpen, open }:props) {
               <DarkModeIcon />
 
               <Typography sx={{ textTransform: 'none', ml: 1 }}>
-                Dark
+                {t('dark')}
               </Typography>
 
             </ToggleButton>

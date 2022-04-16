@@ -16,9 +16,11 @@
     "logout":"Logout",
     "settings":"Settings",
     "language":"Language",
+    "light":"Light",
+    "dark":"Dark",
 
     "languages":{
       "turkish":"Turkish",
-      "english":"Rnglish"
+      "english":"English"
     }
 }

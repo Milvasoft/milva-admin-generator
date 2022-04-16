@@ -17,6 +17,8 @@
     "logout":"Çıkış Yap",
     "settings":"Ayarlar",
     "language":"Dil",
+    "light":"Açık",
+    "dark":"Koyu",
 
     "languages":{
       "turkish":"Türkçe",

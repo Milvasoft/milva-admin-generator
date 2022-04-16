@@ -14,5 +14,12 @@
     "yes": "Evet",
     "no": "Hayır",
     "search": "Ara",
-    "translation":"Tercüme"
+    "logout":"Çıkış Yap",
+    "settings":"Ayarlar",
+    "language":"Dil",
+
+    "languages":{
+      "turkish":"Türkçe",
+      "english":"İngilizce"
+    }
 }

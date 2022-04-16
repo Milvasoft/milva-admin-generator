@@ -13,5 +13,12 @@
     "clear": "Clear",
     "yes": "Yes",
     "search": "Search",
-    "translation":"Translation"
+    "logout":"Logout",
+    "settings":"Settings",
+    "language":"Language",
+
+    "languages":{
+      "turkish":"Turkish",
+      "english":"Rnglish"
+    }
 }

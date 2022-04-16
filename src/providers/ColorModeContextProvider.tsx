@@ -13,14 +13,14 @@ type ColorMode = string | 'light' | 'dark';
 
 interface IColorModeContext {
   mode: ColorMode | undefined;
-  toggleColorMode: () => void;
+  toggleColorMode: (nextMode: string) => void;
 }
 
 export const ColorModeContext = createContext<IColorModeContext>({ toggleColorMode: () => {}, mode: 'light' });
 
 export default function ColorModeContextProvider({ children }: any) {
 
-  const [mode, setMode] = useState<ColorMode>();
+  const [mode, setMode] = useState<ColorMode>('light');
 
   useEffect(() => {
 
@@ -36,21 +36,15 @@ export default function ColorModeContextProvider({ children }: any) {
 
   const colorMode = useMemo(() => ({
 
-    toggleColorMode: () => {
-
-      const nextMode = (mode === 'light' ? 'dark' : 'light');
+    toggleColorMode: (nextMode: string) => {
       
       setMode(nextMode);
-
-      window.localStorage.setItem('mode', nextMode);
     
     },
     mode 
   }), [mode]);
 
-  const theme = useMemo(() => createTheme(mode === 'light' ? lightThemeOptions : darkThemeOptions), [mode]);
-
-  if (mode === undefined) return null;
+  const theme = useMemo(() => (mode === 'light' ? createTheme(lightThemeOptions) : createTheme(darkThemeOptions)), [mode]);
 
   return (
     <ColorModeContext.Provider value={colorMode}>

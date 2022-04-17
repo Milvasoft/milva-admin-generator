@@ -5,9 +5,11 @@ import React, {
   useMemo,
   useState 
 } from 'react';
-import { ThemeProvider, createTheme, CssBaseline, } from '@mui/material';
+import { ThemeProvider, createTheme, } from '@mui/material/styles';
 import lightThemeOptions from '@styles/theme/lightThemeOptions';
 import darkThemeOptions from '@styles/theme/darkThemeOptions';
+import { CssBaseline } from '@mui/material';
+
 
 type ColorMode = string | 'light' | 'dark';
 
@@ -24,13 +26,19 @@ export default function ColorModeContextProvider({ children }: any) {
 
   useEffect(() => {
 
-    let mode = 'ligth';
+    const getCurrentTheme = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    let temp = window.localStorage.getItem('mode');
 
-    if (isDark) mode = 'dark';
+    if (temp !== 'light' && temp !== 'dark') {
 
-    setMode(mode);
+      temp = getCurrentTheme() ? 'dark' : 'light';
+
+      window.localStorage.setItem('mode', temp);
+    
+    }
+
+    setMode(temp);
   
   }, []);
 
@@ -39,6 +47,8 @@ export default function ColorModeContextProvider({ children }: any) {
     toggleColorMode: (nextMode: string) => {
       
       setMode(nextMode);
+    
+      window.localStorage.setItem('mode', nextMode);
     
     },
     mode 

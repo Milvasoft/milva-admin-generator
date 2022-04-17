@@ -1,4 +1,5 @@
 import { ThemeOptions } from '@mui/material/styles';
+import './CustomThemeOptions';
 
 const darkThemeOptions: ThemeOptions = {
   palette: {
@@ -9,6 +10,16 @@ const darkThemeOptions: ThemeOptions = {
     secondary: {
       main: '#00adb5',
     },
+    background: {
+      default: '#292929',
+      paper: '#1F1F1F'
+    },
+    
+    layoutMainBg: '#121212',
+    layoutAppBar: '#1F1F1F',
+  },
+  typography: {
+    fontFamily: 'Open Sans, sans-serif',
   },
   components: {
     MuiButtonBase: {

@@ -21,37 +21,29 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { useColorMode } from '@src/providers/ColorModeContextProvider';
 import { useRouter } from 'next/router';
-
-const drawerWidth = 240;
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
+const AppBar = styled(MuiAppBar)<AppBarProps>(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
+  boxShadow: 'none',
+  background: theme.palette.layoutAppBar
 }));
 
 type props = {
  handleDrawerOpen: () => void,
+ handleDrawerClose: () => void,
  open: boolean
 }
 
-export default function LayoutAppBar({ handleDrawerOpen, open }:props) {
+export default function LayoutAppBar({ handleDrawerOpen, open, handleDrawerClose }:props) {
 
   const { mode, toggleColorMode } = useColorMode();
 
@@ -72,41 +64,57 @@ export default function LayoutAppBar({ handleDrawerOpen, open }:props) {
   return (
     <>
    
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed">
 
         <Toolbar>
 
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
+          <Box
             sx={{
-              marginRight: 5,
-              ...(open && { display: 'none' }),
+              flexGrow: 1,
+              display: 'flex',
+              alignItems: 'center', 
             }}
-          >
-            <MenuIcon />
-          </IconButton>
+          >  
 
-          <Typography
-            variant="h6" 
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1 }}
-          >
-            MilvaSoft Admin Template
-          </Typography>
+            <Typography
+              variant="h6" 
+              noWrap
+              component="div"
+              sx={{ width: '180px' }}
+            >
+              MilvaSoft
+            </Typography>
+          
+            <ToggleButton 
+              value="checked" 
+              onClick={!open ? handleDrawerOpen : handleDrawerClose}
+              sx={{ ml: 2, borderRadius: 2, }}
+              size="small"
+              color="primary"
+            >
+              {open ? <MenuOpenIcon color="primary" fontSize="small" /> : <MenuIcon color="primary" fontSize="small" />}
+            </ToggleButton>    
+
+          </Box>
             
           <Tooltip title={t('settings')}>
-            <ToggleButton value="checked" sx={{ borderRadius: 3, mr: 2 }} onClick={handleSettingDrawerOpen}>
-              <SettingsIcon fontSize="small" sx={{ color: 'white' }} />
+            <ToggleButton
+              value="checked" 
+              sx={{ borderRadius: 3, mr: 2, }}
+              size="small"
+              onClick={handleSettingDrawerOpen}
+            >
+              <SettingsIcon fontSize="small" color="primary" />
             </ToggleButton>      
           </Tooltip>
 
           <Tooltip title={t('logout')}>
-            <ToggleButton value="checked" sx={{ borderRadius: 3 }}>
-              <LogoutIcon fontSize="small" sx={{ color: 'white' }} />
+            <ToggleButton 
+              value="checked" 
+              sx={{ borderRadius: 3, }}
+              size="small"
+            >
+              <LogoutIcon fontSize="small" color="primary" />
             </ToggleButton>      
           </Tooltip>
 

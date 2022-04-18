@@ -23,5 +23,116 @@
     "languages":{
       "turkish":"Türkçe",
       "english":"İngilizce"
+    },
+    
+    "customTable":{
+      "noRowsLabel": "Satır yok",
+      "noResultsOverlayLabel": "Sonuç bulunamadı.",
+      "errorOverlayDefaultLabel": "Bir hata oluştu.",
+    
+      "toolbarDensity": "Yoğunluk",
+      "toolbarDensityLabel": "Yoğunluk",
+      "toolbarDensityCompact": "Kompakt",
+      "toolbarDensityStandard": "Standard",
+      "toolbarDensityComfortable": "Rahat",
+    
+      "toolbarColumns": "Sütunlar",
+      "toolbarColumnsLabel": "Sütunları seçin",
+    
+      "toolbarFilters": "Filtreler",
+      "toolbarFiltersLabel": "Filtreleri göster",
+      "toolbarFiltersTooltipHide": "Filtreleri gizle",
+      "toolbarFiltersTooltipShow": "Filtreleri göster",
+      "toolbarFiltersTooltipActive":"{{count}} etkin filtre",
+      "toolbarFiltersTooltipActiveMany":"{{count}} etkin filtreler",
+
+      "toolbarExport": "Dışa aktar",
+      "toolbarExportLabel": "Dışa aktar",
+      "toolbarExportCSV": "CSV olarak indir",
+      "toolbarExportPrint": "Yazdır",
+    
+      "columnsPanelTextFieldLabel": "Sütun bul",
+      "columnsPanelTextFieldPlaceholder": "Sütun başlığı",
+      "columnsPanelDragIconLabel": "Sütunu yeniden sırala",
+      "columnsPanelShowAllButton": "Hepsini göster",
+      "columnsPanelHideAllButton": "Hepsini gizle",
+    
+      "filterPanelAddFilter": "Filtre ekle",
+      "filterPanelDeleteIconLabel": "Sil",
+      "filterPanelLinkOperator": "Mantıksal operatör",
+      "filterPanelOperators": "Operator", 
+      "filterPanelOperatorAnd": "Ve",
+      "filterPanelOperatorOr": "Veya",
+      "filterPanelColumns": "Sütunlar",
+      "filterPanelInputLabel": "Değer",
+      "filterPanelInputPlaceholder": "Filtre değeri",
+    
+      "filterOperatorContains": "İçeren",
+      "filterOperatorEquals": "Eşit",
+      "filterOperatorStartsWith": "İle başlayan",
+      "filterOperatorEndsWith": "İle biten",
+      "filterOperatorIs": "dir",
+      "filterOperatorNot": "değil",
+      "filterOperatorAfter": "sonra",
+      "filterOperatorOnOrAfter": "açık veya sonra",
+      "filterOperatorBefore": "önce",
+      "filterOperatorOnOrBefore": "açık veya daha önce",
+      "filterOperatorIsEmpty": "boş",
+      "filterOperatorIsNotEmpty": "boş değil",
+      "filterOperatorIsAnyOf": "herhangi biri",
+    
+      "filterValueAny": "hiç",
+      "filterValueTrue": "doğru",
+      "filterValueFalse": "yanlış",
+    
+      "columnMenuLabel": "Menü",
+      "columnMenuShowColumns": "Sütunları göster",
+      "columnMenuFilter": "Filtre",
+      "columnMenuHideColumn": "Gizle",
+      "columnMenuUnsort": "Sıralamayı kaldır",
+      "columnMenuSortAsc": "Sırala(Artan)",
+      "columnMenuSortDesc": "Sırala(Azalan)",
+
+      
+      "columnHeaderFiltersTooltipActive":"{{count}} etkin filtre",
+      "columnHeaderFiltersTooltipActiveMany":"{{count}} etkin filtreler",
+      "columnHeaderFiltersLabel": "Filtreleri göster",
+      "columnHeaderSortIconLabel": "Sırala",
+
+      "footerRowSelecteds": "{{count}} satır seçildi",
+      "footerRowSelected": "{{count}} satır seçildi",
+      
+      "footerTotalRows": "Toplam Satır:",
+
+      "footerTotalVisibleRows":"{{visibleCount}} / {{totalCount}}",
+     
+      "checkboxSelectionHeaderName": "Onay kutusu seçimi",
+      "checkboxSelectionSelectAllRows": "Tüm satırları seç",
+      "checkboxSelectionUnselectAllRows": "Tüm satırların seçimini kaldır",
+      "checkboxSelectionSelectRow": "Satır seçin",
+      "checkboxSelectionUnselectRow": "Satırın seçimini kaldır",
+
+      "booleanCellTrueLabel": "evet",
+      "booleanCellFalseLabel": "hayır",
+
+      "actionsCellMore": "daha fazla",
+
+      "pinToLeft": "Sola sabitle",
+      "pinToRight": "Sağa sabitle",
+      "unpin": "Sabitlemeyi kaldır",
+
+      "treeDataGroupingHeaderName": "Grup",
+      "treeDataExpand": "Göster",
+      "treeDataCollapse": "Gizle",
+
+      "groupingColumnHeaderName": "Grup",
+      "groupColumn": "{{name}} ile gruplandır",
+      "unGroupColumn": "{{name}} ile gruplandırmayı iptal et",
+
+      "expandDetailPanel": "Genişlet",
+      "collapseDetailPanel": "Daralt",
+
+      "labelRowsPerPage":"Sayfa başına satır sayısı:"
+
     }
 }

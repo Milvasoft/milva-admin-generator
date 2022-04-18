@@ -22,5 +22,116 @@
     "languages":{
       "turkish":"Turkish",
       "english":"English"
+    },
+
+    "customTable":{
+      "noRowsLabel": "No rows",
+      "noResultsOverlayLabel": "No results found.",
+      "errorOverlayDefaultLabel": "An error occurred.",
+    
+      "toolbarDensity": "Density",
+      "toolbarDensityLabel": "Density",
+      "toolbarDensityCompact": "Compact",
+      "toolbarDensityStandard": "Standard",
+      "toolbarDensityComfortable": "Comfortable",
+    
+      "toolbarColumns": "Columns",
+      "toolbarColumnsLabel": "Select columns",
+    
+      "toolbarFilters": "Filters",
+      "toolbarFiltersLabel": "Show filters",
+      "toolbarFiltersTooltipHide": "Hide filters",
+      "toolbarFiltersTooltipShow": "Show filters",
+      "toolbarFiltersTooltipActive":"{{count}} active filter",
+      "toolbarFiltersTooltipActiveMany":"{{count}} active filters",
+
+      "toolbarExport": "Export",
+      "toolbarExportLabel": "Export",
+      "toolbarExportCSV": "Download as CSV",
+      "toolbarExportPrint": "Print",
+    
+      "columnsPanelTextFieldLabel": "Find column",
+      "columnsPanelTextFieldPlaceholder": "Column title",
+      "columnsPanelDragIconLabel": "Reorder column",
+      "columnsPanelShowAllButton": "Show all",
+      "columnsPanelHideAllButton": "Hide all",
+    
+      "filterPanelAddFilter": "Add filter",
+      "filterPanelDeleteIconLabel": "Delete",
+      "filterPanelLinkOperator": "Logic operator",
+      "filterPanelOperators": "Operator", 
+      "filterPanelOperatorAnd": "And",
+      "filterPanelOperatorOr": "Or",
+      "filterPanelColumns": "Columns",
+      "filterPanelInputLabel": "Value",
+      "filterPanelInputPlaceholder": "Filter value",
+    
+      "filterOperatorContains": "contains",
+      "filterOperatorEquals": "equals",
+      "filterOperatorStartsWith": "starts with",
+      "filterOperatorEndsWith": "ends with",
+      "filterOperatorIs": "is",
+      "filterOperatorNot": "is not",
+      "filterOperatorAfter": "is after",
+      "filterOperatorOnOrAfter": "is on or after",
+      "filterOperatorBefore": "is before",
+      "filterOperatorOnOrBefore": "is on or before",
+      "filterOperatorIsEmpty": "is empty",
+      "filterOperatorIsNotEmpty": "is not empty",
+      "filterOperatorIsAnyOf": "is any of",
+    
+      "filterValueAny": "any",
+      "filterValueTrue": "true",
+      "filterValueFalse": "false",
+    
+      "columnMenuLabel": "Menu",
+      "columnMenuShowColumns": "Show columns",
+      "columnMenuFilter": "Filter",
+      "columnMenuHideColumn": "Hide",
+      "columnMenuUnsort": "Unsort",
+      "columnMenuSortAsc": "Sort by ASC",
+      "columnMenuSortDesc": "Sort by DESC",
+      
+      "columnHeaderFiltersTooltipActive":"{{count}} active filter",
+      "columnHeaderFiltersTooltipActiveMany":"{{count}} active filters",
+      "columnHeaderFiltersLabel": "Show filters",
+      "columnHeaderSortIconLabel": "Sort",
+
+      "footerRowSelecteds": "{{count}} rows selected",
+      "footerRowSelected": "{{count}} rows selected",
+      
+      "footerTotalRows": "Total Rows:",
+
+      "footerTotalVisibleRows":"{{visibleCount}} of {{totalCount}}",
+     
+      "checkboxSelectionHeaderName": "Checkbox selection",
+      "checkboxSelectionSelectAllRows": "Select all rows",
+      "checkboxSelectionUnselectAllRows": "Unselect all rows",
+      "checkboxSelectionSelectRow": "Select row",
+      "checkboxSelectionUnselectRow": "Unselect row",
+
+      "booleanCellTrueLabel": "yes",
+      "booleanCellFalseLabel": "no",
+
+      "actionsCellMore": "more",
+
+      "pinToLeft": "Pin to left",
+      "pinToRight": "Pin to right",
+      "unpin": "Unpin",
+
+      "treeDataGroupingHeaderName": "Group",
+      "treeDataExpand": "see children",
+      "treeDataCollapse": "hide children",
+
+      "groupingColumnHeaderName": "Group",
+      "groupColumn": "Group by {{name}}",
+      "unGroupColumn": "Stop grouping by {{name}}",
+
+      "expandDetailPanel": "Expand",
+      "collapseDetailPanel": "Collapse",
+
+      "labelRowsPerPage":"Rows per page:"
+
     }
+    
 }

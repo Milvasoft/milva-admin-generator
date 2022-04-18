@@ -1,9 +1,16 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Layout from '@components/Layout';
+import CustomTable from '@components/CustomTable';
 
 export default function Home() {
 
-  return (<Layout />);
+  return (
+    <Layout>
+
+      <CustomTable />
+
+    </Layout>
+  );
 
 }
 

@@ -4,14 +4,17 @@ import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Toolbar } from '@mui/material';
-import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton, { ListItemButtonProps } from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import SendIcon from '@mui/icons-material/Send';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LayoutAppBar from './LayoutAppBar';
 
 const drawerWidth = 240;
@@ -98,43 +101,85 @@ export default function Layout({ children }: any) {
 
         <Toolbar />
 
-        <List
-          sx={{ mt: 1, p: 1 }}
-          component="nav"
-          subheader={(<ListSubheader component="div">Pages</ListSubheader>)}
-        >
+        <Box sx={{ mt: 1, p: 1 }}>
 
-          <CustomListItem selected>
+          <Accordion elevation={0} defaultExpanded>
 
-            <ListItemIcon>
-              <SendIcon fontSize="small" />
-            </ListItemIcon>
+            <AccordionSummary expandIcon={<ExpandMoreIcon color="primary" />}>
 
-            <ListItemText primary="Sent mail" />
+              <Typography color="primary">Users</Typography>
 
-          </CustomListItem>
+            </AccordionSummary>
 
-          <CustomListItem>
+            <AccordionDetails>
 
-            <ListItemIcon>
-              <DraftsIcon fontSize="small" />
-            </ListItemIcon>
+              <List>
 
-            <ListItemText primary="Drafts" />
+                <CustomListItem selected>
 
-          </CustomListItem>
+                  <ListItemIcon>
+                    <SendIcon fontSize="small" />
+                  </ListItemIcon>
 
-          <CustomListItem>
-            
-            <ListItemIcon>
-              <InboxIcon fontSize="small" />
-            </ListItemIcon>
+                  <ListItemText primary="Users" />
 
-            <ListItemText primary="Inbox" />
+                </CustomListItem>
 
-          </CustomListItem>
+                <CustomListItem>
 
-        </List>
+                  <ListItemIcon>
+                    <DraftsIcon fontSize="small" />
+                  </ListItemIcon>
+
+                  <ListItemText primary="Add User" />
+
+                </CustomListItem>
+
+              </List>
+              
+            </AccordionDetails>
+
+          </Accordion>
+
+          <Accordion elevation={0} sx={{ '&::before': { backgroundColor: 'transparent', } }}>
+
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+
+              <Typography>Products</Typography>
+
+            </AccordionSummary>
+
+            <AccordionDetails>
+
+              <List>
+
+                <CustomListItem selected>
+
+                  <ListItemIcon>
+                    <SendIcon fontSize="small" />
+                  </ListItemIcon>
+
+                  <ListItemText primary="Products" />
+
+                </CustomListItem>
+
+                <CustomListItem>
+
+                  <ListItemIcon>
+                    <DraftsIcon fontSize="small" />
+                  </ListItemIcon>
+
+                  <ListItemText primary="Add Product" />
+
+                </CustomListItem>
+
+              </List>
+  
+            </AccordionDetails>
+
+          </Accordion>
+
+        </Box>
           
       </Drawer>
 

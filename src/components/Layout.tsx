@@ -75,6 +75,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{ 
   backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15))',
   marginLeft: theme.spacing(2),
   marginBottom: theme.spacing(2),
+  minHeight: '85vh',
   transition: theme.transitions.create('margin', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,

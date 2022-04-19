@@ -83,7 +83,7 @@ export default function LayoutAppBar({ handleDrawerOpen, open, handleDrawerClose
               component="div"
               sx={{ width: '180px' }}
             >
-              MilvaSoft
+              Admin
             </Typography>
           
             <ToggleButton 

@@ -22,6 +22,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import { useColorMode } from '@src/providers/ColorModeContextProvider';
 import { useRouter } from 'next/router';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import Link from 'next/link';
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -108,15 +109,17 @@ export default function LayoutAppBar({ handleDrawerOpen, open, handleDrawerClose
             </ToggleButton>      
           </Tooltip>
 
-          <Tooltip title={t('logout')}>
-            <ToggleButton 
-              value="checked" 
-              sx={{ borderRadius: 3, }}
-              size="small"
-            >
-              <LogoutIcon fontSize="small" color="primary" />
-            </ToggleButton>      
-          </Tooltip>
+          <Link passHref href="/" prefetch={false}>
+            <Tooltip title={t('logout')}>            
+              <ToggleButton 
+                value="checked" 
+                sx={{ borderRadius: 3, }}
+                size="small"
+              >
+                <LogoutIcon fontSize="small" color="primary" />
+              </ToggleButton>  
+            </Tooltip>
+          </Link>    
 
         </Toolbar>
 

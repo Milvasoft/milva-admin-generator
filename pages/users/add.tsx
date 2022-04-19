@@ -1,12 +1,15 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Layout from '@components/Layout';
+import { Typography } from '@mui/material';
 
 export default function Add() {
 
   return (
     <Layout>
 
-      AddUser
+      <Typography variant="h4">
+        Add User
+      </Typography>
 
     </Layout>
   );

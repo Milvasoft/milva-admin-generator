@@ -118,7 +118,7 @@ export default function Home() {
         columns={columns}
         rows={rows?.slice(0, 10)}
         rowCount={rows.length} 
-        title="Ana Sayfa"
+        title="Users"
       />
 
     </Layout>

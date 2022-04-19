@@ -7,18 +7,19 @@ import { useForm } from 'react-hook-form';
 import { FormInputEnum } from '@assets/enums/FormInputEnum';
 import FormGeneratorFooter from './FormGeneratorFooter';
 import UnControlledCheckBox from './UnControlledCheckBox';
+import PhoneNumberInput from './PhoneNumberInput';
 
 type props = {
   filterList : IFormGenerator[],
-  onSubmit: (form: any) => void,
-  closeModal: () => void
+  handleConfirm: (form: any) => void,
+  handleCancel: () => void
 }
 
-export default function FormGenerator({ filterList, onSubmit, closeModal }: props,) {
+export default function FormGenerator({ filterList, handleConfirm, handleCancel }: props,) {
 
   const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'all', reValidateMode: 'onChange' });
 
-  const formSubmit = useCallback((form: any) => onSubmit({ ...form, }), [onSubmit]);
+  const formSubmit = useCallback((form: any) => handleConfirm({ ...form }), [handleConfirm]);
 
   useEffect(() => {
 
@@ -117,6 +118,20 @@ export default function FormGenerator({ filterList, onSubmit, closeModal }: prop
               />
             );
 
+          }          
+
+          if (item.input === FormInputEnum.PhoneNumber) {
+
+            return (
+              <PhoneNumberInput         
+                defaultValue={item.defaultValue}
+                placeholder={item?.placeholder}
+                label={item?.title}
+                fullWidth
+                {...register(item?.name, { ...item.validation })}
+              />
+            );
+
           }
        
 
@@ -126,7 +141,7 @@ export default function FormGenerator({ filterList, onSubmit, closeModal }: prop
       }
 
 
-      <FormGeneratorFooter handleCancel={closeModal} />
+      <FormGeneratorFooter handleCancel={handleCancel} />
 
     </form>
   );

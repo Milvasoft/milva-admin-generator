@@ -4,6 +4,7 @@ export enum FormInputEnum {
 
     Text,
     Number,
+    PhoneNumber,
     DateTime,
     CheckBox,
   

@@ -42,6 +42,7 @@
     ],
   
     "rules": {
+      "react/destructuring-assignment": [false, "never"],
       "no-restricted-imports": [ "error", { "patterns": [ "@material-ui/*/*/*","!@material-ui/core/test-utils/*" ] }],
       "react/react-in-jsx-scope": "off",
       "react/display-name": "off",

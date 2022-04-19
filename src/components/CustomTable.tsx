@@ -1,122 +1,12 @@
 import {
   DataGrid,
-  GridColDef,
-  GridValueGetterParams, 
   GridToolbar,
   GridLocaleText,
+  DataGridProps,
 } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
-import {
-  Box, 
-  IconButton,
-  Typography 
-} from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Tooltip from '@mui/material/Tooltip';
+import { Box, Typography } from '@mui/material';
 import { i18n } from 'next-i18next';
-
-
-const ActionComponent = styled('div')(() => ({
-  display: 'flex', 
-  justifyContent: 'space-around',
-  alignItems: 'center',
-  width: '100%' 
-}));
-
-const columns: GridColDef[] = [
-  {
-    field: 'id',
-    hide: true,
-  },
-  {
-    field: 'firstName',
-    headerName: 'First name',
-    flex: 1 
-  },
-  {
-    field: 'lastName',
-    headerName: 'Last name',
-    flex: 1 
-  },
-  {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    flex: 1,
-    valueGetter: (params: GridValueGetterParams) => `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-  },
-  {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-  },
-  {
-    field: 'Actions',
-    headerName: 'İşlemler',
-    renderCell: () => (
-      <ActionComponent>
-            
-        <Tooltip title={i18n?.t('delete') || 'delete'}>
-          <IconButton>
-            <DeleteIcon color="secondary" />
-          </IconButton>
-        </Tooltip>
-              
-        <Tooltip title={i18n?.t('edit') || 'edit'}>
-          <IconButton>
-            <EditIcon color="primary" />
-          </IconButton>
-        </Tooltip>
-
-      </ActionComponent>
-    )
-
-  },
-];
-
-const rows = [
-  {
-    id: 1222, lastName: 'Snow', firstName: 'Jon', age: 35 
-  },
-  {
-    id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 
-  },
-  {
-    id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 
-  },
-  {
-    id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 
-  },
-  {
-    id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null 
-  },
-  {
-    id: 6, lastName: 'Melisandre', firstName: null, age: 150 
-  },
-  {
-    id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 
-  },
-  {
-    id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 
-  },
-  {
-    id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 
-  },
-  {
-    id: 10, lastName: 'Roxie', firstName: 'Harvey', age: 65 
-  },
-  {
-    id: 11, lastName: 'Roxie', firstName: 'Harvey', age: 65 
-  },
-  {
-    id: 12, lastName: 'Roxie', firstName: 'Harvey', age: 65 
-  },
-  {
-    id: 13, lastName: 'Roxie', firstName: 'Harvey', age: 65 
-  },
-];
 
 const AntDesignStyledDataGrid = styled(DataGrid)(({ theme }) => ({
   border: `1px solid ${theme.palette.mode === 'light' ? '#f0f0f0' : '#303030'}`,
@@ -236,7 +126,11 @@ const AntDesignStyledDataGrid = styled(DataGrid)(({ theme }) => ({
   },
 }));
 
-export default function CustomTable() {
+interface ICustomTable extends DataGridProps {
+  title?: string,
+}
+
+export default function CustomTable(props : ICustomTable) {
     
   const GRID_DEFAULT_LOCALE_TEXT: GridLocaleText = {
 
@@ -374,41 +268,27 @@ export default function CustomTable() {
     },
   };
   
-  const onSelectionModelChange = (selectionModel: any, details: any) => {
-
-    console.log(selectionModel, details);
-  
-  };
-    
-  const onPageChange = (page: number) => {
-
-    console.log(page);
-  
-  };
-
   return (
     <Box>
 
-      <Typography variant="h5">
-        Table Title
-      </Typography>
+      { props?.title && (
+        <Typography variant="h5">
+          {props?.title}
+        </Typography>
+      )}
    
       <AntDesignStyledDataGrid
         components={{ Toolbar: GridToolbar, }}
-        rows={rows?.slice(0, 10)}
-        rowCount={rows.length}
-        columns={columns}
         checkboxSelection
         disableSelectionOnClick
         disableColumnFilter
-        onSelectionModelChange={onSelectionModelChange}
         pageSize={10}
         autoHeight
         rowsPerPageOptions={[10, 25, 50]}
         sx={{ border: 'none' }}
-        onPageChange={onPageChange}
         paginationMode="server"
         localeText={GRID_DEFAULT_LOCALE_TEXT}
+        {...props}
       />
 
     </Box>

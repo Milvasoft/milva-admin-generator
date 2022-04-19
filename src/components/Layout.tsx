@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -8,8 +8,6 @@ import List from '@mui/material/List';
 import ListItemButton, { ListItemButtonProps } from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SendIcon from '@mui/icons-material/Send';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -17,6 +15,11 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import NextLink from 'next/link';
+import { Routes } from '@utils/Routes';
+import { useRouter } from 'next/router';
+import { CookieService } from '@helpers/cookieService';
+import { CookieEnum } from '@assets/enums/CookieEnum';
 import LayoutAppBar from './LayoutAppBar';
 
 const drawerWidth = 240;
@@ -88,10 +91,66 @@ export default function Layout({ children }: any) {
 
   const [open, setOpen] = useState(false);
 
-  const handleDrawerOpen = () => setOpen(true);
+  const router = useRouter();
 
-  const handleDrawerClose = () => setOpen(false);
+  const path = router.asPath;
 
+  const pages = [
+    {
+      title: 'Users',
+      children: [
+        {
+          href: Routes.users,
+          title: 'Users',
+          icon: <GroupsOutlinedIcon fontSize="small" />
+        },
+        {
+          href: Routes.addUser,
+          title: 'Add User',
+          icon: <PersonAddAltIcon fontSize="small" />
+        },
+      ]
+    },
+    {
+      title: 'Products',
+      children: [
+        {
+          href: '#',
+          title: 'Products',
+          icon: <GroupsOutlinedIcon fontSize="small" />
+        },
+        {
+          href: '#',
+          title: 'Add Product',
+          icon: <PersonAddAltIcon fontSize="small" />
+        },
+      ]
+    },
+
+  ];
+
+  const handleDrawerOpen = () => {
+
+    CookieService.setCookie(CookieEnum.LayoutDrawer, 'true');
+
+    setOpen(true);
+
+  };
+
+  const handleDrawerClose = () => {
+
+    CookieService.setCookie(CookieEnum.LayoutDrawer, 'false');
+
+    setOpen(false);
+
+  };
+
+  useEffect(() => {
+    
+    setOpen(!!CookieService.getCookie(CookieEnum.LayoutDrawer));
+   
+  }, []);
+  
   return (
     <Box sx={{ display: 'flex', }}>
 
@@ -105,81 +164,49 @@ export default function Layout({ children }: any) {
 
         <Box sx={{ mt: 1, p: 1 }}>
 
-          <Accordion elevation={0} defaultExpanded>
+          {
+            pages?.map((item) => (
+              <Accordion
+                elevation={0} 
+                defaultExpanded={item?.children?.some((s) => s.href === path)}
+                sx={{ '&::before': { backgroundColor: 'transparent', } }}
+                key={item.title}
+              >
 
-            <AccordionSummary expandIcon={<ExpandMoreIcon color="primary" />}>
-
-              <Typography color="primary">Users</Typography>
-
-            </AccordionSummary>
-
-            <AccordionDetails>
-
-              <List>
-
-                <CustomListItem selected>
-
-                  <ListItemIcon>
-                    <GroupsOutlinedIcon fontSize="small" />
-                  </ListItemIcon>
-
-                  <ListItemText primary="Users" />
-
-                </CustomListItem>
-
-                <CustomListItem>
-
-                  <ListItemIcon>
-                    <PersonAddAltIcon fontSize="small" />
-                  </ListItemIcon>
-
-                  <ListItemText primary="Add User" />
-
-                </CustomListItem>
-
-              </List>
-              
-            </AccordionDetails>
-
-          </Accordion>
-
-          <Accordion elevation={0} sx={{ '&::before': { backgroundColor: 'transparent', } }}>
-
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-
-              <Typography>Products</Typography>
-
-            </AccordionSummary>
-
-            <AccordionDetails>
-
-              <List>
-
-                <CustomListItem selected>
-
-                  <ListItemIcon>
-                    <SendIcon fontSize="small" />
-                  </ListItemIcon>
-
-                  <ListItemText primary="Products" />
-
-                </CustomListItem>
-
-                <CustomListItem>
-
-                  <ListItemIcon>
-                    <DraftsIcon fontSize="small" />
-                  </ListItemIcon>
-
-                  <ListItemText primary="Add Product" />
-
-                </CustomListItem>
-
-              </List>
+                <AccordionSummary expandIcon={<ExpandMoreIcon color={item?.children?.some((s) => s.href === path) ? 'primary' : undefined} />}>
   
-            </AccordionDetails>
+                  <Typography color={item?.children?.some((s) => s.href === path) ? 'primary' : undefined}>{item?.title}</Typography>
+  
+                </AccordionSummary>
+  
+                <AccordionDetails>
+  
+                  <List>
 
-          </Accordion>
+                    {
+                      item?.children?.map((child) => (
+                        <NextLink href={child.href} prefetch={false} key={child.href}>           
+                          <CustomListItem selected={child.href === path}>
+    
+                            <ListItemIcon>
+                              {child.icon}
+                            </ListItemIcon>
+    
+                            <ListItemText primary={child.title} />
+    
+                          </CustomListItem>
+                        </NextLink>
+                      ))
+                    }
+  
+                  </List>
+                
+                </AccordionDetails>
+  
+              </Accordion>
+            ))
+          }
+
 
         </Box>
           

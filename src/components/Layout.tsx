@@ -15,6 +15,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import LayoutAppBar from './LayoutAppBar';
 
 const drawerWidth = 240;
@@ -118,7 +120,7 @@ export default function Layout({ children }: any) {
                 <CustomListItem selected>
 
                   <ListItemIcon>
-                    <SendIcon fontSize="small" />
+                    <GroupsOutlinedIcon fontSize="small" />
                   </ListItemIcon>
 
                   <ListItemText primary="Users" />
@@ -128,7 +130,7 @@ export default function Layout({ children }: any) {
                 <CustomListItem>
 
                   <ListItemIcon>
-                    <DraftsIcon fontSize="small" />
+                    <PersonAddAltIcon fontSize="small" />
                   </ListItemIcon>
 
                   <ListItemText primary="Add User" />

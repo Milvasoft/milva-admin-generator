@@ -6,9 +6,10 @@ import SaveIcon from '@mui/icons-material/Save';
 
 type PopupFooterParams = {
   handleCancel: () => void,
+  handleConfirm?: () => void,
 }
 
-export default memo(function FormGeneratorFooter({ handleCancel }: PopupFooterParams) {
+export default memo(function DrawerFooter({ handleCancel, handleConfirm }: PopupFooterParams) {
 
   const { t } = useTranslation();
 
@@ -39,11 +40,13 @@ export default memo(function FormGeneratorFooter({ handleCancel }: PopupFooterPa
         variant="contained"
         color="primary"
         type="submit"
+        onClick={handleConfirm}
         endIcon={<SaveIcon />}
         sx={{ textTransform: 'none', ml: 2 }}
       >
         { t('reports.prepareReport')}
       </Button>
+      
     </Box>
   );
 

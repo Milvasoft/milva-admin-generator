@@ -5,7 +5,7 @@ import { IFormGenerator } from '@src/modules/app/types/IFormGenerator';
 import { warningToast } from '@helpers/toast';
 import { useForm } from 'react-hook-form';
 import { FormInputEnum } from '@assets/enums/FormInputEnum';
-import FormGeneratorFooter from './FormGeneratorFooter';
+import DrawerFooter from './DrawerFooter';
 import UnControlledCheckBox from './UnControlledCheckBox';
 import PhoneNumberInput from './PhoneNumberInput';
 
@@ -141,7 +141,7 @@ export default function FormGenerator({ filterList, handleConfirm, handleCancel 
       }
 
 
-      <FormGeneratorFooter handleCancel={handleCancel} />
+      <DrawerFooter handleCancel={handleCancel} />
 
     </form>
   );

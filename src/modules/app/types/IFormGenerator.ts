@@ -33,6 +33,9 @@ export interface IFormGenerator{
   
   /** AutoSelect */
   autoSelectRequired?: number,
+   
+  /** AutoSelect */
+  fetchData?: () => Promise<any>,
 
 }
 

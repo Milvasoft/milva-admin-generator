@@ -11,7 +11,6 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-
 interface AutoSelectProps {
     fetchData?: () => Promise<any>,
     sx?: SxProps,
@@ -21,7 +20,8 @@ interface AutoSelectProps {
     size?: 'small' | 'medium',
     limitTags?: number,
     value?: IAutoSelect | IAutoSelect[],
-    onChangeValue? : (v:any) => void
+    onChangeValue? : (v:any) => void,
+    defaultOptions?:IAutoSelect[]
 }
 
 export default function AutoSelect({
@@ -33,7 +33,8 @@ export default function AutoSelect({
   limitTags,
   value,
   helperText,
-  onChangeValue
+  onChangeValue,
+  defaultOptions
 }: AutoSelectProps) {
 
   const { t } = useTranslation();
@@ -44,6 +45,18 @@ export default function AutoSelect({
 
   const loading = open && options?.length === 0;
 
+  const onOpen = useCallback(() => setOpen(true), []);
+  
+  const onClose = useCallback(() => setOpen(false), []);
+
+  const onChange = useCallback((e, newValue) => onChangeValue?.(newValue), [onChangeValue]);
+  
+  useEffect(() => {
+    
+    if (!fetchData && defaultOptions)setOptions(defaultOptions);
+    
+  }, [defaultOptions, fetchData]);
+  
   useEffect(() => {
 
     let active = true;
@@ -69,12 +82,6 @@ export default function AutoSelect({
     };
   
   }, [fetchData, loading]);
-
-  const onOpen = useCallback(() => setOpen(true), []);
-  
-  const onClose = useCallback(() => setOpen(false), []);
-
-  const onChange = useCallback((e, newValue) => onChangeValue?.(newValue), [onChangeValue]);
     
   return (
     <Autocomplete

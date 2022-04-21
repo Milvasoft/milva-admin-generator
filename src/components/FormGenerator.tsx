@@ -144,6 +144,7 @@ export default function FormGenerator({ formList, handleConfirm, handleCancel }:
 
               return (
                 <AutoSelect 
+                  fetchData={item?.fetchData}
                   label={item?.title}
                   limitTags={item?.limitTags}
                   value={values?.[item?.name]}

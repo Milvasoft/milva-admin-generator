@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useState } from 'react';
-import { TextField } from '@mui/material';
+import { Grid, SxProps, TextField } from '@mui/material';
 import { IFormGenerator } from '@src/modules/app/types/IFormGenerator';
 import { useForm } from 'react-hook-form';
 import { FormInputEnum } from '@assets/enums/FormInputEnum';
@@ -15,9 +16,15 @@ import AutoSelect from './AutoSelect';
 type props = {
   formList : IFormGenerator[],
   handleConfirm: (form: any) => void,
-  handleCancel: () => void
+  handleCancel?: () => void
 }
 
+const defaultSxprops : SxProps = {
+  mt: 1,
+  py: 2,
+  px: [1, 1, 3]
+};
+    
 export default function FormGenerator({ formList, handleConfirm, handleCancel }: props,) {
 
   const router = useRouter();
@@ -42,125 +49,161 @@ export default function FormGenerator({ formList, handleConfirm, handleCancel }:
      
     });
   
-  }, [formList, onChangeValue]);
-    
+  }, []);
+
   return (
     <LocalizationProvider dateAdapter={AdapterMoment} locale={router.locale}>
       <form onSubmit={handleSubmit(formSubmit)}>
-        {
-          React.Children.toArray(formList?.map((item) => {
+        <Grid container spacing={2}>
+        
+          {
+            React.Children.toArray(formList?.map((item) => {
 
-            if (item.input === FormInputEnum.Text) {
+              if (item.input === FormInputEnum.Text) {
 
-              return (
-                <TextField         
-                  defaultValue={item?.defaultValue}
-                  placeholder={item?.placeholder}
-                  label={item?.title}
-                  helperText={errors?.[item?.name] || item?.helperText}
-                  fullWidth
-                  {...register(item?.name, { ...item.validation })}
-                />
-              );
-
-            }
-
-            if (item.input === FormInputEnum.Number) {
-
-              return (
-                <TextField          
-                  defaultValue={item.defaultValue}
-                  placeholder={item?.placeholder}
-                  label={item?.title}
-                  helperText={errors?.[item?.name] || item?.helperText}
-                  fullWidth
-                  type="number"
-                  inputProps={{ step: 'any' }}
-                  onKeyPress={(event) => {
-          
-                    if (event?.key === '-' || event?.key === '+') {
-          
-                      event.preventDefault();
-          
-                    }
-          
-                  }}
-                  {...register(item?.name, { ...item.validation })}
-                />
-              );
-
-            }
-
-            if (item.input === FormInputEnum.DateTime) {
-
-              return (
-                <DatePicker 
-                  value={values?.[item?.name]}
-                  onChange={(date) => onChangeValue({ [item?.name]: date })}  
-                  showToolbar    
-                  showTodayButton
-                  label={item?.title}
-                  views={['year', 'month', 'day']}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params} 
-                      {...register(item?.name, { ...item.validation })}
-                      fullWidth
+                return (
+                  <Grid
+                    xs={12} sm={6} sx={defaultSxprops}
+                    {...item?.gridProps}
+                  >
+                    <TextField         
+                      defaultValue={item?.defaultValue}
+                      placeholder={item?.placeholder}
+                      label={item?.title}
                       helperText={errors?.[item?.name] || item?.helperText}
+                      fullWidth
+                      {...register(item?.name, { ...item.validation })}
                     />
-                  )}
-                />
-              );
+                  </Grid>
+                );
 
-            }
+              }
+
+              if (item.input === FormInputEnum.Number) {
+
+                return ( 
+                  <Grid
+                    xs={12} sm={6} sx={defaultSxprops}
+                    {...item?.gridProps}
+                  >
+                    <TextField          
+                      defaultValue={item.defaultValue}
+                      placeholder={item?.placeholder}
+                      label={item?.title}
+                      helperText={errors?.[item?.name] || item?.helperText}
+                      fullWidth
+                      type="number"
+                      inputProps={{ step: 'any' }}
+                      onKeyPress={(event) => {
+          
+                        if (event?.key === '-' || event?.key === '+') {
+          
+                          event.preventDefault();
+          
+                        }
+          
+                      }}
+                      {...register(item?.name, { ...item.validation })}
+                    />
+                  </Grid>
+                );
+
+              }
+
+              if (item.input === FormInputEnum.DateTime) {
+
+                return (
+                  <Grid
+                    xs={12} sm={6} sx={defaultSxprops}
+                    {...item?.gridProps}
+                  >
+                    <DatePicker 
+                      value={values?.[item?.name]}
+                      onChange={(date) => onChangeValue({ [item?.name]: date })}  
+                      showToolbar    
+                      showTodayButton
+                      label={item?.title}
+                      views={['year', 'month', 'day']}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params} 
+                          {...register(item?.name, { ...item.validation })}
+                          fullWidth
+                          helperText={errors?.[item?.name] || item?.helperText}
+                        />
+                      )}
+                    />
+                  </Grid>
+                );
+
+              }
        
-            if (item.input === FormInputEnum.CheckBox && item?.checkList) {
+              if (item.input === FormInputEnum.CheckBox && item?.checkList) {
 
-              return (
-                <UnControlledCheckBox
-                  data={item.checkList}
-                  register={register}
-                />
-              );
+                return (
+                  <Grid
+                    xs={12} sm={6} sx={defaultSxprops}
+                    {...item?.gridProps}
+                  >
+                    <UnControlledCheckBox
+                      data={item.checkList}
+                      title={item.title}
+                      register={register}
+                    />
+                  </Grid>
+                );
 
-            }          
+              }          
 
-            if (item.input === FormInputEnum.PhoneNumber) {
+              if (item.input === FormInputEnum.PhoneNumber) {
 
-              return (
-                <PhoneNumberInput         
-                  defaultValue={item.defaultValue}
-                  placeholder={item?.placeholder}
-                  label={item?.title}
-                  fullWidth                
-                  helperText={errors?.[item?.name] || item?.helperText}
-                  {...register(item?.name, { ...item.validation })}
-                />
-              );
+                return (
+                  <Grid
+                    xs={12} sm={6} sx={defaultSxprops}
+                    {...item?.gridProps}
+                  >
+                    <PhoneNumberInput         
+                      defaultValue={item.defaultValue}
+                      placeholder={item?.placeholder}
+                      label={item?.title}
+                      fullWidth                
+                      helperText={errors?.[item?.name] || item?.helperText}
+                      {...register(item?.name, { ...item.validation })}
+                    />
+                  </Grid>
+                );
 
-            }    
+              }    
 
-            if (item.input === FormInputEnum.AutoSelect) {
+              if (item.input === FormInputEnum.AutoSelect) {
 
-              return (
-                <AutoSelect 
-                  fetchData={item?.fetchData}
-                  label={item?.title}
-                  limitTags={item?.limitTags}
-                  value={values?.[item?.name]}
-                  onChangeValue={(v) => onChangeValue({ [item?.name]: v })}    
-                  helperText={item?.autoSelectRequired ? item?.helperText : undefined}    
-                />
-              );
+                return (
+                  <Grid
+                    xs={12} sm={6} sx={defaultSxprops}
+                    {...item?.gridProps}
+                  >
+                    <AutoSelect 
+                      fetchData={item?.fetchData}
+                      defaultOptions={item?.defaultOptions}
+                      label={item?.title}
+                      limitTags={item?.limitTags}
+                      value={values?.[item?.name]}
+                      onChangeValue={(v) => onChangeValue({ [item?.name]: v })}    
+                      helperText={item?.autoSelectRequired ? item?.helperText : undefined}    
+                    />
+                  </Grid>
+                );
 
-            } 
+              } 
 
-            return null;
+              return null;
 
-          }))
-        }
+            }))
+          }
 
-        <DrawerFooter handleCancel={handleCancel} />
+          <DrawerFooter handleCancel={handleCancel} />
+
+        </Grid>
 
       </form>
     </LocalizationProvider>

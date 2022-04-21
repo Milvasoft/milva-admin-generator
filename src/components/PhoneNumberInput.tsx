@@ -3,9 +3,9 @@ import React from 'react';
 import {
   FormControl, 
   FormHelperText, 
-  Input,
   InputLabel,
-  InputProps 
+  InputProps, 
+  OutlinedInput
 } from '@mui/material';
 import { IMaskInput } from 'react-imask';
 
@@ -42,11 +42,11 @@ interface IPhoneNumberInput extends InputProps{
 export default function PhoneNumberInput(params: IPhoneNumberInput) {
 
   return (
-    <FormControl variant="outlined">
+    <FormControl fullWidth>
 
       <InputLabel htmlFor="formatted-text-mask-input">{params?.label}</InputLabel>
 
-      <Input {...params} inputComponent={TextMaskCustom as any} />
+      <OutlinedInput {...params} inputComponent={TextMaskCustom as any} fullWidth />
 
       {params?.helperText && <FormHelperText>{params?.helperText}</FormHelperText>}
 

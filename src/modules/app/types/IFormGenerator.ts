@@ -1,8 +1,13 @@
 import { FormInputEnum } from '@assets/enums/FormInputEnum';
+import { GridProps } from '@mui/material';
+import { IAutoSelect } from './IAutoSelect';
 
 export interface IFormGenerator{
 
   input : FormInputEnum
+
+  /** All */
+  gridProps ?: GridProps,
 
   /** All */
   helperText ?: string,
@@ -14,7 +19,7 @@ export interface IFormGenerator{
   title: string,
 
   /** All */
-  name : string,
+  name: string,
 
   /** All */
   validation ?: any,
@@ -36,6 +41,9 @@ export interface IFormGenerator{
    
   /** AutoSelect */
   fetchData?: () => Promise<any>,
+   
+  /** AutoSelect */
+  defaultOptions?: IAutoSelect[],
 
 }
 

@@ -5,7 +5,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import SaveIcon from '@mui/icons-material/Save';
 
 type PopupFooterParams = {
-  handleCancel: () => void,
+  handleCancel?: () => void,
   handleConfirm?: () => void,
 }
 
@@ -31,7 +31,7 @@ export default memo(function DrawerFooter({ handleCancel, handleConfirm }: Popup
         color="secondary"
         onClick={handleCancel}
         endIcon={<ClearIcon />}
-        sx={{ textTransform: 'none' }}
+        sx={{ textTransform: 'none', color: 'white' }}
       >
         { t('cancel')}
       </Button>
@@ -42,9 +42,9 @@ export default memo(function DrawerFooter({ handleCancel, handleConfirm }: Popup
         type="submit"
         onClick={handleConfirm}
         endIcon={<SaveIcon />}
-        sx={{ textTransform: 'none', ml: 2 }}
+        sx={{ textTransform: 'none', ml: 2, color: 'white' }}
       >
-        { t('reports.prepareReport')}
+        { t('confirm')}
       </Button>
       
     </Box>

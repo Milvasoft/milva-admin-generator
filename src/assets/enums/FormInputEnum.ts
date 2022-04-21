@@ -7,6 +7,7 @@ export enum FormInputEnum {
     PhoneNumber,
     DateTime,
     CheckBox,
+    AutoSelect
   
   }
   

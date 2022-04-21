@@ -2,6 +2,7 @@
 import React from 'react';
 import {
   FormControl, 
+  FormHelperText, 
   Input,
   InputLabel,
   InputProps 
@@ -34,7 +35,8 @@ const TextMaskCustom = React.forwardRef<HTMLElement, CustomProps>(
 );
 
 interface IPhoneNumberInput extends InputProps{
-    label?: string
+    label?: string,
+    helperText?: string;
 }
   
 export default function PhoneNumberInput(params: IPhoneNumberInput) {
@@ -45,6 +47,8 @@ export default function PhoneNumberInput(params: IPhoneNumberInput) {
       <InputLabel htmlFor="formatted-text-mask-input">{params?.label}</InputLabel>
 
       <Input {...params} inputComponent={TextMaskCustom as any} />
+
+      {params?.helperText && <FormHelperText>{params?.helperText}</FormHelperText>}
 
     </FormControl>
   );

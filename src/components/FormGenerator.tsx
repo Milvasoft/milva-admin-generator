@@ -1,149 +1,168 @@
-/* eslint-disable no-restricted-syntax */
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { TextField } from '@mui/material';
 import { IFormGenerator } from '@src/modules/app/types/IFormGenerator';
-import { warningToast } from '@helpers/toast';
 import { useForm } from 'react-hook-form';
 import { FormInputEnum } from '@assets/enums/FormInputEnum';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useRouter } from 'next/router';
 import DrawerFooter from './DrawerFooter';
 import UnControlledCheckBox from './UnControlledCheckBox';
 import PhoneNumberInput from './PhoneNumberInput';
+import AutoSelect from './AutoSelect';
 
 type props = {
-  filterList : IFormGenerator[],
+  formList : IFormGenerator[],
   handleConfirm: (form: any) => void,
   handleCancel: () => void
 }
 
-export default function FormGenerator({ filterList, handleConfirm, handleCancel }: props,) {
+export default function FormGenerator({ formList, handleConfirm, handleCancel }: props,) {
+
+  const router = useRouter();
+
+  const [values, setValues] = useState<any>();
 
   const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'all', reValidateMode: 'onChange' });
 
   const formSubmit = useCallback((form: any) => handleConfirm({ ...form }), [handleConfirm]);
 
+  const onChangeValue = useCallback((newValue:any) => setValues({ ...values, ...newValue }), [values]);
+
   useEffect(() => {
+    
+    formList?.forEach((item) => {
 
-    let tempHelper = '';
+      if (item.input === FormInputEnum.DateTime || item.input === FormInputEnum.AutoSelect) {
 
-    for (const key in errors) {
+        onChangeValue({ [item?.name]: item.defaultValue });
+      
+      }
+     
+    });
+  
+  }, [formList, onChangeValue]);
+    
+  return (
+    <LocalizationProvider dateAdapter={AdapterMoment} locale={router.locale}>
+      <form onSubmit={handleSubmit(formSubmit)}>
+        {
+          React.Children.toArray(formList?.map((item) => {
 
-      if (Object.prototype.hasOwnProperty.call(errors, key)) {
+            if (item.input === FormInputEnum.Text) {
 
-        if (errors[key]) {
+              return (
+                <TextField         
+                  defaultValue={item?.defaultValue}
+                  placeholder={item?.placeholder}
+                  label={item?.title}
+                  helperText={errors?.[item?.name] || item?.helperText}
+                  fullWidth
+                  {...register(item?.name, { ...item.validation })}
+                />
+              );
 
-          const findedItem = filterList?.find((s) => s?.name === key);
+            }
 
-          if (findedItem?.helperText && tempHelper !== findedItem?.helperText) {
+            if (item.input === FormInputEnum.Number) {
 
-            warningToast(findedItem?.helperText);
+              return (
+                <TextField          
+                  defaultValue={item.defaultValue}
+                  placeholder={item?.placeholder}
+                  label={item?.title}
+                  helperText={errors?.[item?.name] || item?.helperText}
+                  fullWidth
+                  type="number"
+                  inputProps={{ step: 'any' }}
+                  onKeyPress={(event) => {
+          
+                    if (event?.key === '-' || event?.key === '+') {
+          
+                      event.preventDefault();
+          
+                    }
+          
+                  }}
+                  {...register(item?.name, { ...item.validation })}
+                />
+              );
 
-            tempHelper = findedItem?.helperText;
+            }
 
-          }
+            if (item.input === FormInputEnum.DateTime) {
 
+              return (
+                <DatePicker 
+                  value={values?.[item?.name]}
+                  onChange={(date) => onChangeValue({ [item?.name]: date })}  
+                  showToolbar    
+                  showTodayButton
+                  label={item?.title}
+                  views={['year', 'month', 'day']}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params} 
+                      {...register(item?.name, { ...item.validation })}
+                      fullWidth
+                      helperText={errors?.[item?.name] || item?.helperText}
+                    />
+                  )}
+                />
+              );
+
+            }
+       
+            if (item.input === FormInputEnum.CheckBox && item?.checkList) {
+
+              return (
+                <UnControlledCheckBox
+                  data={item.checkList}
+                  register={register}
+                />
+              );
+
+            }          
+
+            if (item.input === FormInputEnum.PhoneNumber) {
+
+              return (
+                <PhoneNumberInput         
+                  defaultValue={item.defaultValue}
+                  placeholder={item?.placeholder}
+                  label={item?.title}
+                  fullWidth                
+                  helperText={errors?.[item?.name] || item?.helperText}
+                  {...register(item?.name, { ...item.validation })}
+                />
+              );
+
+            }    
+
+            if (item.input === FormInputEnum.AutoSelect) {
+
+              return (
+                <AutoSelect 
+                  label={item?.title}
+                  limitTags={item?.limitTags}
+                  value={values?.[item?.name]}
+                  onChangeValue={(v) => onChangeValue({ [item?.name]: v })}    
+                  helperText={item?.autoSelectRequired ? item?.helperText : undefined}    
+                />
+              );
+
+            } 
+
+            return null;
+
+          }))
         }
 
-      }
+        <DrawerFooter handleCancel={handleCancel} />
 
-    }
-
-  }, [errors, filterList]);
-
-  return (
-    <form onSubmit={handleSubmit(formSubmit)}>
-      {
-        React.Children.toArray(filterList?.map((item) => {
-
-          if (item.input === FormInputEnum.Text) {
-
-            return (
-              <TextField         
-                defaultValue={item.defaultValue}
-                placeholder={item?.placeholder}
-                label={item?.title}
-                fullWidth
-                {...register(item?.name, { ...item.validation })}
-              />
-            );
-
-          }
-
-          if (item.input === FormInputEnum.Number) {
-
-            return (
-              <TextField          
-                defaultValue={item.defaultValue}
-                placeholder={item?.placeholder}
-                label={item?.title}
-                fullWidth
-                type="number"
-                inputProps={{ step: 'any' }}
-                onKeyPress={(event) => {
-          
-                  if (event?.key === '-' || event?.key === '+') {
-          
-                    event.preventDefault();
-          
-                  }
-          
-                }}
-                {...register(item?.name, { ...item.validation })}
-              />
-            );
-
-          }
-
-
-          if (item.input === FormInputEnum.DateTime) {
-
-            return (
-              <TextField           
-                type="datetime-local"
-                defaultValue={item.defaultValue}
-                label={item?.title}
-                fullWidth
-                {...register(item?.name, { ...item.validation })}
-              />
-            );
-
-          }
-       
-
-          if (item.input === FormInputEnum.CheckBox && item?.checkList) {
-
-            return (
-              <UnControlledCheckBox
-                data={item.checkList}
-                register={register}
-              />
-            );
-
-          }          
-
-          if (item.input === FormInputEnum.PhoneNumber) {
-
-            return (
-              <PhoneNumberInput         
-                defaultValue={item.defaultValue}
-                placeholder={item?.placeholder}
-                label={item?.title}
-                fullWidth
-                {...register(item?.name, { ...item.validation })}
-              />
-            );
-
-          }
-       
-
-          return null;
-
-        }))
-      }
-
-
-      <DrawerFooter handleCancel={handleCancel} />
-
-    </form>
+      </form>
+    </LocalizationProvider>
   );
 
 }

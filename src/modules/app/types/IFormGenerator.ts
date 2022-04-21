@@ -25,5 +25,14 @@ export interface IFormGenerator{
   /** CheckBox */
   checkList ?: Array<{ name: string, label: string, defaultChecked?: boolean }>,
 
+  /** AutoSelect */
+  multiple?: boolean,
+
+  /** AutoSelect */
+  limitTags?: number,
+  
+  /** AutoSelect */
+  autoSelectRequired?: number,
+
 }
 

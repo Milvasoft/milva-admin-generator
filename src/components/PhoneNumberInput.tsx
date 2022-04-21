@@ -23,7 +23,6 @@ const TextMaskCustom = React.forwardRef<HTMLElement, CustomProps>(
       <IMaskInput
         {...other}
         mask="0 (000) 000 00 00"
-        definitions={{ '#': /[1-9]/, }}
         // @ts-ignore
         inputRef={ref}
         onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
@@ -37,16 +36,24 @@ const TextMaskCustom = React.forwardRef<HTMLElement, CustomProps>(
 interface IPhoneNumberInput extends InputProps{
     label?: string,
     helperText?: string;
+    handleChange?: (value:any) => void
+
 }
   
 export default function PhoneNumberInput(params: IPhoneNumberInput) {
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => params?.handleChange?.(event.target.value);
+  
   return (
     <FormControl fullWidth>
 
       <InputLabel htmlFor="formatted-text-mask-input">{params?.label}</InputLabel>
 
-      <OutlinedInput {...params} inputComponent={TextMaskCustom as any} fullWidth />
+      <OutlinedInput 
+        {...params}
+        onChange={handleChange} 
+        inputComponent={TextMaskCustom as any} 
+      />
 
       {params?.helperText && <FormHelperText>{params?.helperText}</FormHelperText>}
 

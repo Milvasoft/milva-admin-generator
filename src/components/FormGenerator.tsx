@@ -33,7 +33,7 @@ export default function FormGenerator({ formList, handleConfirm, handleCancel }:
 
   const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'all', reValidateMode: 'onChange' });
 
-  const formSubmit = useCallback((form: any) => handleConfirm({ ...form }), [handleConfirm]);
+  const formSubmit = useCallback((form: any) => handleConfirm({ ...form, ...values }), [handleConfirm]);
 
   const onChangeValue = useCallback((newValue:any) => setValues({ ...values, ...newValue }), [values]);
 
@@ -162,7 +162,9 @@ export default function FormGenerator({ formList, handleConfirm, handleCancel }:
                     xs={12} sm={6} sx={defaultSxprops}
                     {...item?.gridProps}
                   >
-                    <PhoneNumberInput         
+                    <PhoneNumberInput   
+                      value={values?.[item?.name]}
+                      handleChange={(value) => onChangeValue({ [item?.name]: value })}  
                       defaultValue={item.defaultValue}
                       placeholder={item?.placeholder}
                       label={item?.title}

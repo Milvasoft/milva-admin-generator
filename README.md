@@ -1,1 +1,1 @@
-MilvaSoft NextJS Admin Template
+NextJS Admin Template

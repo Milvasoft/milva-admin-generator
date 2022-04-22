@@ -4,7 +4,8 @@ export enum DrawerEnum {
     Any,
     Add,
     Edit,
-    Delete  
+    Delete,
+    MultiDelete
   
   }
   

@@ -4,7 +4,7 @@ import { IManagedTableData } from '@assets/types/IManagedTableData';
 import React, { useCallback, useEffect, useState } from 'react';
 import CustomTable from './CustomTable';
 
-export default function ManagedTable({ columns, fetchData, title }:IManagedTable) {
+export default function ManagedTable({ columns, fetchData, toolBar }:IManagedTable) {
 
   const [data, setData] = useState<IManagedTableData<any>>();
 
@@ -77,7 +77,7 @@ export default function ManagedTable({ columns, fetchData, title }:IManagedTable
       onPageChange={onPageChange}
       onPageSizeChange={onPageSizeChange}
       paginationMode="server"
-      title={title}
+      toolBar={toolBar}
     />
   );
 

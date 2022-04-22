@@ -73,15 +73,6 @@ export default function Users() {
     {
       id: 10, lastName: 'Roxie', firstName: 'Harvey', age: 65 
     },
-    {
-      id: 11, lastName: 'Roxie', firstName: 'Harvey', age: 65 
-    },
-    {
-      id: 12, lastName: 'Roxie', firstName: 'Harvey', age: 65 
-    },
-    {
-      id: 13, lastName: 'Roxie', firstName: 'Harvey', age: 65 
-    },
   ];
 
   const fetchData = async (data:any) => new Promise<any>((resolve) => {
@@ -98,8 +89,10 @@ export default function Users() {
       <ManagedTableWithProcess 
         columns={columns}
         fetchData={fetchData} 
-        title="Users"
         DrawerComponent={UserDrawer}
+        toolBar={{
+          title: 'Kullanıcılar'
+        }}
       />
 
     </Layout>

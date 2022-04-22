@@ -1,12 +1,10 @@
-import {
-  DataGrid,
-  GridToolbar,
-  GridLocaleText,
-  DataGridProps,
-} from '@mui/x-data-grid';
+/* eslint-disable react/no-unstable-nested-components */
+import { DataGrid, GridLocaleText, DataGridProps, } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
 import { i18n } from 'next-i18next';
+import { ICustomTableToolBar } from '@assets/types/ICustomTableToolBar';
+import CustomToolbar from './CustomToolbar';
 
 const AntDesignStyledDataGrid = styled(DataGrid)(({ theme }) => ({
   border: `1px solid ${theme.palette.mode === 'light' ? '#f0f0f0' : '#303030'}`,
@@ -127,10 +125,10 @@ const AntDesignStyledDataGrid = styled(DataGrid)(({ theme }) => ({
 }));
 
 interface ICustomTable extends DataGridProps {
-  title?: string,
+  toolBar?: ICustomTableToolBar,
 }
 
-export default function CustomTable(props : ICustomTable) {
+export default function CustomTable({ toolBar, ...props } : ICustomTable) {
     
   const GRID_DEFAULT_LOCALE_TEXT: GridLocaleText = {
 
@@ -271,17 +269,18 @@ export default function CustomTable(props : ICustomTable) {
   return (
     <Box>
 
-      { props?.title && (
+      {toolBar?.title && (
         <Typography variant="h5">
-          {props?.title}
+          {toolBar?.title}
         </Typography>
-      )}
-   
+      ) }
+
       <AntDesignStyledDataGrid
-        components={{ Toolbar: GridToolbar, }}
+        components={{ Toolbar: () => <CustomToolbar {...toolBar} data={props?.rows} />, }}
         checkboxSelection
         disableSelectionOnClick
         disableColumnFilter
+        disableColumnMenu
         pageSize={10}
         autoHeight
         rowsPerPageOptions={[10, 25, 50]}

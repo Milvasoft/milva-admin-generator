@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { IconButton, styled } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from '@mui/material/Tooltip';
 import { useTranslation } from 'next-i18next';
+import { DrawerEnum } from '@assets/enums/DrawerEnum';
 
 const ActionComponent = styled('div')(() => ({
   display: 'flex', 
@@ -13,15 +14,18 @@ const ActionComponent = styled('div')(() => ({
 }));
 
 type props = {
+    drawerRef?: any,
     rowData?: any,
-    handleEdit: (rowData: any) => void,
-    handleDelete: (rowData: any) => void
 }
 
-export default function Process({ rowData, handleEdit, handleDelete }: props) {
+export default function Process({ rowData, drawerRef }: props) {
     
   const { t } = useTranslation();
 
+  const handleEdit = useCallback((data: any) => drawerRef?.setDrawer({ open: true, component: DrawerEnum.Edit, data }), [drawerRef]);
+
+  const handleDelete = useCallback((data: any) => drawerRef?.setDrawer({ open: true, component: DrawerEnum.Delete, data }), [drawerRef]);
+  
   return (
     <ActionComponent>
               

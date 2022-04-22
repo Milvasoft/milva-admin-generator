@@ -1,6 +1,6 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Layout from '@components/Layout';
-import CustomTable from '@components/CustomTable';
+import Layout from '@components/layout/Layout/Layout';
+import CustomTable from '@components/table/CustomTablemTable';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from '@mui/material/Tooltip';

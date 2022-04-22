@@ -1,10 +1,10 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Layout from '@components/Layout';
 import { Container, Typography } from '@mui/material';
 import { FormInputEnum } from '@assets/enums/FormInputEnum';
 import { IFormGenerator } from '@src/modules/app/types/IFormGenerator';
 import { useCallback, useMemo } from 'react';
-import FormGenerator from '@components/FormGenerator';
+import FormGenerator from '@components/form/FormGenerator';
+import Layout from '@components/layout/Layout';
 
 export default function Add() {
 

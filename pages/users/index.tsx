@@ -1,12 +1,12 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Layout from '@components/Layout';
-import CustomTable from '@components/CustomTable';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from '@mui/material/Tooltip';
 import { i18n } from 'next-i18next';
 import { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { IconButton, styled } from '@mui/material';
+import Layout from '@components/layout/Layout';
+import CustomTable from '@components/table/CustomTable';
 
 const ActionComponent = styled('div')(() => ({
   display: 'flex', 

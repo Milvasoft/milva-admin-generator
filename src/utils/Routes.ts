@@ -3,5 +3,4 @@ export enum Routes {
     index = '/',
     home= '/home',
     users= '/users',
-    addUser = '/users/add'
 }

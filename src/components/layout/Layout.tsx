@@ -105,11 +105,6 @@ export default function Layout({ children }: any) {
           title: 'Users',
           icon: <GroupsOutlinedIcon fontSize="small" />
         },
-        {
-          href: Routes.addUser,
-          title: 'Add User',
-          icon: <PersonAddAltIcon fontSize="small" />
-        },
       ]
     },
     {

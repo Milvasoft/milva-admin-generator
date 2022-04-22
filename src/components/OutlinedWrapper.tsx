@@ -8,12 +8,16 @@ export default function OutlinedWrapper({ label, children }:any) {
     <Box
       component="fieldset" 
       sx={{
-        border: '1px solid rgba(0,0,0,0.2)',
+        border: '1px solid',
+        borderColor: 'action.disabled',
         borderRadius: '4px',
         m: 0, 
         p: 0.5,
         px: 1.5,
-        mt: '-10px'
+        mt: '-10px',
+        '&:hover': {          
+          borderColor: 'text.primary',
+        }
       }}
     >
 
@@ -22,9 +26,9 @@ export default function OutlinedWrapper({ label, children }:any) {
         sx={{
           fontSize: '12px',
           fontWeight: 400, 
-          color: 'rgba(0, 0, 0, 0.6)',
+          color: 'text.secondary',
           lineHeight: '1.4375em',
-          px: 0.5
+          px: 0.5,
         }}
       >
         {label}

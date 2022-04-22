@@ -1,12 +1,10 @@
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { Container, Typography } from '@mui/material';
 import { FormInputEnum } from '@assets/enums/FormInputEnum';
+import { IDrawerComponent } from '@assets/types/IDrawerComponent';
 import { IFormGenerator } from '@assets/types/IFormGenerator';
-import { useCallback, useMemo } from 'react';
 import FormGenerator from '@components/form/FormGenerator';
-import Layout from '@components/layout/Layout';
+import React, { useCallback, useMemo } from 'react';
 
-export default function Add() {
+export default function UserDrawer({ handleClose }: IDrawerComponent) {
 
   const formList = useMemo(() : IFormGenerator[] => [
     {
@@ -57,41 +55,20 @@ export default function Add() {
       defaultOptions: [{ id: 1, title: 'Yönetici' }, { id: 2, title: 'Muhasebe' }]
     },
   ], []);
-
+    
   const onSubmit = useCallback((form: any) => {
-  
-    console.log(form);
-  
-  }, []);
-  
-  return (
-    <Layout>
-
-      <Container maxWidth="md" sx={{ mt: 1 }}>
-
-        <Typography variant="h4" color="primary" textAlign="center">
-          Add User
-        </Typography>
       
-        <FormGenerator 
-          formList={formList}
-          handleConfirm={onSubmit}
-          sx={{ mt: 2 }}
-        />
+    console.log(form);
+      
+  }, []);
 
-      </Container>
-
-    </Layout>
+  return (
+    <FormGenerator 
+      formList={formList}
+      handleConfirm={onSubmit}
+      handleCancel={handleClose}
+      sx={{ mt: 2 }}
+    />
   );
-
-}
-
-export async function getStaticProps({ locale }: any) {
-
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ['common'])),
-    },
-  };
 
 }

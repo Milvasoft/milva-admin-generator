@@ -1,17 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useState } from 'react';
 import { Grid, SxProps, TextField } from '@mui/material';
-import { IFormGenerator } from '@src/modules/app/types/IFormGenerator';
+import { IFormGenerator } from '@assets/types/IFormGenerator';
 import { useForm } from 'react-hook-form';
 import { FormInputEnum } from '@assets/enums/FormInputEnum';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useRouter } from 'next/router';
+import { DateTimePicker } from '@mui/x-date-pickers';
 import DrawerFooter from '../drawer/DrawerFooter';
 import UnControlledCheckBox from './UnControlledCheckBox';
 import PhoneNumberInput from './PhoneNumberInput';
 import AutoSelect from './AutoSelect';
+import 'moment/locale/tr';
 
 type props = {
   formList : IFormGenerator[],
@@ -114,7 +115,7 @@ export default function FormGenerator({
 
                 return (
                   <Grid xs={12} sx={defaultSxprops} {...item?.gridProps}>
-                    <DatePicker 
+                    <DateTimePicker 
                       value={values?.[item?.name]}
                       onChange={(date) => onChangeValue({ [item?.name]: date })}  
                       showToolbar    

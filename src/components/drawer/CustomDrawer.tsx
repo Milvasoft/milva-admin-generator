@@ -7,7 +7,7 @@ interface ICustomDrawer extends DrawerProps{
 export default function CustomDrawer({ children, ...props }:ICustomDrawer) {
 
   return (
-    <Drawer {...props}>
+    <Drawer {...props} anchor="right" sx={{ zIndex: (theme) => theme.zIndex.drawer + 2 }}>
       {children}
     </Drawer>
   );

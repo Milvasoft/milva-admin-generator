@@ -1,25 +1,18 @@
-import { GridColumns, GridValidRowModel } from '@mui/x-data-grid';
-import { IDataInfo } from '@src/modules/app/types/IDataInfo';
-import { IManagedTableData } from '@src/modules/app/types/IManagedTableData';
-import { IPaginationDTO } from '@src/modules/app/types/IPaginationDTO';
-import { Result as ApiResult } from '@utils/network/networkParams';
+import { IDataInfo } from '@assets/types/IDataInfo';
+import { IManagedTable } from '@assets/types/IManagedTable';
+import { IManagedTableData } from '@assets/types/IManagedTableData';
 import React, { useCallback, useEffect, useState } from 'react';
 import CustomTable from './CustomTable';
 
-interface IManagedTable<R extends GridValidRowModel = any> {
-    columns: GridColumns<R>,
-    fecthData: (data:IDataInfo<any>) => Promise<ApiResult<IPaginationDTO<any>>>
-}
-
-export default function ManagedTable({ columns, fecthData }:IManagedTable) {
+export default function ManagedTable({ columns, fetchData, title }:IManagedTable) {
 
   const [data, setData] = useState<IManagedTableData<any>>();
 
   const [loading, setLoading] = useState(true);
 
   const getInitialData = useCallback(() => {
-  
-    fecthData({ pageIndex: 1, requestedItemCount: 10 })
+
+    fetchData({ pageIndex: 1, requestedItemCount: 10 })
       .then((res) => {
 
         setData(res?.result || {});
@@ -32,9 +25,8 @@ export default function ManagedTable({ columns, fecthData }:IManagedTable) {
         setLoading(false);
   
       });
-
   
-  }, [fecthData]);
+  }, [fetchData]);
   
   useEffect(() => {
 
@@ -46,7 +38,7 @@ export default function ManagedTable({ columns, fecthData }:IManagedTable) {
 
     setLoading(true);
 
-    fecthData(info)
+    fetchData(info)
       .then((res) => {
 
         setData({ ...data, ...res.result });
@@ -62,7 +54,7 @@ export default function ManagedTable({ columns, fecthData }:IManagedTable) {
     
       });
   
-  }, [data, fecthData]);
+  }, [data, fetchData]);
 
   const onPageChange = useCallback((page: number) => {
   
@@ -85,6 +77,7 @@ export default function ManagedTable({ columns, fecthData }:IManagedTable) {
       onPageChange={onPageChange}
       onPageSizeChange={onPageSizeChange}
       paginationMode="server"
+      title={title}
     />
   );
 

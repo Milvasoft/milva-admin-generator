@@ -1,5 +1,4 @@
-import type { AppProps } from 'next/app';
-import { CacheProvider, EmotionCache } from '@emotion/react';
+import { CacheProvider } from '@emotion/react';
 import createEmotionCache from '@utils/createEmotionCache';
 import { appWithTranslation } from 'next-i18next';
 import '../styles/globals.css';
@@ -9,13 +8,9 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import GeneralProvider from '@src/providers/GeneralProvider';
 
-interface MyAppProps extends AppProps {
-  emotionCache?: EmotionCache;
-}
-
 const clientSideEmotionCache = createEmotionCache();
 
-function MyApp({ Component, pageProps, emotionCache = clientSideEmotionCache }: MyAppProps) {
+function MyApp({ Component, pageProps, emotionCache = clientSideEmotionCache }: any) {
     
   return (
     <CacheProvider value={emotionCache}>

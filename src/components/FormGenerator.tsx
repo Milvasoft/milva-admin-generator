@@ -16,7 +16,8 @@ import AutoSelect from './AutoSelect';
 type props = {
   formList : IFormGenerator[],
   handleConfirm: (form: any) => void,
-  handleCancel?: () => void
+  handleCancel?: () => void,
+  sx?: SxProps
 }
 
 const defaultSxprops : SxProps = {
@@ -25,7 +26,12 @@ const defaultSxprops : SxProps = {
   px: [1, 1, 3]
 };
     
-export default function FormGenerator({ formList, handleConfirm, handleCancel }: props,) {
+export default function FormGenerator({
+  formList, 
+  handleConfirm,
+  handleCancel,
+  sx 
+}: props,) {
 
   const router = useRouter();
 
@@ -54,7 +60,7 @@ export default function FormGenerator({ formList, handleConfirm, handleCancel }:
   return (
     <LocalizationProvider dateAdapter={AdapterMoment} locale={router.locale}>
       <form onSubmit={handleSubmit(formSubmit)}>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={sx}>
         
           {
             React.Children.toArray(formList?.map((item) => {
@@ -62,10 +68,7 @@ export default function FormGenerator({ formList, handleConfirm, handleCancel }:
               if (item.input === FormInputEnum.Text) {
 
                 return (
-                  <Grid
-                    xs={12} sm={6} sx={defaultSxprops}
-                    {...item?.gridProps}
-                  >
+                  <Grid xs={12} sx={defaultSxprops} {...item?.gridProps}>
                     <TextField         
                       defaultValue={item?.defaultValue}
                       placeholder={item?.placeholder}
@@ -82,10 +85,7 @@ export default function FormGenerator({ formList, handleConfirm, handleCancel }:
               if (item.input === FormInputEnum.Number) {
 
                 return ( 
-                  <Grid
-                    xs={12} sm={6} sx={defaultSxprops}
-                    {...item?.gridProps}
-                  >
+                  <Grid xs={12} sx={defaultSxprops} {...item?.gridProps}>
                     <TextField          
                       defaultValue={item.defaultValue}
                       placeholder={item?.placeholder}
@@ -113,10 +113,7 @@ export default function FormGenerator({ formList, handleConfirm, handleCancel }:
               if (item.input === FormInputEnum.DateTime) {
 
                 return (
-                  <Grid
-                    xs={12} sm={6} sx={defaultSxprops}
-                    {...item?.gridProps}
-                  >
+                  <Grid xs={12} sx={defaultSxprops} {...item?.gridProps}>
                     <DatePicker 
                       value={values?.[item?.name]}
                       onChange={(date) => onChangeValue({ [item?.name]: date })}  
@@ -141,10 +138,7 @@ export default function FormGenerator({ formList, handleConfirm, handleCancel }:
               if (item.input === FormInputEnum.CheckBox && item?.checkList) {
 
                 return (
-                  <Grid
-                    xs={12} sm={6} sx={defaultSxprops}
-                    {...item?.gridProps}
-                  >
+                  <Grid xs={12} sx={defaultSxprops} {...item?.gridProps}>
                     <UnControlledCheckBox
                       data={item.checkList}
                       title={item.title}
@@ -158,10 +152,7 @@ export default function FormGenerator({ formList, handleConfirm, handleCancel }:
               if (item.input === FormInputEnum.PhoneNumber) {
 
                 return (
-                  <Grid
-                    xs={12} sm={6} sx={defaultSxprops}
-                    {...item?.gridProps}
-                  >
+                  <Grid xs={12} sx={defaultSxprops} {...item?.gridProps}>
                     <PhoneNumberInput   
                       value={values?.[item?.name]}
                       handleChange={(value) => onChangeValue({ [item?.name]: value })}  
@@ -180,10 +171,7 @@ export default function FormGenerator({ formList, handleConfirm, handleCancel }:
               if (item.input === FormInputEnum.AutoSelect) {
 
                 return (
-                  <Grid
-                    xs={12} sm={6} sx={defaultSxprops}
-                    {...item?.gridProps}
-                  >
+                  <Grid xs={12} sx={defaultSxprops} {...item?.gridProps}>
                     <AutoSelect 
                       fetchData={item?.fetchData}
                       defaultOptions={item?.defaultOptions}

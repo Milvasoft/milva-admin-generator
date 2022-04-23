@@ -30,7 +30,18 @@ const TableDrawer = forwardRef(({ DrawerComponent, }:IManagedTableWithProcess, r
   const handleClose = useCallback(() => setDrawer({ open: false, component: drawer?.component || DrawerEnum.Any }), [drawer?.component]);
 
   return (
-    <CustomDrawer open={drawer?.open} onClose={handleClose} PaperProps={{ sx: { width: ['100%', 540], p: [1, 5] } }}>
+    <CustomDrawer
+      open={drawer?.open}
+      onClose={handleClose} 
+      PaperProps={{
+        sx: {
+          width: ['100%', 540],
+          px: [2, 5],
+          pt: 2,
+          pb: 5
+        } 
+      }}
+    >
 
       { drawer?.component === DrawerEnum.Delete
         ? (<DeleteDrawer handleCLose={handleClose} />)

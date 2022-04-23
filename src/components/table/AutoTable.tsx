@@ -1,14 +1,22 @@
+import React, {
+  forwardRef,
+  useCallback, 
+  useEffect,
+  useImperativeHandle,
+  useState 
+} from 'react';
 import { IAutoTable } from '@assets/types/IAutoTable';
-import React, { useCallback, useEffect, useState } from 'react';
 import BaseTable from './BaseTable';
 
-export default function AutoTable({ columns, fetchData, toolBar }:IAutoTable) {
+const AutoTable = forwardRef(({ columns, fetchData, toolBar }:IAutoTable, ref) => {
 
   const [data, setData] = useState<any[]>();
 
   const [loading, setLoading] = useState(true);
 
-  const getInitialData = useCallback(() => {
+  const getData = useCallback(() => {
+
+    setLoading(true);
 
     fetchData()
       .then((res) => {
@@ -28,10 +36,23 @@ export default function AutoTable({ columns, fetchData, toolBar }:IAutoTable) {
   
   useEffect(() => {
 
-    getInitialData();
+    getData();
     
-  }, [getInitialData]);
+  }, [getData]);
+
+  useImperativeHandle(
+    ref,
+    () => ({
+        
+      onRefresh() {
+
+        getData();
+      
+      },
     
+    }),
+  );
+
   return (
     <BaseTable 
       columns={columns}
@@ -41,4 +62,6 @@ export default function AutoTable({ columns, fetchData, toolBar }:IAutoTable) {
     />
   );
 
-}
+});
+
+export default AutoTable;

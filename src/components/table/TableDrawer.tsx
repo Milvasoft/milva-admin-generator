@@ -7,10 +7,22 @@ import React, {
 import { DrawerEnum } from '@assets/enums/DrawerEnum';
 import { IDrawerState } from '@assets/types/IDrawerState';
 import CustomDrawer from '@components/drawer/CustomDrawer';
-import { IManagedTableWithProcess } from '@assets/types/IManagedTableWithProcess';
+import { IDrawerComponent } from '@assets/types/IDrawerComponent';
 import DeleteDrawer from './DeleteDrawer';
 
-const TableDrawer = forwardRef(({ DrawerComponent, onRefreshTable }:IManagedTableWithProcess, ref) => {
+type props ={
+  DrawerComponent: React.FunctionComponent<IDrawerComponent>,
+  onRefreshTable?: () => void,  
+  onDelete?: (handleCLose:() => void, onRefreshTable?:() => void, data?: any) => void,
+  getLabelForDeleteDrawer?: (data?:any) => string,
+}
+
+const TableDrawer = forwardRef(({
+  DrawerComponent,
+  onRefreshTable, 
+  onDelete,
+  getLabelForDeleteDrawer 
+}:props, ref) => {
 
   const [drawer, setDrawer] = useState<IDrawerState>();
 
@@ -44,7 +56,15 @@ const TableDrawer = forwardRef(({ DrawerComponent, onRefreshTable }:IManagedTabl
     >
 
       { drawer?.component === DrawerEnum.Delete
-        ? (<DeleteDrawer handleCLose={handleClose} />)
+        ? (
+          <DeleteDrawer
+            handleClose={handleClose}
+            handleConfirm={onDelete}
+            onRefreshTable={onRefreshTable}
+            data={drawer?.data}
+            getLabelForDeleteDrawer={getLabelForDeleteDrawer}
+          />
+        )
         : (
           <DrawerComponent 
             data={drawer?.data}

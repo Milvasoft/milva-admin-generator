@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import Layout from '@components/layout/Layout';
@@ -88,6 +89,7 @@ export default function Users() {
 
       <ManagedTableWithProcess 
         columns={columns}
+        // @ts-ignore
         fetchData={fetchData} 
         DrawerComponent={UserDrawer}
         toolBar={{ title: 'Kullanıcılar', }}

@@ -39,9 +39,11 @@ export default function ManagedTableWithProcess(props:IManagedTableWithProcess) 
       />
 
       <TableDrawer
-        {...props} 
-        ref={drawerRef} 
+        DrawerComponent={props.DrawerComponent} 
+        onDelete={props?.onDelete} 
+        getLabelForDeleteDrawer={props?.getLabelForDeleteDrawer} 
         onRefreshTable={onRefreshTable}
+        ref={drawerRef}
       />
 
     </>

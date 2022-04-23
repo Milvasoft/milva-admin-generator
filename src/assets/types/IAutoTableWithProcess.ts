@@ -1,10 +1,10 @@
 import React from 'react';
+import { IAutoTable } from './IAutoTable';
 import { IDrawerComponent } from './IDrawerComponent';
-import { IManagedTable } from './IManagedTable';
 import { IManagedTableActions } from './IManagedTableActions';
 import { IManagedTableDefaultButtons } from './IManagedTableDefaultButtons';
 
-export interface IManagedTableWithProcess extends IManagedTable{
+export interface IAutoTableWithProcess extends IAutoTable{
     DrawerComponent: React.FunctionComponent<IDrawerComponent>,
     actions?: IManagedTableActions[],
     defaultButtons?: IManagedTableDefaultButtons,

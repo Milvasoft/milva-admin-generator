@@ -77,7 +77,7 @@ export default function FormGenerator({
               if (item.input === FormInputEnum.Text) {
 
                 return (
-                  <Box sx={defaultSxprops} {...item?.gridProps}>
+                  <Box sx={defaultSxprops} {...item?.boxProps}>
                     <TextField         
                       defaultValue={item?.defaultValue}
                       placeholder={item?.placeholder}
@@ -85,6 +85,7 @@ export default function FormGenerator({
                       helperText={errors?.[item?.name] || item?.helperText}
                       fullWidth
                       {...register(item?.name, { ...item.validation })}
+                      {...item?.textFieldProps}
                     />
                   </Box>
                 );
@@ -94,7 +95,7 @@ export default function FormGenerator({
               if (item.input === FormInputEnum.Number) {
 
                 return ( 
-                  <Box sx={defaultSxprops} {...item?.gridProps}>
+                  <Box sx={defaultSxprops} {...item?.boxProps}>
                     <TextField          
                       defaultValue={item.defaultValue}
                       placeholder={item?.placeholder}
@@ -113,6 +114,7 @@ export default function FormGenerator({
           
                       }}
                       {...register(item?.name, { ...item.validation })}
+                      {...item?.textFieldProps}
                     />
                   </Box>
                 );
@@ -122,7 +124,7 @@ export default function FormGenerator({
               if (item.input === FormInputEnum.DateTime) {
 
                 return (
-                  <Box sx={defaultSxprops} {...item?.gridProps}>
+                  <Box sx={defaultSxprops} {...item?.boxProps}>
                     <DateTimePicker 
                       value={values?.[item?.name]}
                       onChange={(date) => onChangeValue({ [item?.name]: date })}  
@@ -147,7 +149,7 @@ export default function FormGenerator({
               if (item.input === FormInputEnum.CheckBox && item?.checkList) {
 
                 return (
-                  <Box sx={defaultSxprops} {...item?.gridProps}>
+                  <Box sx={defaultSxprops} {...item?.boxProps}>
                     <UnControlledCheckBox
                       data={item.checkList}
                       title={item.title}
@@ -161,7 +163,7 @@ export default function FormGenerator({
               if (item.input === FormInputEnum.PhoneNumber) {
 
                 return (
-                  <Box sx={defaultSxprops} {...item?.gridProps}>
+                  <Box sx={defaultSxprops} {...item?.boxProps}>
                     <PhoneNumberInput   
                       value={values?.[item?.name]}
                       handleChange={(value) => onChangeValue({ [item?.name]: value })}  
@@ -180,7 +182,7 @@ export default function FormGenerator({
               if (item.input === FormInputEnum.AutoSelect) {
 
                 return (
-                  <Box sx={defaultSxprops} {...item?.gridProps}>
+                  <Box sx={defaultSxprops} {...item?.boxProps}>
                     <AutoSelect 
                       fetchData={item?.fetchData}
                       defaultOptions={item?.defaultOptions}
@@ -198,7 +200,7 @@ export default function FormGenerator({
               if (item.input === FormInputEnum.File) {
 
                 return (
-                  <Box sx={defaultSxprops} {...item?.gridProps}>
+                  <Box sx={defaultSxprops} {...item?.boxProps}>
                     <Dropzone onChange={(v) => onChangeValue({ [item?.name]: v })} value={values?.[item?.name]}>
                       {values?.[item?.name]?.map((file: any) => (
                         <FileItem
@@ -213,7 +215,6 @@ export default function FormGenerator({
                 );
 
               } 
-
 
               return null;
 

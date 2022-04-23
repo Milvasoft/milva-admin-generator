@@ -82,13 +82,14 @@ export default function FormLangGenerator({ langFormList, register, errors, }: p
               if (item.input === FormInputEnum.Text) {
 
                 return (
-                  <Box sx={defaultSxprops}>                       
+                  <Box sx={defaultSxprops} {...item?.boxProps}>                       
                     <TextField                             
                       defaultValue={defaultValues?.[0]?.[item.name] || ''}
                       placeholder={item?.placeholder}
                       label={item?.title}
                       helperText={errors?.[`${arrayName}.${0}.${item.name}`] || item?.helperText}
                       fullWidth
+                      {...item?.textFieldProps}
                       {...register(`${arrayName}.${0}.${item.name}`, { ...item.validation })}
                     />
                   </Box>
@@ -113,13 +114,14 @@ export default function FormLangGenerator({ langFormList, register, errors, }: p
               if (item.input === FormInputEnum.Text) {
 
                 return (
-                  <Box sx={defaultSxprops}>               
+                  <Box sx={defaultSxprops} {...item?.boxProps}>               
                     <TextField        
                       defaultValue={defaultValues?.[1]?.[item.name] || ''}
                       placeholder={item?.placeholder}
                       label={item?.title}
                       helperText={errors?.[item?.name] || item?.helperText}
                       fullWidth
+                      {...item?.textFieldProps}
                       {...register(`${arrayName}.${1}.${item.name}`, { ...item.validation })}
                     />
                   </Box>

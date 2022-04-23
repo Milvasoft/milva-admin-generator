@@ -1,5 +1,6 @@
 import { FormInputEnum } from '@assets/enums/FormInputEnum';
-import { GridProps } from '@mui/material';
+import { DropzoneProps } from '@dropzone-ui/react/build/components/dropzone/components/Dropzone/DropzoneProps';
+import { BoxProps, TextFieldProps } from '@mui/material';
 import { IAutoSelect } from './IAutoSelect';
 
 export interface IFormGenerator{
@@ -10,7 +11,7 @@ export interface IFormGenerator{
   isHidden?: boolean
 
   /** All */
-  gridProps ?: GridProps,
+  boxProps ?: BoxProps,
 
   /** All */
   helperText ?: string,
@@ -30,6 +31,9 @@ export interface IFormGenerator{
   /** All */
   placeholder ?: string,
 
+  /** Text, Number */
+  textFieldProps?: TextFieldProps,
+
   /** CheckBox */
   checkList ?: Array<{ name: string, label: string, defaultChecked?: boolean }>,
 
@@ -48,5 +52,7 @@ export interface IFormGenerator{
   /** AutoSelect */
   defaultOptions?: IAutoSelect[],
 
+  /** File */
+  dropZoneProps?: DropzoneProps
 }
 

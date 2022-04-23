@@ -2,7 +2,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import Layout from '@components/layout/Layout';
 import ManagedTableWithProcess from '@components/table/ManagedTableWithProcess';
-import UserDrawer from '@components/pages/UserDrawer';
+import UserDrawer from '@src/pages/UserDrawer';
 
 // TODO GetActions => isShow ve hide condition, 
 // TODO ToolBar Button
@@ -90,9 +90,7 @@ export default function Users() {
         columns={columns}
         fetchData={fetchData} 
         DrawerComponent={UserDrawer}
-        toolBar={{
-          title: 'Kullanıcılar'
-        }}
+        toolBar={{ title: 'Kullanıcılar', }}
       />
 
     </Layout>

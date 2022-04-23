@@ -4,7 +4,10 @@ import { IAutoSelect } from './IAutoSelect';
 
 export interface IFormGenerator{
 
-  input : FormInputEnum
+  input : FormInputEnum,
+  
+  /** All */
+  isHidden?: boolean
 
   /** All */
   gridProps ?: GridProps,

@@ -28,7 +28,7 @@ export default function FormLangGenerator({ langFormList, register, errors, }: p
   const handleChange = (event: React.SyntheticEvent, newValue: string) => setValue(newValue);
       
   return (        
-    <Box sx={{ width: '100%', typography: 'body1' }}>
+    <Box sx={{ width: '100%', typography: 'body1', mt: 3 }}>
 
       <TabContext value={value}>
 

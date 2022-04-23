@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useState } from 'react';
-import { Grid, SxProps, TextField } from '@mui/material';
+import { Dropzone, FileItem } from '@dropzone-ui/react';
+import { Box, SxProps, TextField } from '@mui/material';
 import { IFormGenerator } from '@assets/types/IFormGenerator';
 import { useForm } from 'react-hook-form';
 import { FormInputEnum } from '@assets/enums/FormInputEnum';
@@ -9,7 +10,6 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { useRouter } from 'next/router';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { ILangFormGenerator } from '@assets/types/ILangFormGenerator';
-import DrawerFooter from '../drawer/DrawerFooter';
 import UnControlledCheckBox from './UnControlledCheckBox';
 import PhoneNumberInput from './PhoneNumberInput';
 import AutoSelect from './AutoSelect';
@@ -19,8 +19,7 @@ import FormLangGenerator from './FormLangGenerator';
 type props = {
   langFormList ?: ILangFormGenerator,
   formList : IFormGenerator[],
-  handleConfirm: (form: any) => void,
-  handleCancel?: () => void,
+  onSubmit: (form: any) => void,
   sx?: SxProps
 }
 
@@ -33,8 +32,7 @@ const defaultSxprops : SxProps = {
 export default function FormGenerator({
   langFormList,
   formList, 
-  handleConfirm,
-  handleCancel,
+  onSubmit,
   sx 
 }: props,) {
 
@@ -44,7 +42,7 @@ export default function FormGenerator({
 
   const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'all', reValidateMode: 'onChange' });
 
-  const formSubmit = useCallback((form: any) => handleConfirm({ ...form, ...values }), [handleConfirm]);
+  const formSubmit = (form: any) => onSubmit({ ...form, ...values });
 
   const onChangeValue = useCallback((newValue:any) => setValues({ ...values, ...newValue }), [values]);
 
@@ -68,15 +66,15 @@ export default function FormGenerator({
 
         {langFormList && <FormLangGenerator langFormList={langFormList} register={register} errors={errors} />}
 
-        <Grid container spacing={2} sx={sx}>
+        <Box sx={sx}>
         
           {
-            React.Children.toArray(formList?.map((item) => {
+            React.Children.toArray(formList?.filter((s) => !s?.isHidden)?.map((item) => {
 
               if (item.input === FormInputEnum.Text) {
 
                 return (
-                  <Grid xs={12} sx={defaultSxprops} {...item?.gridProps}>
+                  <Box sx={defaultSxprops} {...item?.gridProps}>
                     <TextField         
                       defaultValue={item?.defaultValue}
                       placeholder={item?.placeholder}
@@ -85,7 +83,7 @@ export default function FormGenerator({
                       fullWidth
                       {...register(item?.name, { ...item.validation })}
                     />
-                  </Grid>
+                  </Box>
                 );
 
               }
@@ -93,7 +91,7 @@ export default function FormGenerator({
               if (item.input === FormInputEnum.Number) {
 
                 return ( 
-                  <Grid xs={12} sx={defaultSxprops} {...item?.gridProps}>
+                  <Box sx={defaultSxprops} {...item?.gridProps}>
                     <TextField          
                       defaultValue={item.defaultValue}
                       placeholder={item?.placeholder}
@@ -113,7 +111,7 @@ export default function FormGenerator({
                       }}
                       {...register(item?.name, { ...item.validation })}
                     />
-                  </Grid>
+                  </Box>
                 );
 
               }
@@ -121,7 +119,7 @@ export default function FormGenerator({
               if (item.input === FormInputEnum.DateTime) {
 
                 return (
-                  <Grid xs={12} sx={defaultSxprops} {...item?.gridProps}>
+                  <Box sx={defaultSxprops} {...item?.gridProps}>
                     <DateTimePicker 
                       value={values?.[item?.name]}
                       onChange={(date) => onChangeValue({ [item?.name]: date })}  
@@ -138,7 +136,7 @@ export default function FormGenerator({
                         />
                       )}
                     />
-                  </Grid>
+                  </Box>
                 );
 
               }
@@ -146,13 +144,13 @@ export default function FormGenerator({
               if (item.input === FormInputEnum.CheckBox && item?.checkList) {
 
                 return (
-                  <Grid xs={12} sx={defaultSxprops} {...item?.gridProps}>
+                  <Box sx={defaultSxprops} {...item?.gridProps}>
                     <UnControlledCheckBox
                       data={item.checkList}
                       title={item.title}
                       register={register}
                     />
-                  </Grid>
+                  </Box>
                 );
 
               }          
@@ -160,7 +158,7 @@ export default function FormGenerator({
               if (item.input === FormInputEnum.PhoneNumber) {
 
                 return (
-                  <Grid xs={12} sx={defaultSxprops} {...item?.gridProps}>
+                  <Box sx={defaultSxprops} {...item?.gridProps}>
                     <PhoneNumberInput   
                       value={values?.[item?.name]}
                       handleChange={(value) => onChangeValue({ [item?.name]: value })}  
@@ -171,7 +169,7 @@ export default function FormGenerator({
                       helperText={errors?.[item?.name] || item?.helperText}
                       {...register(item?.name, { ...item.validation })}
                     />
-                  </Grid>
+                  </Box>
                 );
 
               }    
@@ -179,7 +177,7 @@ export default function FormGenerator({
               if (item.input === FormInputEnum.AutoSelect) {
 
                 return (
-                  <Grid xs={12} sx={defaultSxprops} {...item?.gridProps}>
+                  <Box sx={defaultSxprops} {...item?.gridProps}>
                     <AutoSelect 
                       fetchData={item?.fetchData}
                       defaultOptions={item?.defaultOptions}
@@ -189,19 +187,37 @@ export default function FormGenerator({
                       onChangeValue={(v) => onChangeValue({ [item?.name]: v })}    
                       helperText={item?.autoSelectRequired ? item?.helperText : undefined}    
                     />
-                  </Grid>
+                  </Box>
                 );
 
               } 
+
+              if (item.input === FormInputEnum.File) {
+
+                return (
+                  <Box sx={defaultSxprops} {...item?.gridProps}>
+                    <Dropzone onChange={(v) => onChangeValue({ [item?.name]: v })} value={values?.[item?.name]}>
+                      {values?.[item?.name]?.map((file: any) => (
+                        <FileItem
+                          {...file} 
+                          onDelete={(id) => onChangeValue({ [item?.name]: values?.[item?.name]?.filter((x: any) => x?.id !== id) })}
+                          key={file?.id}
+                          info
+                        />
+                      ))}
+                    </Dropzone>
+                  </Box>
+                );
+
+              } 
+
 
               return null;
 
             }))
           }
 
-          <DrawerFooter handleCancel={handleCancel} />
-
-        </Grid>
+        </Box>
 
       </form>
     </LocalizationProvider>

@@ -2,6 +2,7 @@ import { FormInputEnum } from '@assets/enums/FormInputEnum';
 import { IDrawerComponent } from '@assets/types/IDrawerComponent';
 import { IFormGenerator } from '@assets/types/IFormGenerator';
 import { ILangFormGenerator } from '@assets/types/ILangFormGenerator';
+import DrawerLayout from '@components/drawer/DrawerLayout';
 import FormGenerator from '@components/form/FormGenerator';
 import getSystemLanguageObject from '@helpers/getSystemLanguageObject';
 import React, { useCallback, useMemo } from 'react';
@@ -50,6 +51,11 @@ export default function UserDrawer({ handleClose }: IDrawerComponent) {
       multiple: true,
       defaultOptions: [{ id: 1, title: 'Yönetici' }, { id: 2, title: 'Muhasebe' }]
     },
+    {
+      input: FormInputEnum.File,
+      name: 'files',
+      title: 'File',
+    },
   ], []);
 
   const langList = useMemo(() : ILangFormGenerator => ({
@@ -89,13 +95,16 @@ export default function UserDrawer({ handleClose }: IDrawerComponent) {
   }, []);
 
   return (
-    <FormGenerator 
-      formList={formList}
-      langFormList={langList}
-      handleConfirm={onSubmit}
-      handleCancel={handleClose}
-      sx={{ mt: 2 }}
-    />
+    <DrawerLayout title="Kullanıcı Ekle" handleCancel={handleClose}>
+  
+      <FormGenerator 
+        formList={formList}
+        langFormList={langList}
+        onSubmit={onSubmit}
+        sx={{ mt: 2 }}
+      />
+
+    </DrawerLayout>
   );
 
 }

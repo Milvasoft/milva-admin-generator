@@ -16,6 +16,7 @@ import PhoneNumberInput from './PhoneNumberInput';
 import AutoSelect from './AutoSelect';
 import 'moment/locale/tr';
 import FormLangGenerator from './FormLangGenerator';
+import UnControlledRadioButton from './UnControlledRadioButton';
 
 type props = {
   langFormList ?: ILangFormGenerator,
@@ -145,6 +146,21 @@ export default function FormGenerator({
                 );
 
               }
+
+              if (item.input === FormInputEnum.Radio && item?.radioList) {
+
+                return (
+                  <Box sx={defaultSxprops} {...item?.boxProps}>
+                    <UnControlledRadioButton
+                      data={item.radioList}
+                      title={item.title}
+                      name={item.name}
+                      register={register}
+                    />
+                  </Box>
+                );
+
+              }  
        
               if (item.input === FormInputEnum.CheckBox && item?.checkList) {
 

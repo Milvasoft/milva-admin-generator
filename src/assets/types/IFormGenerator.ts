@@ -37,6 +37,9 @@ export interface IFormGenerator{
   /** CheckBox */
   checkList ?: Array<{ name: string, label: string, defaultChecked?: boolean }>,
 
+  /** Radio */
+  radioList ?: Array<{ value: any, label: string, }>,
+
   /** AutoSelect */
   multiple?: boolean,
 

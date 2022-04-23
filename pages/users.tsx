@@ -4,12 +4,7 @@ import { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import Layout from '@components/layout/Layout';
 import ManagedTableWithProcess from '@components/table/ManagedTableWithProcess';
 import UserDrawer from '@src/pages/UserDrawer';
-
-// TODO GetActions => isShow ve hide condition, 
-// TODO ToolBar Button
-// TODO Filter Generator
-// TODO Language Component
-// TODO File Upload
+import { useCallback } from 'react';
 
 export default function Users() {
 
@@ -83,6 +78,28 @@ export default function Users() {
     resolve({ result: { dtoList: rows } });    
       
   });  
+
+  const getLabelForDeleteDrawer = (data:any) => data?.fullName;
+  
+  const onDelete = useCallback((handleClose:() => void, onRefreshTable?:() => void, data?: any) => {
+
+    if (data?.id) {
+
+      // Api request
+
+      handleClose();
+
+      onRefreshTable?.();
+      
+    } else {
+
+      handleClose();
+
+      onRefreshTable?.();
+    
+    }  
+  
+  }, []);  
   
   return (
     <Layout>
@@ -93,6 +110,8 @@ export default function Users() {
         fetchData={fetchData} 
         DrawerComponent={UserDrawer}
         toolBar={{ title: 'Kullanıcılar', }}
+        getLabelForDeleteDrawer={getLabelForDeleteDrawer}
+        onDelete={onDelete}
       />
 
     </Layout>

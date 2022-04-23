@@ -8,13 +8,16 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { useRouter } from 'next/router';
 import { DateTimePicker } from '@mui/x-date-pickers';
+import { ILangFormGenerator } from '@assets/types/ILangFormGenerator';
 import DrawerFooter from '../drawer/DrawerFooter';
 import UnControlledCheckBox from './UnControlledCheckBox';
 import PhoneNumberInput from './PhoneNumberInput';
 import AutoSelect from './AutoSelect';
 import 'moment/locale/tr';
+import FormLangGenerator from './FormLangGenerator';
 
 type props = {
+  langFormList ?: ILangFormGenerator,
   formList : IFormGenerator[],
   handleConfirm: (form: any) => void,
   handleCancel?: () => void,
@@ -28,6 +31,7 @@ const defaultSxprops : SxProps = {
 };
     
 export default function FormGenerator({
+  langFormList,
   formList, 
   handleConfirm,
   handleCancel,
@@ -61,6 +65,9 @@ export default function FormGenerator({
   return (
     <LocalizationProvider dateAdapter={AdapterMoment} locale={router.locale}>
       <form onSubmit={handleSubmit(formSubmit)}>
+
+        {langFormList && <FormLangGenerator langFormList={langFormList} register={register} errors={errors} />}
+
         <Grid container spacing={2} sx={sx}>
         
           {

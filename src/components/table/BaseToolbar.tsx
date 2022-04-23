@@ -3,15 +3,15 @@ import { GridToolbarContainer, GridToolbarExport, GridToolbarDensitySelector, } 
 import { Box, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useTranslation } from 'next-i18next';
-import { ICustomTableToolBar } from '@assets/types/ICustomTableToolBar';
+import { IBaseTableToolBar } from '@assets/types/IBaseTableToolBar';
 import { DrawerEnum } from '@assets/enums/DrawerEnum';
 
-export default function CustomToolbar({
+export default function BaseToolbar({
   defaultButtons, 
   buttons, 
   data,
   openDrawer 
-}:ICustomTableToolBar) {
+}:IBaseTableToolBar) {
 
   const { t } = useTranslation();
 

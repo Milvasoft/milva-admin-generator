@@ -1,6 +1,6 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Layout from '@components/layout/Layout';
-import CustomTable from '@components/table/CustomTable';
+import BaseTable from '@components/table/BaseTable';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from '@mui/material/Tooltip';
@@ -114,11 +114,10 @@ export default function Home() {
   return (
     <Layout>
 
-      <CustomTable 
+      <BaseTable 
         columns={columns}
         rows={rows?.slice(0, 10)}
         rowCount={rows.length} 
-        title="Ana Sayfa"
       />
 
     </Layout>

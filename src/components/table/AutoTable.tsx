@@ -1,6 +1,6 @@
 import { IAutoTable } from '@assets/types/IAutoTable';
 import React, { useCallback, useEffect, useState } from 'react';
-import CustomTable from './CustomTable';
+import BaseTable from './BaseTable';
 
 export default function AutoTable({ columns, fetchData, toolBar }:IAutoTable) {
 
@@ -33,7 +33,7 @@ export default function AutoTable({ columns, fetchData, toolBar }:IAutoTable) {
   }, [getInitialData]);
     
   return (
-    <CustomTable 
+    <BaseTable 
       columns={columns}
       rows={data || []}
       loading={loading}      

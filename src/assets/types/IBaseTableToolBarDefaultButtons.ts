@@ -1,4 +1,4 @@
-export interface ICustomTableToolBarDefaultButtons {
+export interface IBaseTableToolBarDefaultButtons {
 
     add: {
         title?: string;

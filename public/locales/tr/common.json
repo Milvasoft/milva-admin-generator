@@ -27,7 +27,7 @@
       "english":"İngilizce"
     },
     
-    "customTable":{
+    "baseTable":{
       "noRowsLabel": "Satır yok",
       "noResultsOverlayLabel": "Sonuç bulunamadı.",
       "errorOverlayDefaultLabel": "Bir hata oluştu.",

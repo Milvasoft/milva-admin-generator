@@ -2,7 +2,7 @@ import { IDataInfo } from '@assets/types/IDataInfo';
 import { IManagedTable } from '@assets/types/IManagedTable';
 import { IManagedTableData } from '@assets/types/IManagedTableData';
 import React, { useCallback, useEffect, useState } from 'react';
-import CustomTable from './CustomTable';
+import BaseTable from './BaseTable';
 
 export default function ManagedTable({ columns, fetchData, toolBar }:IManagedTable) {
 
@@ -69,7 +69,7 @@ export default function ManagedTable({ columns, fetchData, toolBar }:IManagedTab
   }, [data?.pageCount, getData]);
 
   return (
-    <CustomTable 
+    <BaseTable 
       columns={columns}
       rows={data?.dtoList || []}
       loading={loading}      

@@ -26,7 +26,7 @@
       "english":"English"
     },
 
-    "customTable":{
+    "baseTable":{
       "noRowsLabel": "No rows",
       "noResultsOverlayLabel": "No results found.",
       "errorOverlayDefaultLabel": "An error occurred.",

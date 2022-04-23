@@ -1,12 +1,20 @@
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect, 
+  useImperativeHandle, 
+  useState 
+} from 'react';
 import { IDataInfo } from '@assets/types/IDataInfo';
 import { IManagedTable } from '@assets/types/IManagedTable';
 import { IManagedTableData } from '@assets/types/IManagedTableData';
-import React, { useCallback, useEffect, useState } from 'react';
 import BaseTable from './BaseTable';
 
-export default function ManagedTable({ columns, fetchData, toolBar }:IManagedTable) {
-
+const ManagedTable = forwardRef(({ columns, fetchData, toolBar }:IManagedTable, ref) => {
+    
   const [data, setData] = useState<IManagedTableData<any>>();
+    
+  const [dataInfo, setDataInfo] = useState<IDataInfo<any>>({ pageIndex: 1, requestedItemCount: 10 });
 
   const [loading, setLoading] = useState(true);
 
@@ -38,6 +46,8 @@ export default function ManagedTable({ columns, fetchData, toolBar }:IManagedTab
 
     setLoading(true);
 
+    setDataInfo(info);
+
     fetchData(info)
       .then((res) => {
 
@@ -68,6 +78,21 @@ export default function ManagedTable({ columns, fetchData, toolBar }:IManagedTab
   
   }, [data?.pageCount, getData]);
 
+  const onRefresh = useCallback(() => getData(dataInfo), [dataInfo, getData]);
+
+  useImperativeHandle(
+    ref,
+    () => ({
+        
+      onRefresh() {
+
+        onRefresh();
+      
+      },
+    
+    }),
+  );
+
   return (
     <BaseTable 
       columns={columns}
@@ -81,4 +106,5 @@ export default function ManagedTable({ columns, fetchData, toolBar }:IManagedTab
     />
   );
 
-}
+});
+export default ManagedTable;

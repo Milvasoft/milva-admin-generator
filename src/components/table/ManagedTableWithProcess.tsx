@@ -12,9 +12,13 @@ export default function ManagedTableWithProcess(props:IManagedTableWithProcess) 
   const { t } = useTranslation();
   
   const drawerRef = useRef<any>();
+
+  const tableRef = useRef<any>();
   
   const openDrawer = useCallback((component: DrawerEnum, data?: any) => drawerRef?.current?.setDrawer({ open: true, component, data }), [drawerRef]);
 
+  const onRefreshTable = useCallback(() => tableRef?.current?.onRefresh(), []);
+  
   const columns : GridColDef[] = [
     ...props.columns,
     {
@@ -27,9 +31,18 @@ export default function ManagedTableWithProcess(props:IManagedTableWithProcess) 
   return (
     <>
 
-      <ManagedTable {...props} columns={columns} toolBar={{ ...props.toolBar, openDrawer }} />
+      <ManagedTable
+        {...props}
+        ref={tableRef} 
+        columns={columns}
+        toolBar={{ ...props.toolBar, openDrawer }}
+      />
 
-      <TableDrawer {...props} ref={drawerRef} />
+      <TableDrawer
+        {...props} 
+        ref={drawerRef} 
+        onRefreshTable={onRefreshTable}
+      />
 
     </>
   );

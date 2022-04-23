@@ -7,6 +7,7 @@ import { IManagedTableDefaultButtons } from './IManagedTableDefaultButtons';
 export interface IManagedTableWithProcess extends IManagedTable{
     DrawerComponent: React.FunctionComponent<IDrawerComponent>,
     actions?: IManagedTableActions[],
-    defaultButtons?: IManagedTableDefaultButtons
+    defaultButtons?: IManagedTableDefaultButtons,
+    onRefreshTable: () => void,
 }
 

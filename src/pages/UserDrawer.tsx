@@ -7,7 +7,7 @@ import FormGenerator from '@components/form/FormGenerator';
 import getSystemLanguageObject from '@helpers/getSystemLanguageObject';
 import React, { useCallback, useMemo } from 'react';
 
-export default function UserDrawer({ handleClose }: IDrawerComponent) {
+export default function UserDrawer({ handleClose, onRefreshTable }: IDrawerComponent) {
 
   const formList = useMemo(() : IFormGenerator[] => [
     {
@@ -91,8 +91,10 @@ export default function UserDrawer({ handleClose }: IDrawerComponent) {
   const onSubmit = useCallback((form: any) => {
       
     console.log(form);
+    
+    onRefreshTable();
       
-  }, []);
+  }, [onRefreshTable]);
 
   return (
     <DrawerLayout title="Kullanıcı Ekle" handleCancel={handleClose}>

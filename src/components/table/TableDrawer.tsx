@@ -10,7 +10,7 @@ import CustomDrawer from '@components/drawer/CustomDrawer';
 import { IManagedTableWithProcess } from '@assets/types/IManagedTableWithProcess';
 import DeleteDrawer from './DeleteDrawer';
 
-const TableDrawer = forwardRef(({ DrawerComponent, }:IManagedTableWithProcess, ref) => {
+const TableDrawer = forwardRef(({ DrawerComponent, onRefreshTable }:IManagedTableWithProcess, ref) => {
 
   const [drawer, setDrawer] = useState<IDrawerState>();
 
@@ -45,7 +45,14 @@ const TableDrawer = forwardRef(({ DrawerComponent, }:IManagedTableWithProcess, r
 
       { drawer?.component === DrawerEnum.Delete
         ? (<DeleteDrawer handleCLose={handleClose} />)
-        : <DrawerComponent data={drawer?.data} drawerEnum={drawer?.component} handleClose={handleClose} />}      
+        : (
+          <DrawerComponent 
+            data={drawer?.data}
+            drawerEnum={drawer?.component}
+            handleClose={handleClose}
+            onRefreshTable={onRefreshTable}
+          />
+        )}      
 
     </CustomDrawer>    
   );

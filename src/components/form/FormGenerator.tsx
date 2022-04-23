@@ -10,6 +10,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { useRouter } from 'next/router';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { ILangFormGenerator } from '@assets/types/ILangFormGenerator';
+import DrawerFooter from '@components/drawer/DrawerFooter';
 import UnControlledCheckBox from './UnControlledCheckBox';
 import PhoneNumberInput from './PhoneNumberInput';
 import AutoSelect from './AutoSelect';
@@ -20,6 +21,7 @@ type props = {
   langFormList ?: ILangFormGenerator,
   formList : IFormGenerator[],
   onSubmit: (form: any) => void,
+  handleCancel: () => void,
   sx?: SxProps
 }
 
@@ -33,7 +35,8 @@ export default function FormGenerator({
   langFormList,
   formList, 
   onSubmit,
-  sx 
+  sx,
+  handleCancel
 }: props,) {
 
   const router = useRouter();
@@ -217,7 +220,10 @@ export default function FormGenerator({
             }))
           }
 
+          <DrawerFooter handleCancel={handleCancel} />
+
         </Box>
+
 
       </form>
     </LocalizationProvider>

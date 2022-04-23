@@ -101,6 +101,7 @@ export default function UserDrawer({ handleClose }: IDrawerComponent) {
         formList={formList}
         langFormList={langList}
         onSubmit={onSubmit}
+        handleCancel={handleClose}
         sx={{ mt: 2 }}
       />
 

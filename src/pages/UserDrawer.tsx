@@ -22,19 +22,17 @@ export default function UserDrawer({ handleClose, onRefreshTable }: IDrawerCompo
       title: 'İşe Başlama Tarihi',
     },
     {
-      input: FormInputEnum.CheckBox,
+      input: FormInputEnum.Radio,
       name: 'isWorking',
-      title: 'Pozisyonlar',
-      checkList: [
+      title: 'Çalışıma Durumu',
+      radioList: [
         {
           label: 'Evet',
-          defaultChecked: true,
-          name: 'yes'
+          value: true,
         },
         {
           label: 'Hayır',
-          defaultChecked: false,
-          name: 'no'
+          value: false
         },
       ]
     },
@@ -92,7 +90,7 @@ export default function UserDrawer({ handleClose, onRefreshTable }: IDrawerCompo
       
     console.log(form);
     
-    onRefreshTable();
+    onRefreshTable?.();
       
   }, [onRefreshTable]);
 

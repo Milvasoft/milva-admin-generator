@@ -3,7 +3,7 @@ import { styled, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Toolbar } from '@mui/material';
+import { Hidden, Toolbar } from '@mui/material';
 import List from '@mui/material/List';
 import ListItemButton, { ListItemButtonProps } from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -20,6 +20,8 @@ import { Routes } from '@utils/Routes';
 import { useRouter } from 'next/router';
 import { CookieService } from '@helpers/cookieService';
 import { CookieEnum } from '@assets/enums/CookieEnum';
+import { useTranslation } from 'next-i18next';
+import DrawerHeader from '@components/drawer/DrawerHeader';
 import LayoutAppBar from './LayoutAppBar';
 
 const drawerWidth = 240;
@@ -49,7 +51,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: 'nowrap',
-    boxSizing: 'border-box',    
+    boxSizing: 'border-box', 
     ...(open && {
       ...openedMixin(theme),
       '& .MuiDrawer-paper': openedMixin(theme),
@@ -89,6 +91,8 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{ 
 }));
         
 export default function Layout({ children }: any) {
+
+  const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
 
@@ -154,12 +158,26 @@ export default function Layout({ children }: any) {
 
       <LayoutAppBar open={open} handleDrawerOpen={handleDrawerOpen} handleDrawerClose={handleDrawerClose} />
 
-      <Drawer variant="permanent" open={open}>
-
-        <Toolbar />
+      <MuiDrawer
+        open={open} 
+        anchor="left" 
+        sx={{ 
+          zIndex: (theme) => theme.zIndex.drawer + 2, 
+          display: ['block !important', 'block !important', 'none !important', 'none !important'], 
+        }}
+        PaperProps={{ 
+          sx: {
+            width: ['100%', 240], 
+            backgroundImage: 'none !important'
+          } 
+        }}
+        onClose={handleDrawerClose}
+      >
 
         <Box sx={{ mt: 1, p: 1 }}>
 
+          <DrawerHeader title={t('pages')} handleCancel={handleDrawerClose} />
+        
           {
             pages?.map((item) => (
               <Accordion
@@ -170,43 +188,99 @@ export default function Layout({ children }: any) {
               >
 
                 <AccordionSummary expandIcon={<ExpandMoreIcon color={item?.children?.some((s) => s.href === path) ? 'primary' : undefined} />}>
-  
+
                   <Typography color={item?.children?.some((s) => s.href === path) ? 'primary' : undefined}>{item?.title}</Typography>
-  
+
                 </AccordionSummary>
-  
+
                 <AccordionDetails>
-  
+
                   <List>
 
                     {
                       item?.children?.map((child) => (
                         <NextLink href={child.href} prefetch={false} key={child.href}>           
                           <CustomListItem selected={child.href === path}>
-    
+
                             <ListItemIcon>
                               {child.icon}
                             </ListItemIcon>
-    
+
                             <ListItemText primary={child.title} />
-    
+
                           </CustomListItem>
                         </NextLink>
                       ))
                     }
-  
+
                   </List>
-                
+        
                 </AccordionDetails>
-  
+
               </Accordion>
             ))
           }
 
 
         </Box>
+        
+      </MuiDrawer>
+
+      <Hidden mdDown>
+        <Drawer variant="permanent" open={open}>
+
+          <Toolbar />
+
+          <Box sx={{ mt: 1, p: 1 }}>
+
+            {
+              pages?.map((item) => (
+                <Accordion
+                  elevation={0} 
+                  defaultExpanded={item?.children?.some((s) => s.href === path)}
+                  sx={{ '&::before': { backgroundColor: 'transparent', } }}
+                  key={item.title}
+                >
+
+                  <AccordionSummary expandIcon={<ExpandMoreIcon color={item?.children?.some((s) => s.href === path) ? 'primary' : undefined} />}>
+  
+                    <Typography color={item?.children?.some((s) => s.href === path) ? 'primary' : undefined}>{item?.title}</Typography>
+  
+                  </AccordionSummary>
+  
+                  <AccordionDetails>
+  
+                    <List>
+
+                      {
+                        item?.children?.map((child) => (
+                          <NextLink href={child.href} prefetch={false} key={child.href}>           
+                            <CustomListItem selected={child.href === path}>
+    
+                              <ListItemIcon>
+                                {child.icon}
+                              </ListItemIcon>
+    
+                              <ListItemText primary={child.title} />
+    
+                            </CustomListItem>
+                          </NextLink>
+                        ))
+                      }
+  
+                    </List>
+                
+                  </AccordionDetails>
+  
+                </Accordion>
+              ))
+            }
+
+
+          </Box>
           
-      </Drawer>
+        </Drawer>
+      </Hidden>
 
       <Main open={open}>
 

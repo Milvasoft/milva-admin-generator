@@ -17,7 +17,7 @@ export default function DrawerHeader({ title, handleCancel }: props) {
       </Typography>
 
       <IconButton sx={{ position: 'absolute', top: '0px', right: '5px' }} onClick={handleCancel}>
-        <Clear fontSize="large" color="primary" />
+        <Clear color="primary" />
       </IconButton>
 
     </>

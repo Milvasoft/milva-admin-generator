@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import BackDropUtils from './BackDropUtils';
 import ColorModeContextProvider from './ColorModeContextProvider';
@@ -6,15 +8,18 @@ import { SnackbarUtilsConfigurator } from './SnackbarUtils';
 export default function GeneralProvider({ children }: any) {
 
   return (
-    <ColorModeContextProvider>
+    // @ts-ignore
+    <SnackbarProvider maxSnack={5}>
+      <ColorModeContextProvider>
 
-      <BackDropUtils />
+        <BackDropUtils />
 
-      {children}
+        {children}
 
-      <SnackbarUtilsConfigurator />
+        <SnackbarUtilsConfigurator />
 
-    </ColorModeContextProvider>
+      </ColorModeContextProvider>
+    </SnackbarProvider>
   );
 
 }

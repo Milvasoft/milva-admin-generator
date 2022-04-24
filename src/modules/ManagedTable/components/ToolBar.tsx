@@ -69,7 +69,7 @@ export default function ToolBar({
       router.push(router.route, {
         query: {
           requestedItemCount: dataInfo?.requestedItemCount || 10,
-          page: 1,
+          pageIndex: 1,
           spec: JSON.stringify(clearEmptyKeys(newFilters)) 
         },
       });
@@ -79,7 +79,7 @@ export default function ToolBar({
       router.push(router.route, {
         query: {
           requestedItemCount: dataInfo?.requestedItemCount || 10,
-          page: 1,
+          pageIndex: 1,
           spec: JSON.stringify(clearEmptyKeys(dataInfo)) 
         },
       });

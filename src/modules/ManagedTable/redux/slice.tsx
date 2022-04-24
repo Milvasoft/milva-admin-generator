@@ -1,7 +1,8 @@
 import { IDataInfo } from '@assets/types/IDataInfo';
 import { IDrawerState } from '@assets/types/IDrawerState';
 import { IPaginationDTO } from '@assets/types/IPaginationDTO';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IManagedTable } from '../types/IManagedTable';
 
 export interface ManagedTableState {
   data: IPaginationDTO<any>,
@@ -16,6 +17,45 @@ const initialState: ManagedTableState = {
   dataInfo: { pageIndex: 1, requestedItemCount: 10 },
   drawer: { open: false },
 };
+
+export const refreshTable = createAsyncThunk(
+  'refreshTable', 
+  async (data:Pick<IManagedTable, 'fetchData'>) => {
+
+    let response = {};
+
+    await data?.fetchData?.()
+      .then((res) => {
+
+        response = res?.result;
+      
+      });
+
+    return response;
+  
+  }
+);
+
+export const refreshTableForPagination = createAsyncThunk(
+  'refreshTable', 
+  async (data:Pick<IManagedTable, 'fetchPaginationData'>, thunkAPI) => {
+
+    const { dataInfo } : any = thunkAPI.getState();
+
+    let response = {};
+
+    await data?.fetchPaginationData?.(dataInfo)
+      .then((res) => {
+
+        response = res?.result;
+      
+      });
+
+    return response;
+  
+  }
+);
+
 
 export const managedTableSlice = createSlice({
   name: 'managedTable',
@@ -71,6 +111,48 @@ export const managedTableSlice = createSlice({
     },
     resetTable: () => initialState
   },
+  extraReducers: {
+    [refreshTable.pending.type]: (state) => {
+
+      state.loading = true;
+    
+    },
+    [refreshTable.fulfilled.type]: (state, action) => {
+
+      state.data = { dtoList: action?.payload };
+
+      state.loading = false;  
+    
+    },
+    [refreshTable.rejected.type]: (state) => {
+
+      state.data = {};
+     
+      state.loading = false;
+    
+    },
+    [refreshTableForPagination.pending.type]: (state) => {
+
+      state.loading = true;
+    
+    },
+    [refreshTableForPagination.fulfilled.type]: (state, action) => {
+
+      state.data = action?.payload;
+
+      state.loading = false;  
+    
+    },
+    [refreshTableForPagination.rejected.type]: (state) => {
+
+      state.data = {};
+     
+      state.loading = false;
+    
+    },
+
+
+  }
 });
 
 export const { 
@@ -82,9 +164,7 @@ export const {
   updateTableData,
   updateTableLoadingWithInfo,
   updateTableDataInfo,
-  
-  resetTable
-
+  resetTable,  
 } = managedTableSlice.actions;
 
 export default managedTableSlice.reducer;

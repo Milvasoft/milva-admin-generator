@@ -14,15 +14,13 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import NextLink from 'next/link';
-import { Routes } from '@utils/Routes';
 import { useRouter } from 'next/router';
 import { CookieService } from '@helpers/cookieService';
 import { CookieEnum } from '@assets/enums/CookieEnum';
 import { useTranslation } from 'next-i18next';
 import DrawerHeader from '@components/drawer/DrawerHeader';
+import { pages } from '@utils/Routes';
 import LayoutAppBar from './LayoutAppBar';
 
 const drawerWidth = 240;
@@ -100,35 +98,6 @@ export default function Layout({ children }: any) {
   const router = useRouter();
 
   const path = router.asPath;
-
-  const pages = [
-    {
-      title: 'Users',
-      children: [
-        {
-          href: Routes.users,
-          title: 'Users',
-          icon: <GroupsOutlinedIcon fontSize="small" />
-        },
-      ]
-    },
-    {
-      title: 'Products',
-      children: [
-        {
-          href: '#',
-          title: 'Products',
-          icon: <GroupsOutlinedIcon fontSize="small" />
-        },
-        {
-          href: '#',
-          title: 'Add Product',
-          icon: <PersonAddAltIcon fontSize="small" />
-        },
-      ]
-    },
-
-  ];
 
   const handleDrawerOpen = () => {
 

@@ -154,12 +154,12 @@ export default function Layout({ children }: any) {
                 elevation={0} 
                 defaultExpanded={item?.children?.some((s) => s.href === path)}
                 sx={{ '&::before': { backgroundColor: 'transparent', } }}
-                key={item.title}
+                key={item.titleKey}
               >
 
                 <AccordionSummary expandIcon={<ExpandMoreIcon color={item?.children?.some((s) => s.href === path) ? 'primary' : undefined} />}>
 
-                  <Typography color={item?.children?.some((s) => s.href === path) ? 'primary' : undefined}>{item?.title}</Typography>
+                  <Typography color={item?.children?.some((s) => s.href === path) ? 'primary' : undefined}>{t(item?.titleKey)}</Typography>
 
                 </AccordionSummary>
 
@@ -176,7 +176,7 @@ export default function Layout({ children }: any) {
                               {child.icon}
                             </ListItemIcon>
 
-                            <ListItemText primary={child.title} />
+                            <ListItemText primary={t(child.titleKey)} />
 
                           </CustomListItem>
                         </NextLink>
@@ -210,12 +210,12 @@ export default function Layout({ children }: any) {
                   elevation={0} 
                   defaultExpanded={item?.children?.some((s) => s.href === path)}
                   sx={{ '&::before': { backgroundColor: 'transparent', } }}
-                  key={item.title}
+                  key={item.titleKey}
                 >
 
                   <AccordionSummary expandIcon={<ExpandMoreIcon color={item?.children?.some((s) => s.href === path) ? 'primary' : undefined} />}>
   
-                    <Typography color={item?.children?.some((s) => s.href === path) ? 'primary' : undefined}>{item?.title}</Typography>
+                    <Typography color={item?.children?.some((s) => s.href === path) ? 'primary' : undefined}>{t(item?.titleKey)}</Typography>
   
                   </AccordionSummary>
   
@@ -225,14 +225,14 @@ export default function Layout({ children }: any) {
 
                       {
                         item?.children?.map((child) => (
-                          <NextLink href={child.href} prefetch={false} key={child.href}>           
+                          <NextLink href={child.href} key={child.href}>           
                             <CustomListItem selected={child.href === path}>
     
                               <ListItemIcon>
                                 {child.icon}
                               </ListItemIcon>
     
-                              <ListItemText primary={child.title} />
+                              <ListItemText primary={t(child.titleKey)} />
     
                             </CustomListItem>
                           </NextLink>

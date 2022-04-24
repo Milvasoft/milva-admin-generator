@@ -2,11 +2,14 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import Layout from '@components/layout/Layout';
-import ManagedTableWithProcess from '@components/table/ManagedTableWithProcess';
-import UserDrawer from '@src/pages/UserDrawer';
 import { useCallback } from 'react';
+import ManagedTable from '@src/modules/ManagedTable/components/ManagedTable';
+import UserDrawer from '@src/modules/user/components/UserDrawer';
+import { useAppSelector } from '@utils/store';
 
 export default function Users() {
+
+  const selectedData = useAppSelector((s) => s.managedTable?.drawer?.data);
 
   const columns: GridColDef[] = [
     {
@@ -81,30 +84,24 @@ export default function Users() {
 
   const getLabelForDeleteDrawer = (data:any) => data?.fullName;
   
-  const onDelete = useCallback((handleClose:() => void, onRefreshTable?:() => void, data?: any) => {
+  const onDelete = useCallback(() => {
 
-    if (data?.id) {
+    if (selectedData?.id) {
 
       // Api request
-
-      handleClose();
-
-      onRefreshTable?.();
       
     } else {
 
-      handleClose();
-
-      onRefreshTable?.();
+      console.log(selectedData);
     
     }  
   
-  }, []);  
+  }, [selectedData]);  
   
   return (
     <Layout>
 
-      <ManagedTableWithProcess 
+      <ManagedTable 
         columns={columns}
         // @ts-ignore
         fetchData={fetchData} 

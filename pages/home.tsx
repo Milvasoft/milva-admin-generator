@@ -1,21 +1,15 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Layout from '@components/layout/Layout';
-import BaseTable from '@components/table/BaseTable';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Tooltip from '@mui/material/Tooltip';
-import { i18n } from 'next-i18next';
 import { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { IconButton, styled } from '@mui/material';
-
-const ActionComponent = styled('div')(() => ({
-  display: 'flex', 
-  justifyContent: 'space-around',
-  alignItems: 'center',
-  width: '100%' 
-}));
+import Layout from '@components/layout/Layout';
+import { useCallback } from 'react';
+import ManagedTable from '@src/modules/ManagedTable/components/ManagedTable';
+import UserDrawer from '@src/modules/user/components/UserDrawer';
+import { useAppSelector } from '@utils/store';
 
 export default function Home() {
+
+  const selectedData = useAppSelector((s) => s.managedTable?.drawer?.data);
 
   const columns: GridColDef[] = [
     {
@@ -24,17 +18,17 @@ export default function Home() {
     },
     {
       field: 'firstName',
-      headerName: 'First name',
+      headerName: 'Ad',
       flex: 1 
     },
     {
       field: 'lastName',
-      headerName: 'Last name',
+      headerName: 'Soyad',
       flex: 1 
     },
     {
       field: 'fullName',
-      headerName: 'Full name',
+      headerName: 'Ad Soyad',
       description: 'This column has a value getter and is not sortable.',
       sortable: false,
       flex: 1,
@@ -44,28 +38,6 @@ export default function Home() {
       field: 'age',
       headerName: 'Age',
       type: 'number',
-    },
-    {
-      field: 'Actions',
-      headerName: 'İşlemler',
-      renderCell: () => (
-        <ActionComponent>
-              
-          <Tooltip title={i18n?.t('delete') || 'delete'}>
-            <IconButton>
-              <DeleteIcon color="secondary" />
-            </IconButton>
-          </Tooltip>
-                
-          <Tooltip title={i18n?.t('edit') || 'edit'}>
-            <IconButton>
-              <EditIcon color="primary" />
-            </IconButton>
-          </Tooltip>
-  
-        </ActionComponent>
-      )
-  
     },
   ];
   
@@ -101,23 +73,64 @@ export default function Home() {
       id: 10, lastName: 'Roxie', firstName: 'Harvey', age: 65 
     },
     {
-      id: 11, lastName: 'Roxie', firstName: 'Harvey', age: 65 
+      id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 
     },
     {
-      id: 12, lastName: 'Roxie', firstName: 'Harvey', age: 65 
+      id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null 
     },
     {
-      id: 13, lastName: 'Roxie', firstName: 'Harvey', age: 65 
+      id: 6, lastName: 'Melisandre', firstName: null, age: 150 
+    },
+    {
+      id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 
+    },
+    {
+      id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 
+    },
+    {
+      id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 
+    },
+    {
+      id: 10, lastName: 'Roxie', firstName: 'Harvey', age: 65 
     },
   ];
 
+  const fetchData = async (data:any) => new Promise<any>((resolve) => {
+
+    console.log(data);
+
+    resolve({ result: { dtoList: rows } });    
+      
+  });  
+
+  const getLabelForDeleteDrawer = (data:any) => data?.fullName;
+  
+  const onDelete = useCallback(() => {
+
+    if (selectedData?.id) {
+
+      // Api request
+      
+    } else {
+
+      console.log(selectedData);
+    
+    }  
+  
+  }, [selectedData]);  
+  
   return (
     <Layout>
 
-      <BaseTable 
+      <ManagedTable 
         columns={columns}
-        rows={rows?.slice(0, 10)}
-        rowCount={rows.length} 
+        // @ts-ignore
+        fetchData={fetchData} 
+        DrawerComponent={UserDrawer}
+        toolBar={{ title: 'Home', }}
+        getLabelForDeleteDrawer={getLabelForDeleteDrawer}
+        onDelete={onDelete}
+        dataGridProps={{ paginationMode: 'client', pagination: true, }}
       />
 
     </Layout>

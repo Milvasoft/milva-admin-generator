@@ -20,6 +20,8 @@
     "dark":"Dark",
     "confirm":"Confirm",
     "pages":"Sayfalar",
+    "deleteData":"Delete Data",
+    "deleteDataInfo":"Are you sure you want to delete?",
 
     "languages":{
       "turkish":"Turkish",

@@ -21,6 +21,8 @@
     "dark":"Koyu",
     "confirm":"Onayla",
     "pages":"Sayfalar",
+    "deleteData":"Veril Sil",
+    "deleteDataInfo":"silmek istediğinize emin misiniz ?",
 
     "languages":{
       "turkish":"Türkçe",

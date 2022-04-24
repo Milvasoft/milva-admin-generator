@@ -1,7 +1,6 @@
 import { DrawerEnum } from '@assets/enums/DrawerEnum';
-import React from 'react';
 
-export interface IManagedTableActions{
+export interface IManagedTableActions {
     icon: React.ReactNode,
     title: string,
     drawerEnum: DrawerEnum,

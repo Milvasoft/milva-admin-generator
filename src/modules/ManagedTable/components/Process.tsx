@@ -5,8 +5,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from '@mui/material/Tooltip';
 import { useTranslation } from 'next-i18next';
 import { DrawerEnum } from '@assets/enums/DrawerEnum';
-import { IManagedTableActions } from '@assets/types/IManagedTableActions';
-import { IManagedTableDefaultButtons } from '@assets/types/IManagedTableDefaultButtons';
+import { useAppDispatch, } from '@utils/store';
+import { IDrawerState } from '@assets/types/IDrawerState';
+import { openTableDrawer } from '../redux/slice';
+import { IManagedTableActions } from '../types/IManagedTableActions';
+import { IManagedTableDefaultButtons } from '../types/IManagedTableDefaultButtons';
 
 const ActionComponent = styled('div')(() => ({
   display: 'flex', 
@@ -16,7 +19,6 @@ const ActionComponent = styled('div')(() => ({
 }));
 
 type props = {
-    openDrawer: (component: DrawerEnum, data?: any) => void,
     rowData?: any,
     actions?: IManagedTableActions[],
     defaultButtons?: IManagedTableDefaultButtons
@@ -24,16 +26,19 @@ type props = {
 
 export default function Process({
   rowData,
-  openDrawer,
   actions,
   defaultButtons 
 }: props) {
     
   const { t } = useTranslation();
-  
-  const handleEdit = useCallback(() => openDrawer(DrawerEnum.Edit, rowData), [openDrawer, rowData]);
 
-  const handleDelete = useCallback(() => openDrawer(DrawerEnum.Delete, rowData), [openDrawer, rowData]);
+  const dispatch = useAppDispatch(); 
+
+  const openDrawer = useCallback((param: IDrawerState) => dispatch(openTableDrawer(param)), [dispatch]);
+  
+  const handleEdit = useCallback(() => openDrawer({ component: DrawerEnum.Edit, data: rowData }), [rowData, openDrawer]);
+
+  const handleDelete = useCallback(() => openDrawer({ component: DrawerEnum.Delete, data: rowData }), [rowData, openDrawer]);
     
   return (
     <ActionComponent>
@@ -41,7 +46,7 @@ export default function Process({
       {
         actions?.map((action) => !action?.isHide?.(rowData) && (                    
           <Tooltip title={action.title} key={action.title}>
-            <IconButton onClick={() => openDrawer(action.drawerEnum, rowData)}>
+            <IconButton onClick={() => openDrawer({ component: action.drawerEnum, data: rowData })}>
               {action.icon}
             </IconButton>
           </Tooltip>

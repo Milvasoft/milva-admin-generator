@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useEffect, useState } from 'react';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -69,7 +70,7 @@ const CustomListItem = styled(ListItemButton)<ListItemButtonProps>(({ theme }) =
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{ open?: boolean;}>(({ theme, open }) => ({
   flexGrow: 1,
-  padding: theme.spacing(3),
+  padding: theme.spacing(2, 3),
   borderRadius: theme.spacing(2),
   marginTop: theme.spacing(10),
   marginRight: theme.spacing(2),
@@ -77,7 +78,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{ 
   backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15))',
   marginLeft: theme.spacing(2),
   marginBottom: theme.spacing(2),
-  minHeight: '85vh',
+  minHeight: '88vh',
   transition: theme.transitions.create('margin', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -225,7 +226,8 @@ export default function Layout({ children }: any) {
         </Box>
         
       </MuiDrawer>
-
+      
+      {/* @ts-ignore */}
       <Hidden mdDown>
         <Drawer variant="permanent" open={open}>
 

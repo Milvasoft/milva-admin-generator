@@ -2,6 +2,7 @@ import { FormInputEnum } from '@assets/enums/FormInputEnum';
 import { DropzoneProps } from '@dropzone-ui/react/build/components/dropzone/components/Dropzone/DropzoneProps';
 import { BoxProps, TextFieldProps } from '@mui/material';
 import { IAutoSelect } from './IAutoSelect';
+import { ISelectItem } from './ISelectItem';
 
 export interface IFormGenerator{
 
@@ -57,6 +58,18 @@ export interface IFormGenerator{
 
   /** File */
   dropZoneProps?: DropzoneProps,
+    
+  /** Image */
   imageUrl?: string
+ 
+  /** Image Alt */
+  imageAltValue?: string
+
+  /** Select Disabled */
+  selectList?: Array<ISelectItem>,
+
+  /** Select Disabled */
+  selectDisabled?: boolean,
+
 }
 

@@ -19,6 +19,7 @@ import 'moment/locale/tr';
 import FormLangGenerator from './FormLangGenerator';
 import UnControlledRadioButton from './UnControlledRadioButton';
 import ImageUpload from './ImageUpload';
+import UnControlledSelect from './UnControlledSelect';
 
 type props = {
   langFormList ?: ILangFormGenerator,
@@ -50,7 +51,8 @@ export default function FormGenerator({
     register, 
     handleSubmit,
     formState: { errors }, 
-    setValue 
+    setValue,
+    control
   } = useForm({ mode: 'all', reValidateMode: 'onChange' });
 
   const formSubmit = (form: any) => {
@@ -102,6 +104,7 @@ export default function FormGenerator({
                     name={item.name}
                     setValue={setValue}
                     imageUrl={item.imageUrl}
+                    defaultAltValue={item.imageAltValue}
                   />
                 </Box>
               );
@@ -161,6 +164,23 @@ export default function FormGenerator({
                       }}
                       {...register(item?.name, { ...item.validation })}
                       {...item?.textFieldProps}
+                    />
+                  </Box>
+                );
+
+              }
+
+              if (item.input === FormInputEnum.Select) {
+
+                return (
+                  <Box sx={defaultSxprops} {...item?.boxProps}>
+                    <UnControlledSelect         
+                      name={item.name}
+                      disabled={item?.selectDisabled}
+                      defaultValue={item?.defaultValue}
+                      label={item?.title}
+                      itemList={item?.selectList}
+                      control={control}                     
                     />
                   </Box>
                 );

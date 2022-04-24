@@ -1,23 +1,37 @@
-import React, { useCallback, } from 'react';
+import React, { useCallback, useMemo, } from 'react';
 import { DrawerEnum } from '@assets/enums/DrawerEnum';
 import CustomDrawer from '@components/drawer/CustomDrawer';
 import { useAppDispatch, useAppSelector } from '@utils/store';
 import DeleteDrawer from './DeleteDrawer';
 import { closeTableDrawer } from '../redux/slice';
+import { IManagedTableToolBarButtons } from '../types/IManagedTableToolBar';
+import { IManagedTableActions } from '../types/IManagedTableActions';
   
-  type props ={
+type props ={
     DrawerComponent: React.FunctionComponent<any>,
     onDelete?: () => void,
     getLabelForDeleteDrawer?: (data?:any) => string,
-  }
+    buttons?: IManagedTableToolBarButtons[],
+    actions?: IManagedTableActions[],
+}
   
-export default function Drawer({ DrawerComponent, onDelete, getLabelForDeleteDrawer }:props) {
+export default function Drawer({ 
+  DrawerComponent,
+  onDelete,
+  getLabelForDeleteDrawer,
+  buttons,
+  actions
+}:props) {
   
   const drawer = useAppSelector((s) => s.managedTable?.drawer);
   
   const dispatch = useAppDispatch();
 
   const handleClose = useCallback(() => dispatch(closeTableDrawer()), [dispatch]); 
+
+  const drawerEnumList = useMemo(() => [DrawerEnum.Add, DrawerEnum.Edit, buttons?.map((s) => s.drawerEnum), actions?.map((s) => s.drawerEnum)], [actions, buttons]);
+
+  const isDrawer = useMemo(() => drawerEnumList.findIndex((s) => s === drawer.component), [drawer.component, drawerEnumList]);
 
   return (
     <CustomDrawer
@@ -33,11 +47,9 @@ export default function Drawer({ DrawerComponent, onDelete, getLabelForDeleteDra
       }}
     >
   
-      { drawer?.component === DrawerEnum.Delete
-        ? (
-          <DeleteDrawer onDelete={onDelete} getLabelForDeleteDrawer={getLabelForDeleteDrawer} />
-        )
-        : (<DrawerComponent />)}      
+      { drawer?.component === DrawerEnum.Delete && (<DeleteDrawer onDelete={onDelete} getLabelForDeleteDrawer={getLabelForDeleteDrawer} />)}
+          
+      {isDrawer !== -1 && <DrawerComponent />}
   
     </CustomDrawer>    
   );

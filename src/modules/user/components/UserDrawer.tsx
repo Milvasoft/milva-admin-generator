@@ -1,13 +1,25 @@
+import React, {
+  useCallback, 
+  useEffect,
+  useMemo,
+  useState 
+} from 'react';
 import { FormInputEnum } from '@assets/enums/FormInputEnum';
-import { IDrawerComponent } from '@assets/types/IDrawerComponent';
 import { IFormGenerator } from '@assets/types/IFormGenerator';
 import { ILangFormGenerator } from '@assets/types/ILangFormGenerator';
 import DrawerLayout from '@components/drawer/DrawerLayout';
 import FormGenerator from '@components/form/FormGenerator';
 import getSystemLanguageObject from '@helpers/getSystemLanguageObject';
-import React, { useCallback, useMemo } from 'react';
+import { closeTableDrawer } from '@src/modules/ManagedTable/redux/slice';
+import { useAppDispatch } from '@utils/store';
+import SkeletonGenerator from '@components/form/SkeletonGenerator';
 
-export default function UserDrawer({ handleClose, onRefreshTable }: IDrawerComponent) {
+
+export default function UserDrawer() {
+    
+  const dispatch = useAppDispatch();
+
+  const [loading, setLoading] = useState(true);
 
   const formList = useMemo(() : IFormGenerator[] => [
     {
@@ -86,26 +98,39 @@ export default function UserDrawer({ handleClose, onRefreshTable }: IDrawerCompo
     ]
   }), []);
     
+  const handleClose = useCallback(() => dispatch(closeTableDrawer()), [dispatch]); 
+
   const onSubmit = useCallback((form: any) => {
       
     console.log(form);
-    
-    onRefreshTable?.();
-      
-  }, [onRefreshTable]);
+          
+  }, []);
 
-  return (
-    <DrawerLayout title="Kullanıcı Ekle" handleCancel={handleClose}>
+  useEffect(() => {
+
+    // TODO Get Data
+
+    setLoading(false);
   
-      <FormGenerator 
-        formList={formList}
-        langFormList={langList}
-        onSubmit={onSubmit}
-        handleCancel={handleClose}
-        sx={{ mt: 2 }}
-      />
+  }, []);  
 
-    </DrawerLayout>
+  return (    
+    loading
+      ? <SkeletonGenerator count={formList.length + langList.form.length} />
+      : (
+        <DrawerLayout title="Kullanıcı Ekle" handleCancel={handleClose}>
+  
+          <FormGenerator 
+            formList={formList}
+            langFormList={langList}
+            onSubmit={onSubmit}
+            handleCancel={handleClose}
+            sx={{ mt: 2 }}
+          />
+
+        </DrawerLayout>
+      )    
+   
   );
 
 }

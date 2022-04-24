@@ -3,12 +3,12 @@ import { IFilterGenerator } from '@assets/types/IFilterGenerator';
 
 export interface IManagedTableToolBar{
     title?: string,
-    buttons?: IBaseTableToolBarButtons[],
-    defaultButtons?: IBaseTableToolBarDefaultButtons,
+    buttons?: IManagedTableToolBarButtons[],
+    defaultButtons?: IManagedTableToolBarDefaultButtons,
     filterGeneratorList?: IFilterGenerator[],
 }
 
-export interface IBaseTableToolBarButtons{
+export interface IManagedTableToolBarButtons{
     icon: React.ReactNode,
     title: string,
     drawerEnum: DrawerEnum,
@@ -16,7 +16,7 @@ export interface IBaseTableToolBarButtons{
     disabled?: (data?: any[]) => boolean
 }
 
-export interface IBaseTableToolBarDefaultButtons {
+export interface IManagedTableToolBarDefaultButtons {
 
     add: {
         title?: string;

@@ -1,4 +1,3 @@
-import { IDrawerComponent } from '@assets/types/IDrawerComponent';
 import { DataGridProps, GridColumns, GridValidRowModel } from '@mui/x-data-grid';
 import CancelablePromise from '@utils/CancelablePromise';
 import { Result as ApiResult } from '@utils/network/networkParams';
@@ -13,7 +12,7 @@ export interface IManagedTable<R extends GridValidRowModel = any> {
     columns: GridColumns<R>,
     fetchData: (data:IDataInfo<any>) => CancelablePromise<ApiResult<IPaginationDTO<any>>>,
     toolBar?: IManagedTableToolBar,
-    DrawerComponent: React.FunctionComponent<IDrawerComponent>,
+    DrawerComponent: React.FunctionComponent<any>,
     actions?: IManagedTableActions[],
     defaultButtons?: IManagedTableDefaultButtons,
     onDelete?: () => void,

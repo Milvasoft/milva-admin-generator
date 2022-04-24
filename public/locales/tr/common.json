@@ -23,6 +23,8 @@
     "pages":"Sayfalar",
     "deleteData":"Veril Sil",
     "deleteDataInfo":"silmek istediğinize emin misiniz ?",
+    "users":"Kullanıcılar",
+    "products":"Ürünler",
 
     "languages":{
       "turkish":"Türkçe",

@@ -22,6 +22,8 @@
     "pages":"Sayfalar",
     "deleteData":"Delete Data",
     "deleteDataInfo":"Are you sure you want to delete?",
+    "users":"Users",
+    "products":"Products",
 
     "languages":{
       "turkish":"Turkish",

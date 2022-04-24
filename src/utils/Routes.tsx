@@ -1,6 +1,7 @@
 
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import { i18n } from 'next-i18next';
 
 export enum Routes {
     index = '/',
@@ -10,26 +11,26 @@ export enum Routes {
 
 export const pages = [
   {
-    title: 'Users',
+    title: i18n?.t('users'),
     children: [
       {
         href: Routes.users,
-        title: 'Users',
+        title: i18n?.t('users'),
         icon: <GroupsOutlinedIcon />
       },
     ]
   },
   {
-    title: 'Products',
+    title: i18n?.t('products'),
     children: [
       {
         href: '#',
-        title: 'Products',
+        title: i18n?.t('products'),
         icon: <GroupsOutlinedIcon />
       },
       {
         href: '#',
-        title: 'Add Product',
+        title: i18n?.t('add'),
         icon: <PersonAddAltIcon />
       },
     ]

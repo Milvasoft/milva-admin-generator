@@ -6,7 +6,7 @@ import MuiDrawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Hidden, Toolbar } from '@mui/material';
 import List from '@mui/material/List';
-import ListItemButton, { ListItemButtonProps } from '@mui/material/ListItemButton';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Accordion from '@mui/material/Accordion';
@@ -61,10 +61,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
   }),
 );
-
-const CustomListItem = styled(ListItemButton)<ListItemButtonProps>(({ theme }) => ({ 
-  borderRadius: theme.spacing(1),
-}));
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{ open?: boolean;}>(({ theme, open }) => ({
   flexGrow: 1,
@@ -169,8 +165,13 @@ export default function Layout({ children }: any) {
 
                     {
                       item?.children?.map((child) => (
-                        <NextLink href={child.href} key={child.href}>           
-                          <CustomListItem selected={child.href === path}>
+                        <NextLink href={child.href} key={child.href} passHref>           
+                          <ListItemButton
+                            sx={{ borderRadius: 1 }} 
+                            selected={child.href === path} 
+                            component="a"
+                            href={child.href}
+                          >
 
                             <ListItemIcon>
                               {child.icon}
@@ -178,7 +179,7 @@ export default function Layout({ children }: any) {
 
                             <ListItemText primary={t(child.titleKey)} />
 
-                          </CustomListItem>
+                          </ListItemButton>
                         </NextLink>
                       ))
                     }
@@ -225,8 +226,13 @@ export default function Layout({ children }: any) {
 
                       {
                         item?.children?.map((child) => (
-                          <NextLink href={child.href} key={child.href}>           
-                            <CustomListItem selected={child.href === path}>
+                          <NextLink href={child.href} key={child.href} passHref>           
+                            <ListItemButton
+                              sx={{ borderRadius: 1 }}
+                              selected={child.href === path} 
+                              component="a"
+                              href={child.href}
+                            >
     
                               <ListItemIcon>
                                 {child.icon}
@@ -234,7 +240,7 @@ export default function Layout({ children }: any) {
     
                               <ListItemText primary={t(child.titleKey)} />
     
-                            </CustomListItem>
+                            </ListItemButton>
                           </NextLink>
                         ))
                       }

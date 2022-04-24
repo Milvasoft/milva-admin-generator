@@ -23,7 +23,7 @@ export const pages = [
     titleKey: 'products',
     children: [
       {
-        href: '#',
+        href: '/home',
         titleKey: 'products',
         icon: <GroupsOutlinedIcon />
       },

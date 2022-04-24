@@ -9,7 +9,8 @@ export enum FormInputEnum {
     CheckBox,
     Radio,
     AutoSelect,
-    File
+    File,
+    Image
   
   }
   

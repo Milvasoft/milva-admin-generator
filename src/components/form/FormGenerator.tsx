@@ -6,9 +6,9 @@ import clearEmptyKeys from '@helpers/clearEmptyKeys';
 import { useForm } from 'react-hook-form';
 import { FormInputEnum } from '@assets/enums/FormInputEnum';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { ILangFormGenerator } from '@src/modules/App/types/ILangFormGenerator';
 import { IFormGenerator } from '@src/modules/App/types/IFormGenerator';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { useRouter } from 'next/router';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import DrawerFooter from '@components/drawer/DrawerFooter';
@@ -18,6 +18,7 @@ import AutoSelect from './AutoSelect';
 import 'moment/locale/tr';
 import FormLangGenerator from './FormLangGenerator';
 import UnControlledRadioButton from './UnControlledRadioButton';
+import ImageUpload from './ImageUpload';
 
 type props = {
   langFormList ?: ILangFormGenerator,
@@ -45,7 +46,12 @@ export default function FormGenerator({
 
   const [values, setValues] = useState<any>();
 
-  const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'all', reValidateMode: 'onChange' });
+  const {
+    register, 
+    handleSubmit,
+    formState: { errors }, 
+    setValue 
+  } = useForm({ mode: 'all', reValidateMode: 'onChange' });
 
   const formSubmit = (form: any) => {
 
@@ -85,12 +91,34 @@ export default function FormGenerator({
     <LocalizationProvider dateAdapter={AdapterMoment} locale={router.locale}>
       <form onSubmit={handleSubmit(formSubmit)}>
 
+        {
+          React.Children.toArray(formList?.filter((s) => !s?.isHidden && s.input === FormInputEnum.Image)?.map((item) => {
+
+            if (item.input === FormInputEnum.Image) {
+
+              return (
+                <Box sx={defaultSxprops} {...item?.boxProps}>
+                  <ImageUpload                   
+                    name={item.name}
+                    setValue={setValue}
+                    imageUrl={item.imageUrl}
+                  />
+                </Box>
+              );
+
+            }
+
+            return null;
+
+          }))
+        }
+
         {langFormList && <FormLangGenerator langFormList={langFormList} register={register} errors={errors} />}
 
         <Box sx={sx}>
         
           {
-            React.Children.toArray(formList?.filter((s) => !s?.isHidden)?.map((item) => {
+            React.Children.toArray(formList?.filter((s) => !s?.isHidden && s.input !== FormInputEnum.Image)?.map((item) => {
 
               if (item.input === FormInputEnum.Text) {
 
@@ -249,6 +277,20 @@ export default function FormGenerator({
                 );
 
               } 
+
+              if (item.input === FormInputEnum.Image) {
+
+                return (
+                  <Box sx={defaultSxprops} {...item?.boxProps}>
+                    <ImageUpload                   
+                      name={item.name}
+                      setValue={setValue}
+                      imageUrl={item.imageUrl}
+                    />
+                  </Box>
+                );
+
+              }
 
               return null;
 

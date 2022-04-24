@@ -56,6 +56,7 @@ export interface IFormGenerator{
   defaultOptions?: IAutoSelect[],
 
   /** File */
-  dropZoneProps?: DropzoneProps
+  dropZoneProps?: DropzoneProps,
+  imageUrl?: string
 }
 

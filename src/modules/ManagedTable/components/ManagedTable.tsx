@@ -26,6 +26,7 @@ export default function ManagedTable(props:IManagedTable) {
         columns={columns} 
         toolBar={props.toolBar}
         fetchData={props.fetchData}
+        fetchPaginationData={props.fetchPaginationData}
         dataGridProps={props.dataGridProps}
       />
 

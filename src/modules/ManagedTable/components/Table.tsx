@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useCallback, useEffect, } from 'react';
 import {
@@ -10,14 +9,15 @@ import {
 import { styled } from '@mui/material/styles';
 import { useTranslation } from 'next-i18next';
 import { useAppSelector } from '@utils/store';
-import { IDataInfo } from '@assets/types/IDataInfo';
 import { useDispatch } from 'react-redux';
 import { Result as ApiResult } from '@utils/network/networkParams';
 import CancelablePromise from '@utils/CancelablePromise';
-import { IPaginationDTO } from '@assets/types/IPaginationDTO'; import { Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import getQueryParams from '@helpers/getQueryParams';
 import { useRouter } from 'next/router';
-import { updateTableData, updateTableLoadingWithInfo } from '../redux/slice';
+import { IDataInfo } from '@assets/types/IDataInfo';
+import { IPaginationDTO } from '@assets/types/IPaginationDTO';
+import { resetTable, updateTableData, updateTableLoadingWithInfo } from '../redux/slice';
 import ToolBar from './ToolBar';
 import { IManagedTableToolBar } from '../types/IManagedTableToolBar';
 
@@ -141,7 +141,8 @@ const AntDesignStyledDataGrid = styled(DataGrid)(({ theme }) => ({
   
 type props ={
     columns : GridColumns<any>, 
-    fetchData: (data:IDataInfo<any>) => CancelablePromise<ApiResult<IPaginationDTO<any>>>,
+    fetchPaginationData?: (data:IDataInfo<any>) => CancelablePromise<ApiResult<IPaginationDTO<any>>>,
+    fetchData?: () => CancelablePromise<ApiResult<any[]>>,
     toolBar?: IManagedTableToolBar,
     dataGridProps?: Omit<DataGridProps, 'columns' | 'rows'>
 }
@@ -155,7 +156,8 @@ export default function Table({
   columns, 
   toolBar,
   fetchData, 
-  dataGridProps 
+  dataGridProps,
+  fetchPaginationData
 }:props) {
 
   const [pageSize, setPageSize] = React.useState<number>(10);
@@ -163,6 +165,8 @@ export default function Table({
   const [page, setPage] = React.useState<number>(0);
 
   const data = useAppSelector((s) => s?.managedTable?.data);
+
+  const dataInfo = useAppSelector((s) => s?.managedTable?.dataInfo);
   
   const loading = useAppSelector((s) => s?.managedTable?.loading);
   
@@ -312,33 +316,52 @@ export default function Table({
 
     dispatch(updateTableLoadingWithInfo({ loading: true, dataInfo }));
 
-    fetchData(dataInfo)
-      .then((res) => {
-        
-        setPageSize(Number(dataInfo?.requestedItemCount) || 10);
+    if (dataGridProps?.pagination) {
 
-        setPage(Number(dataInfo?.pageIndex || 1) - 1);
+      fetchData?.()
+        .then((res) => {
 
-        dispatch(updateTableData(res?.result));
-    
-      })
-      .catch(() => {
-          
-        setPageSize(Number(dataInfo?.requestedItemCount) || 10);
-
-        setPage(Number(dataInfo?.pageIndex) - 1);
-
-        dispatch(updateTableData({ ...data, dtoList: [] }));
-    
-      });
+          dispatch(updateTableData({ dtoList: res?.result }));
   
-  }, [data, fetchData, dispatch]);
+        })
+        .catch(() => {
+
+          dispatch(updateTableData([]));
+  
+        });
+    
+    } else {
+
+      fetchPaginationData?.(dataInfo)
+        .then((res) => {
+        
+          setPageSize(Number(dataInfo?.requestedItemCount) || 10);
+
+          setPage(Number(dataInfo?.pageIndex || 1) - 1);
+
+          dispatch(updateTableData(res?.result));
+    
+        })
+        .catch(() => {
+          
+          setPageSize(Number(dataInfo?.requestedItemCount) || 10);
+
+          setPage(Number(dataInfo?.pageIndex) - 1);
+
+          dispatch(updateTableData({ ...data, dtoList: [] }));
+    
+        });
+
+    }
+ 
+  
+  }, [dispatch, dataGridProps?.pagination, fetchData, fetchPaginationData, data]);
 
   const onPageChange = useCallback((page: number) => {
   
-    getData({ pageIndex: page + 1, requestedItemCount: data?.requestedItemCount });
+    getData({ pageIndex: page + 1, requestedItemCount: dataInfo?.requestedItemCount });
   
-  }, [data?.requestedItemCount, getData]);
+  }, [dataInfo?.requestedItemCount, getData]);
   
   const onPageSizeChange = useCallback((pageSize: number,) => {
   
@@ -348,11 +371,11 @@ export default function Table({
     
     } else {
 
-      getData({ pageIndex: data?.pageIndex, requestedItemCount: pageSize });
+      getData({ pageIndex: dataInfo?.pageIndex, requestedItemCount: pageSize });
     
     }
   
-  }, [data?.pageCount, getData]);
+  }, [dataGridProps, dataInfo?.pageIndex, getData]);
 
   const getInitialData = useCallback(() => {
 
@@ -382,13 +405,19 @@ export default function Table({
         
     }  
   
-  }, []);
+  }, [getData, router]);
           
   useEffect(() => {
 
     getInitialData();
+
+    return () => {
+
+      dispatch(resetTable());
+    
+    };
         
-  }, [router]);
+  }, [dispatch, getInitialData, router]);
 
   return (
     <>

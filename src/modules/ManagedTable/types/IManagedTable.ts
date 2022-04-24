@@ -10,7 +10,8 @@ import { IManagedTableToolBar } from './IManagedTableToolBar';
 
 export interface IManagedTable<R extends GridValidRowModel = any> {
     columns: GridColumns<R>,
-    fetchData: (data:IDataInfo<any>) => CancelablePromise<ApiResult<IPaginationDTO<any>>>,
+    fetchPaginationData?: (data:IDataInfo<any>) => CancelablePromise<ApiResult<IPaginationDTO<any>>>,
+    fetchData?: () => CancelablePromise<ApiResult<any[]>>,
     toolBar?: IManagedTableToolBar,
     DrawerComponent: React.FunctionComponent<any>,
     actions?: IManagedTableActions[],

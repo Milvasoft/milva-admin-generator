@@ -1,9 +1,10 @@
 import { IDataInfo } from '@assets/types/IDataInfo';
 import { IDrawerState } from '@assets/types/IDrawerState';
+import { IPaginationDTO } from '@assets/types/IPaginationDTO';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ManagedTableState {
-  data: any,
+  data: IPaginationDTO<any>,
   dataInfo: IDataInfo<any>,
   loading: boolean,
   drawer:IDrawerState,
@@ -67,7 +68,8 @@ export const managedTableSlice = createSlice({
 
       state.dataInfo = action.payload;
       
-    }
+    },
+    resetTable: () => initialState
   },
 });
 
@@ -79,7 +81,10 @@ export const {
   updateDataAndInfo,
   updateTableData,
   updateTableLoadingWithInfo,
-  updateTableDataInfo
+  updateTableDataInfo,
+  
+  resetTable
+
 } = managedTableSlice.actions;
 
 export default managedTableSlice.reducer;

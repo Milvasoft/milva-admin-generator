@@ -74,7 +74,7 @@ export default function FormLangGenerator({ langFormList, register, errors, }: p
 
         <TabPanel value="1">
 
-          <input hidden {...register(`${arrayName}.${0}.systemLangugeId`)} value={0} />
+          <input hidden {...register(`${arrayName}.${0}.systemLanguageId`)} value={0} />
 
           {
             React.Children.toArray(form?.map((item) => {
@@ -106,7 +106,7 @@ export default function FormLangGenerator({ langFormList, register, errors, }: p
 
         <TabPanel value="2">
           
-          <input hidden {...register(`${arrayName}.${1}.systemLangugeId`)} value={1} />
+          <input hidden {...register(`${arrayName}.${1}.systemLanguageId`)} value={1} />
 
           {
             React.Children.toArray(form?.map((item) => {

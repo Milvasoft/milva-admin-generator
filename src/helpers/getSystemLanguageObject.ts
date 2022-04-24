@@ -4,9 +4,9 @@ export default function getSystemLanguageObject(list: any[]) {
 
   list?.forEach((item) => {
 
-    obj[item?.systemLangugeId] = { ...item };
+    obj[item?.systemLanguageId] = { ...item };
 
-    delete obj[item?.systemLangugeId]?.systemLangugeId;
+    delete obj[item?.systemLanguageId]?.systemLanguageId;
 
   });    
 

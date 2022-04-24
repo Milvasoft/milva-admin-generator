@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useCallback, useEffect, } from 'react';
 import {
@@ -417,7 +418,7 @@ export default function Table({
     
     };
         
-  }, [dispatch, getInitialData, router]);
+  }, []);
 
   return (
     <>

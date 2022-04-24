@@ -72,12 +72,12 @@ export default function UserDrawer() {
     arrayName: 'userLang',
     defaultValues: getSystemLanguageObject([
       {
-        systemLangugeId: 0,
+        systemLanguageId: 0,
         name: 'Türkçe',        
         surname: 'Türkçe Soyad'
       },
       {
-        systemLangugeId: 1,
+        systemLanguageId: 1,
         name: 'İngilizce',
         surname: 'İngilizce Soyad'
       },

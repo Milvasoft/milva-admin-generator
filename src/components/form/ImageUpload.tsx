@@ -42,7 +42,7 @@ export default function ImageUpload({
   
     setPhotoState({ selectedFile, file });
 
-    setValue(name, { imageBase64String: selectedFile, imageType: 2, altValue });
+    setValue(name, { imageBase64String: selectedFile, altValue });
   
   }, [altValue, name, setValue]);
 
@@ -50,7 +50,7 @@ export default function ImageUpload({
 
     setAltValue(e?.target?.value);
   
-    setValue(name, { imageBase64String: photoState?.selectedFile, imageType: 2, altValue: e?.target?.value });
+    setValue(name, { imageBase64String: photoState?.selectedFile, altValue: e?.target?.value });
     
   }, [name, photoState?.selectedFile, setValue]);
     

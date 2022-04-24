@@ -6,7 +6,7 @@ import { useCallback, useMemo } from 'react';
 import ManagedTable from '@src/modules/ManagedTable/components/ManagedTable';
 import UserDrawer from '@src/modules/user/components/UserDrawer';
 import { useAppSelector } from '@utils/store';
-import { IFormGenerator } from '@assets/types/IFormGenerator';
+import { IFormGenerator } from '@src/modules/App/types/IFormGenerator';
 import { FormInputEnum } from '@assets/enums/FormInputEnum';
 
 export default function Home() {

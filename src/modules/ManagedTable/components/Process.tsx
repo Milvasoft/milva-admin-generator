@@ -6,7 +6,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { useTranslation } from 'next-i18next';
 import { DrawerEnum } from '@assets/enums/DrawerEnum';
 import { useAppDispatch, } from '@utils/store';
-import { IDrawerState } from '@assets/types/IDrawerState';
+import { IDrawerState } from '@src/modules/App/types/IDrawerState';
 import { openTableDrawer } from '../redux/slice';
 import { IManagedTableActions } from '../types/IManagedTableActions';
 import { IManagedTableDefaultButtons } from '../types/IManagedTableDefaultButtons';

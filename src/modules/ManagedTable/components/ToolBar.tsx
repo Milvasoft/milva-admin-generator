@@ -19,7 +19,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import CustomDrawer from '@components/drawer/CustomDrawer';
 import DrawerHeader from '@components/drawer/DrawerHeader';
 import FormGenerator from '@components/form/FormGenerator';
-import { IDrawerState } from '@assets/types/IDrawerState';
+import { IDrawerState } from '@src/modules/App/types/IDrawerState';
 import { useAppDispatch, useAppSelector } from '@utils/store';
 import { useRouter } from 'next/router';
 import clearEmptyKeys from '@helpers/clearEmptyKeys';

@@ -10,7 +10,7 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import NextImage from 'next/image';
-import { ILangFormGenerator } from '@assets/types/ILangFormGenerator';
+import { ILangFormGenerator } from '@src/modules/App/types/ILangFormGenerator';
 
 const defaultSxprops : SxProps = {
   mt: 1,

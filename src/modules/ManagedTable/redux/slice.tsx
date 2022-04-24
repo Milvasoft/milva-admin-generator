@@ -1,6 +1,7 @@
-import { IDataInfo } from '@assets/types/IDataInfo';
-import { IDrawerState } from '@assets/types/IDrawerState';
-import { IPaginationDTO } from '@assets/types/IPaginationDTO';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { IDataInfo } from '@src/modules/App/types/IDataInfo';
+import { IDrawerState } from '@src/modules/App/types/IDrawerState';
+import { IPaginationDTO } from '@src/modules/App/types/IPaginationDTO';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import CancelablePromise from '@utils/CancelablePromise';
 import { Result as ApiResult } from '@utils/network/networkParams';
@@ -44,7 +45,8 @@ export const refreshTableForPagination = createAsyncThunk(
   'refreshTableForPagination', 
   async (fetchPaginationData:fetchPaginationDataType, thunkAPI) => {
 
-    const { dataInfo } : any = thunkAPI.getState();
+    // @ts-ignore
+    const dataInfo : any = thunkAPI?.getState()?.managedTable?.dataInfo;
 
     let response = {};
 

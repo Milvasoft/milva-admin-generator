@@ -5,8 +5,8 @@ import React, {
   useState 
 } from 'react';
 import { FormInputEnum } from '@assets/enums/FormInputEnum';
-import { IFormGenerator } from '@assets/types/IFormGenerator';
-import { ILangFormGenerator } from '@assets/types/ILangFormGenerator';
+import { IFormGenerator } from '@src/modules/App/types/IFormGenerator';
+import { ILangFormGenerator } from '@src/modules/App/types/ILangFormGenerator';
 import DrawerLayout from '@components/drawer/DrawerLayout';
 import FormGenerator from '@components/form/FormGenerator';
 import getSystemLanguageObject from '@helpers/getSystemLanguageObject';

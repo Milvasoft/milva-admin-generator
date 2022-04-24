@@ -1,5 +1,5 @@
 import { DrawerEnum } from '@assets/enums/DrawerEnum';
-import { IFormGenerator } from '@assets/types/IFormGenerator';
+import { IFormGenerator } from '@src/modules/App/types/IFormGenerator';
 
 export interface IManagedTableToolBar{
     title?: string,

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
-import { IAutoSelect } from '@assets/types/IAutoSelect';
+import { IAutoSelect } from '@src/modules/App/types/IAutoSelect';
 import { Checkbox, SxProps } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';

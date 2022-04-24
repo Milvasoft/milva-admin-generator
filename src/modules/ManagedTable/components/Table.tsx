@@ -2,7 +2,10 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useCallback, useEffect, } from 'react';
 import {
-  DataGrid, GridColumns, GridLocaleText, DataGridProps 
+  DataGrid, 
+  GridColumns, 
+  GridLocaleText, 
+  DataGridProps 
 } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import { useTranslation } from 'next-i18next';
@@ -12,10 +15,11 @@ import { useDispatch } from 'react-redux';
 import { Result as ApiResult } from '@utils/network/networkParams';
 import CancelablePromise from '@utils/CancelablePromise';
 import { IPaginationDTO } from '@assets/types/IPaginationDTO'; import { Typography } from '@mui/material';
+import getQueryParams from '@helpers/getQueryParams';
+import { useRouter } from 'next/router';
 import { updateTableData, updateTableLoadingWithInfo } from '../redux/slice';
 import ToolBar from './ToolBar';
 import { IManagedTableToolBar } from '../types/IManagedTableToolBar';
-
 
 const AntDesignStyledDataGrid = styled(DataGrid)(({ theme }) => ({
   border: `1px solid ${theme.palette.mode === 'light' ? '#f0f0f0' : '#303030'}`,
@@ -142,6 +146,11 @@ type props ={
     dataGridProps?: Omit<DataGridProps, 'columns' | 'rows'>
 }
   
+const defaultDataInfo = {
+  pageIndex: 1,
+  requestedItemCount: 10,
+};
+
 export default function Table({
   columns, 
   toolBar,
@@ -151,9 +160,13 @@ export default function Table({
 
   const [pageSize, setPageSize] = React.useState<number>(10);
 
+  const [page, setPage] = React.useState<number>(0);
+
   const data = useAppSelector((s) => s?.managedTable?.data);
   
   const loading = useAppSelector((s) => s?.managedTable?.loading);
+  
+  const router = useRouter();
 
   const dispatch = useDispatch();
 
@@ -302,11 +315,19 @@ export default function Table({
     fetchData(dataInfo)
       .then((res) => {
         
+        setPageSize(Number(dataInfo?.requestedItemCount) || 10);
+
+        setPage(Number(dataInfo?.pageIndex || 1) - 1);
+
         dispatch(updateTableData(res?.result));
     
       })
       .catch(() => {
-        
+          
+        setPageSize(Number(dataInfo?.requestedItemCount) || 10);
+
+        setPage(Number(dataInfo?.pageIndex) - 1);
+
         dispatch(updateTableData({ ...data, dtoList: [] }));
     
       });
@@ -327,16 +348,44 @@ export default function Table({
     
     } else {
 
-      getData({ pageIndex: data?.pageCount, requestedItemCount: pageSize });
+      getData({ pageIndex: data?.pageIndex, requestedItemCount: pageSize });
     
     }
   
   }, [data?.pageCount, getData]);
-        
-  useEffect(() => {
-  
-    getData({ pageIndex: 1, requestedItemCount: 10 });
+
+  const getInitialData = useCallback(() => {
+
+    try {
+
+      const filter = getQueryParams();
+
+      if (Object.entries(filter).length !== 0) {
+
+        getData(filter);
       
+      } else {
+  
+        router.replace(router.route, { query: defaultDataInfo, });
+        
+        getData(defaultDataInfo);
+      
+      }
+    
+    } catch (e) {
+    
+      router.replace(router.route, { query: defaultDataInfo, });
+      
+      getData(defaultDataInfo);
+        
+    }  
+  
+  }, []);
+          
+  useEffect(() => {
+
+    getInitialData();
+        
   }, []);
 
   return (
@@ -353,6 +402,7 @@ export default function Table({
         columns={columns}
         rows={data?.dtoList || []}
         rowCount={data?.dtoList?.length || 0} 
+        page={page}
         loading={loading}      
         onPageChange={onPageChange}
         onPageSizeChange={onPageSizeChange}

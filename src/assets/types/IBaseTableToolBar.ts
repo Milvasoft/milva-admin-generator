@@ -1,7 +1,7 @@
 import { DrawerEnum } from '@assets/enums/DrawerEnum';
 import { IBaseTableToolBarButtons } from './IBaseTableToolBarButtons';
 import { IBaseTableToolBarDefaultButtons } from './IBaseTableToolBarDefaultButtons';
-import { IFormGenerator } from './IFormGenerator';
+import { IFilterGenerator } from './IFilterGenerator';
 
 export interface IBaseTableToolBar{   
     data?: any;
@@ -9,7 +9,6 @@ export interface IBaseTableToolBar{
     buttons?: IBaseTableToolBarButtons[],
     defaultButtons?: IBaseTableToolBarDefaultButtons,
     openDrawer?:(drawerEnum: DrawerEnum) => void,
-    filterGeneratorList?: IFormGenerator[],
-    filters?: any
+    filterGeneratorList?: IFilterGenerator[],
     
 }

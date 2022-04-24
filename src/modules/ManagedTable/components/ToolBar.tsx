@@ -13,13 +13,18 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useTranslation } from 'next-i18next';
-import { IBaseTableToolBar } from '@assets/types/IBaseTableToolBar';
 import { DrawerEnum } from '@assets/enums/DrawerEnum';
 import ClearIcon from '@mui/icons-material/Clear';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import CustomDrawer from '@components/drawer/CustomDrawer';
 import DrawerHeader from '@components/drawer/DrawerHeader';
 import FormGenerator from '@components/form/FormGenerator';
+import { IDrawerState } from '@assets/types/IDrawerState';
+import { useAppDispatch, useAppSelector } from '@utils/store';
+import { useRouter } from 'next/router';
+import clearEmptyKeys from '@helpers/clearEmptyKeys';
+import { IManagedTableToolBar } from '../types/IManagedTableToolBar';
+import { openTableDrawer } from '../redux/slice';
 
 const CustomChip = styled(Chip)(() => ({
   fontSize: '0.8125rem', 
@@ -32,30 +37,72 @@ const CustomChip = styled(Chip)(() => ({
 export default function ToolBar({
   defaultButtons, 
   buttons, 
-  data,
-  openDrawer,
   filterGeneratorList
-}:IBaseTableToolBar) {
+}:IManagedTableToolBar) {
+
+  const data = useAppSelector((s) => s?.managedTable?.data);
+
+  const dataInfo = useAppSelector((s) => s?.managedTable?.dataInfo);
 
   const { t } = useTranslation();
+
+  const router = useRouter();
+
+  const dispatch = useAppDispatch(); 
 
   const [filterDrawer, setFilterDrawer] = useState(false);
 
   const openFilterDrawer = useCallback(() => setFilterDrawer(true), []);
 
   const closeFilterDrawer = useCallback(() => setFilterDrawer(false), []);
+
+  const openDrawer = useCallback((param: IDrawerState) => dispatch(openTableDrawer(param)), [dispatch]);
   
-  const handleChipDelete = useCallback(() => {
+  const handleChipDelete = useCallback((propertyName : string) => {
   
-    console.log('functionName');
+    try {
+
+      const newFilters = { ...dataInfo };
+
+      delete newFilters?.spec[propertyName];
+
+      router.push(router.route, {
+        query: {
+          requestedItemCount: dataInfo?.requestedItemCount || 10,
+          page: 1,
+          spec: JSON.stringify(clearEmptyKeys(newFilters)) 
+        },
+      });
+
+    } catch (e) {
+      
+      router.push(router.route, {
+        query: {
+          requestedItemCount: dataInfo?.requestedItemCount || 10,
+          page: 1,
+          spec: JSON.stringify(clearEmptyKeys(dataInfo)) 
+        },
+      });
+    
+    }
   
-  }, []);
+  }, [dataInfo, router]);
   
   const onSubmit = useCallback((form: any) => {
   
-    console.log('onSubmit', form);
-  
-  }, []);  
+    if (Object.entries(form).length !== 0) {
+
+      router.push(router.route, {
+        query: {
+          requestedItemCount: dataInfo?.requestedItemCount || 10,
+          page: 1,
+          spec: JSON.stringify(clearEmptyKeys(form)) 
+        },
+      });
+
+    }
+    
+  }, [dataInfo?.requestedItemCount, router]);  
   
   return (
     <>
@@ -74,7 +121,7 @@ export default function ToolBar({
 
             <Button
               startIcon={<AddIcon color="primary" />} 
-              onClick={() => (defaultButtons?.add.click ? defaultButtons?.add.click() : openDrawer?.(DrawerEnum.Add))} 
+              onClick={() => (defaultButtons?.add.click ? defaultButtons?.add.click() : openDrawer?.({ component: DrawerEnum.Add }))} 
               sx={{ ml: (filterGeneratorList && filterGeneratorList?.length > 0) ? 0 : 1 }}
             >
               {defaultButtons?.add?.title || (t('add') || 'Ekle')}
@@ -87,7 +134,7 @@ export default function ToolBar({
                   sx={{ ml: 1 }}
                   startIcon={item?.icon || undefined}
                   disabled={item?.disabled?.(data)}
-                  onClick={() => openDrawer?.(item.drawerEnum)}
+                  onClick={() => openDrawer?.({ component: item.drawerEnum })}
                 >
                   {item.title}
                 </Button>
@@ -111,16 +158,23 @@ export default function ToolBar({
       {
         (filterGeneratorList && filterGeneratorList?.length > 0) && (
           <>  
-            {' '}
+          
             <Box sx={{ display: 'flex', py: 1 }}>
-              <CustomChip
-                label="small"
-                onClick={handleChipDelete}
-                deleteIcon={<ClearIcon sx={{ color: '#fff !important' }} />} 
-                onDelete={handleChipDelete}           
-                color="primary" 
-                size="small"
-              />
+
+              {
+                Object.keys(dataInfo?.spec)?.map((key) => (
+                  <CustomChip
+                    key={key}
+                    label={filterGeneratorList?.find((s) => s.name === key)?.filterTitle}
+                    onClick={() => handleChipDelete(key)}
+                    onDelete={() => handleChipDelete(key)}
+                    deleteIcon={<ClearIcon sx={{ color: '#fff !important' }} />} 
+                    color="primary" 
+                    size="small"
+                  />
+                ))
+              }              
+
             </Box>
 
             <CustomDrawer 

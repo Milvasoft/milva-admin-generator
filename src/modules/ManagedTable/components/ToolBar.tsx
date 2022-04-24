@@ -66,12 +66,18 @@ export default function ToolBar({
 
           <Box>
 
-            <Button startIcon={<FilterListIcon color="primary" />} onClick={openFilterDrawer}>
-              {t('filter')}
-            </Button>
+            { (filterGeneratorList && filterGeneratorList?.length > 0) && (
+              <Button startIcon={<FilterListIcon color="primary" />} onClick={openFilterDrawer}>
+                {t('filter')}
+              </Button>
+            )}
 
-            <Button startIcon={<AddIcon color="primary" />} onClick={() => openDrawer?.(DrawerEnum.Add)} sx={{ ml: 1 }}>
-              {defaultButtons?.add.title || (t('add') || 'Ekle')}
+            <Button
+              startIcon={<AddIcon color="primary" />} 
+              onClick={() => (defaultButtons?.add.click ? defaultButtons?.add.click() : openDrawer?.(DrawerEnum.Add))} 
+              sx={{ ml: (filterGeneratorList && filterGeneratorList?.length > 0) ? 0 : 1 }}
+            >
+              {defaultButtons?.add?.title || (t('add') || 'Ekle')}
             </Button>
 
             {
@@ -102,41 +108,48 @@ export default function ToolBar({
 
       </GridToolbarContainer>
 
-      <Box sx={{ display: 'flex', py: 1 }}>
-        <CustomChip
-          label="small"
-          onClick={handleChipDelete}
-          deleteIcon={<ClearIcon sx={{ color: '#fff !important' }} />} 
-          onDelete={handleChipDelete}           
-          color="primary" 
-          size="small"
-        />
-      </Box>
+      {
+        (filterGeneratorList && filterGeneratorList?.length > 0) && (
+          <>  
+            {' '}
+            <Box sx={{ display: 'flex', py: 1 }}>
+              <CustomChip
+                label="small"
+                onClick={handleChipDelete}
+                deleteIcon={<ClearIcon sx={{ color: '#fff !important' }} />} 
+                onDelete={handleChipDelete}           
+                color="primary" 
+                size="small"
+              />
+            </Box>
 
-      <CustomDrawer 
-        open={filterDrawer}
-        onClose={closeFilterDrawer} 
-        PaperProps={{
-          sx: {
-            width: ['100%', 540],
-            px: [2, 5],
-            pt: 2,
-            pb: 5
-          } 
-        }}
-      >
+            <CustomDrawer 
+              open={filterDrawer}
+              onClose={closeFilterDrawer} 
+              PaperProps={{
+                sx: {
+                  width: ['100%', 540],
+                  px: [2, 5],
+                  pt: 2,
+                  pb: 5
+                } 
+              }}
+            >
 
-        <DrawerHeader handleCancel={closeFilterDrawer} title={t('filter')} />
+              <DrawerHeader handleCancel={closeFilterDrawer} title={t('filter')} />
         
-        <FormGenerator 
-          // @ts-ignore
-          formList={filterGeneratorList} 
-          onSubmit={onSubmit}
-          handleCancel={closeFilterDrawer}
-          sx={{ mt: 2 }}
-        />
+              <FormGenerator 
+              // @ts-ignore
+                formList={filterGeneratorList} 
+                onSubmit={onSubmit}
+                handleCancel={closeFilterDrawer}
+                sx={{ mt: 2 }}
+              />
               
-      </CustomDrawer>
+            </CustomDrawer> 
+          </>
+        )
+      }
 
     </>
   );

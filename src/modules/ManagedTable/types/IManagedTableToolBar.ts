@@ -1,11 +1,11 @@
 import { DrawerEnum } from '@assets/enums/DrawerEnum';
-import { IFilterGenerator } from '@assets/types/IFilterGenerator';
+import { IFormGenerator } from '@assets/types/IFormGenerator';
 
 export interface IManagedTableToolBar{
     title?: string,
     buttons?: IManagedTableToolBarButtons[],
     defaultButtons?: IManagedTableToolBarDefaultButtons,
-    filterGeneratorList?: IFilterGenerator[],
+    filterGeneratorList?: IFormGenerator[],
 }
 
 export interface IManagedTableToolBarButtons{

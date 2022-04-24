@@ -2,10 +2,12 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import Layout from '@components/layout/Layout';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import ManagedTable from '@src/modules/ManagedTable/components/ManagedTable';
 import UserDrawer from '@src/modules/user/components/UserDrawer';
 import { useAppSelector } from '@utils/store';
+import { IFormGenerator } from '@assets/types/IFormGenerator';
+import { FormInputEnum } from '@assets/enums/FormInputEnum';
 
 export default function Home() {
 
@@ -40,6 +42,42 @@ export default function Home() {
       type: 'number',
     },
   ];
+
+  const FilterList = useMemo(() : IFormGenerator[] => [
+    {
+      input: FormInputEnum.Text,
+      name: 'ad',
+      title: 'Ad',
+      placeholder: 'Ad Giriniz..',
+    },
+    {
+      input: FormInputEnum.Number,
+      name: 'salary',
+      title: 'Maaş',
+      placeholder: 'Maaş Giriniz..',
+    },
+    {
+      input: FormInputEnum.DateTime,
+      name: 'startDate',
+      title: 'İşe Başlama Tarihi',
+    },
+    {
+      input: FormInputEnum.Radio,
+      name: 'isWorking',
+      title: 'Çalışıma Durumu',
+      radioList: [
+        {
+          label: 'Evet',
+          value: true,
+        },
+        {
+          label: 'Hayır',
+          value: false
+        },
+      ]
+    },
+  ], []);
+
   
   const rows = [
     {
@@ -127,7 +165,7 @@ export default function Home() {
         // @ts-ignore
         fetchData={fetchData} 
         DrawerComponent={UserDrawer}
-        toolBar={{ title: 'Home', }}
+        toolBar={{ title: 'Home', filterGeneratorList: FilterList }}
         getLabelForDeleteDrawer={getLabelForDeleteDrawer}
         onDelete={onDelete}
         dataGridProps={{ paginationMode: 'client', pagination: true, }}

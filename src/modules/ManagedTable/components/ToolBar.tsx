@@ -64,13 +64,17 @@ export default function ToolBar({
 
       const newFilters = { ...dataInfo };
 
-      delete newFilters?.spec[propertyName];
+      const newSpec = { ...newFilters.spec };
+
+      delete newSpec[propertyName];
+
+      newFilters.spec = { ...newSpec };
 
       router.push(router.route, {
         query: {
           requestedItemCount: dataInfo?.requestedItemCount || 10,
           pageIndex: 1,
-          spec: JSON.stringify(clearEmptyKeys(newFilters)) 
+          spec: JSON.stringify(clearEmptyKeys(newFilters?.spec)) 
         },
       });
 
@@ -80,7 +84,7 @@ export default function ToolBar({
         query: {
           requestedItemCount: dataInfo?.requestedItemCount || 10,
           pageIndex: 1,
-          spec: JSON.stringify(clearEmptyKeys(dataInfo)) 
+          spec: JSON.stringify(clearEmptyKeys(dataInfo?.spec)) 
         },
       });
     
@@ -162,10 +166,10 @@ export default function ToolBar({
             <Box sx={{ display: 'flex', py: 1 }}>
 
               {
-                Object.keys(dataInfo?.spec)?.map((key) => (
+                dataInfo?.spec && Object.keys(dataInfo?.spec)?.map((key) => (
                   <CustomChip
                     key={key}
-                    label={filterGeneratorList?.find((s) => s.name === key)?.filterTitle}
+                    label={`${filterGeneratorList?.find((s) => s.name === key)?.title}: ${dataInfo?.spec?.[key].replace(/\+/g, ' ')}`}
                     onClick={() => handleChipDelete(key)}
                     onDelete={() => handleChipDelete(key)}
                     deleteIcon={<ClearIcon sx={{ color: '#fff !important' }} />} 

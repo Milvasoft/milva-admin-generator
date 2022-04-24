@@ -362,6 +362,8 @@ export default function Table({
 
       if (Object.entries(filter).length !== 0) {
 
+        if (filter?.spec)filter.spec = JSON.parse(filter.spec);
+
         getData(filter);
       
       } else {
@@ -386,7 +388,7 @@ export default function Table({
 
     getInitialData();
         
-  }, []);
+  }, [router]);
 
   return (
     <>

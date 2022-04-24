@@ -1,5 +1,5 @@
 export default function getBaseUrl(url?: string) {
 
-  return `https://opsiyonerp.net/kcpapi/${url}`;
+  return `${process.env.NEXT_PUBLIC_BASE_PATH}/${url}`;
 
 }

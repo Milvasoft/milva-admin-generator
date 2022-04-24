@@ -1,55 +1,45 @@
-/* eslint-disable import/prefer-default-export */
-import { CookieEnum } from '@assets/enums/CookieEnum';
-import Cookies from 'js-cookie';
+export function getCookie(name: string) {
 
-export class CookieService {
+  return document.cookie
+    .split('; ')
+    .find((row) => row.startsWith(`${name}=`))
+    ?.split('=')[1];
 
-  static getCookie(cname: CookieEnum) {
+}
 
-    if (typeof window !== 'undefined') {
+export function setCookie(name: string, value: string, expires?: Date) {
 
-      const value = Cookies.get(cname);
+  if (expires === undefined) {
 
-      if (typeof value === 'undefined') return '';
-
-      return value;
-
-    }
-
-    return '';
-
+    expires = new Date();
+    expires.setFullYear(expires.getFullYear() + 1);
+  
   }
 
-  static setCookie(cname: CookieEnum, cvalue: string, exdays = 1) {
+  const path = process.env.NEXT_PUBLIC_BASE_PATH;
+  
+  document.cookie = `${name}=${value}; Path=${path}; Expires=${expires.toUTCString()};`;
 
-    if (typeof window !== 'undefined') {
+}
 
-      Cookies.set(cname, cvalue, { expires: exdays, secure: true, sameSite: 'none' });
+export function removeCookie(name: string) {
 
-    }
+  const path = process.env.NEXT_PUBLIC_BASE_PATH;
 
-  }
+  document.cookie = `${name}=; Path=${path}; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
 
-  static removeCookie(cnames: CookieEnum[] | CookieEnum) {
+}
 
-    if (typeof window !== 'undefined') {
+export function checkACookieExists(name: string) {
 
-      const expires = `expires=${new Date().toUTCString()}`;
+  return document.cookie
+    .split(';')
+    .some((item) => item.trim().startsWith(name));
 
+}
 
-      if (!Array.isArray(cnames)) document.cookie = `${cnames}="";${expires};path=/`;
+export function checkCookieHasASpecificValue(name: string, value: string) {
 
-      else {
+  return document.cookie.split(';').some((item) => item === `${name}=${value}`);
 
-        cnames.forEach((cname) => {
-
-          document.cookie = `${cname}="";${expires};path=/`;
-
-        });
-
-      }
-
-    }
-
-  }
 }

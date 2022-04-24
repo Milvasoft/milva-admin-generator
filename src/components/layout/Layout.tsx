@@ -16,11 +16,11 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import { CookieService } from '@helpers/cookieService';
 import { CookieEnum } from '@assets/enums/CookieEnum';
 import { useTranslation } from 'next-i18next';
 import DrawerHeader from '@components/drawer/DrawerHeader';
 import { pages } from '@utils/Routes';
+import { getCookie, setCookie } from '@helpers/cookieService';
 import LayoutAppBar from './LayoutAppBar';
 
 const drawerWidth = 240;
@@ -97,7 +97,7 @@ export default function Layout({ children }: any) {
 
   const handleDrawerOpen = () => {
 
-    CookieService.setCookie(CookieEnum.LayoutDrawer, 'true');
+    setCookie(CookieEnum.LayoutDrawer, 'true');
 
     setOpen(true);
 
@@ -105,7 +105,7 @@ export default function Layout({ children }: any) {
 
   const handleDrawerClose = () => {
 
-    CookieService.setCookie(CookieEnum.LayoutDrawer, 'false');
+    setCookie(CookieEnum.LayoutDrawer, 'false');
 
     setOpen(false);
 
@@ -113,7 +113,7 @@ export default function Layout({ children }: any) {
 
   useEffect(() => {
     
-    setOpen(!!CookieService.getCookie(CookieEnum.LayoutDrawer));
+    setOpen(!!getCookie(CookieEnum.LayoutDrawer));
    
   }, []);
   

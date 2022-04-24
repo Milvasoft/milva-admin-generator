@@ -200,7 +200,7 @@ export default function Layout({ children }: any) {
 
                     {
                       item?.children?.map((child) => (
-                        <NextLink href={child.href} prefetch={false} key={child.href}>           
+                        <NextLink href={child.href} key={child.href}>           
                           <CustomListItem selected={child.href === path}>
 
                             <ListItemIcon>

@@ -5,7 +5,7 @@ type langList = {
     [key: string]: any
 }
 
-export default function diffLang(baseList: langList[], newList:langList[]) {
+export default function diffLang(baseList?: langList[], newList?:langList[]) {
 
   let diff = false;
  

@@ -14,20 +14,27 @@ import OutlinedWrapper from './OutlinedWrapper';
     }>,
     register?: any,
     title?: string,
-    name: string
+    name: string,
+    defaultValue?: any
   }
   
 export default memo(function UnControlledRadioButton({
   data,
   register,
   title,
-  name 
+  name,
+  defaultValue
 }: params) {
   
   return (
     <OutlinedWrapper label={title}> 
       <FormControl fullWidth>    
-        <RadioGroup row sx={{ alignSelf: 'flex-start', }} {...register(name)}>
+        <RadioGroup
+          row 
+          sx={{ alignSelf: 'flex-start', }} 
+          defaultValue={defaultValue}
+          {...register(name)}
+        >
           {data.map((element) => (
             <FormControlLabel
               key={element?.label} 

@@ -2,14 +2,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Dropzone, FileItem } from '@dropzone-ui/react';
 import { Box, SxProps, TextField } from '@mui/material';
-import { IFormGenerator } from '@assets/types/IFormGenerator';
+import clearEmptyKeys from '@helpers/clearEmptyKeys';
 import { useForm } from 'react-hook-form';
 import { FormInputEnum } from '@assets/enums/FormInputEnum';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { ILangFormGenerator } from '@assets/types/ILangFormGenerator';
+import { IFormGenerator } from '@assets/types/IFormGenerator';
 import { useRouter } from 'next/router';
 import { DateTimePicker } from '@mui/x-date-pickers';
-import { ILangFormGenerator } from '@assets/types/ILangFormGenerator';
 import DrawerFooter from '@components/drawer/DrawerFooter';
 import UnControlledCheckBox from './UnControlledCheckBox';
 import PhoneNumberInput from './PhoneNumberInput';
@@ -46,7 +47,23 @@ export default function FormGenerator({
 
   const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'all', reValidateMode: 'onChange' });
 
-  const formSubmit = (form: any) => onSubmit({ ...form, ...values });
+  const formSubmit = (form: any) => {
+
+    if (langFormList?.arrayName) {
+
+      const newLangs = form?.[langFormList?.arrayName]
+        ?.map((s:any) => clearEmptyKeys(s))
+        ?.filter((o:any) => Object.keys(o)?.length > 1); 
+      
+      onSubmit({ ...form, ...values, [langFormList.arrayName]: newLangs });
+
+    } else {
+
+      onSubmit({ ...form, ...values, });
+    
+    }     
+  
+  };
 
   const onChangeValue = useCallback((newValue:any) => setValues({ ...values, ...newValue }), [values]);
 
@@ -155,6 +172,7 @@ export default function FormGenerator({
                       data={item.radioList}
                       title={item.title}
                       name={item.name}
+                      defaultValue={item?.defaultValue}
                       register={register}
                     />
                   </Box>

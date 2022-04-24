@@ -2,7 +2,8 @@ import { IDataInfo } from '@assets/types/IDataInfo';
 import { IDrawerState } from '@assets/types/IDrawerState';
 import { IPaginationDTO } from '@assets/types/IPaginationDTO';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IManagedTable } from '../types/IManagedTable';
+import CancelablePromise from '@utils/CancelablePromise';
+import { Result as ApiResult } from '@utils/network/networkParams';
 
 export interface ManagedTableState {
   data: IPaginationDTO<any>,
@@ -18,13 +19,15 @@ const initialState: ManagedTableState = {
   drawer: { open: false },
 };
 
+type fetchDataType = () => CancelablePromise<ApiResult<any[]>>;
+
 export const refreshTable = createAsyncThunk(
   'refreshTable', 
-  async (data:Pick<IManagedTable, 'fetchData'>) => {
+  async (fetchData:fetchDataType) => {
 
     let response = {};
 
-    await data?.fetchData?.()
+    await fetchData()
       .then((res) => {
 
         response = res?.result;
@@ -36,15 +39,16 @@ export const refreshTable = createAsyncThunk(
   }
 );
 
+type fetchPaginationDataType = (data:IDataInfo<any>) => CancelablePromise<ApiResult<IPaginationDTO<any>>>;
 export const refreshTableForPagination = createAsyncThunk(
-  'refreshTable', 
-  async (data:Pick<IManagedTable, 'fetchPaginationData'>, thunkAPI) => {
+  'refreshTableForPagination', 
+  async (fetchPaginationData:fetchPaginationDataType, thunkAPI) => {
 
     const { dataInfo } : any = thunkAPI.getState();
 
     let response = {};
 
-    await data?.fetchPaginationData?.(dataInfo)
+    await fetchPaginationData(dataInfo)
       .then((res) => {
 
         response = res?.result;
@@ -55,7 +59,6 @@ export const refreshTableForPagination = createAsyncThunk(
   
   }
 );
-
 
 export const managedTableSlice = createSlice({
   name: 'managedTable',
@@ -115,6 +118,8 @@ export const managedTableSlice = createSlice({
     [refreshTable.pending.type]: (state) => {
 
       state.loading = true;
+
+      state.drawer = { ...state.drawer, open: false };
     
     },
     [refreshTable.fulfilled.type]: (state, action) => {
@@ -129,11 +134,15 @@ export const managedTableSlice = createSlice({
       state.data = {};
      
       state.loading = false;
+
+      state.drawer = { ...state.drawer, open: false };
     
     },
     [refreshTableForPagination.pending.type]: (state) => {
 
       state.loading = true;
+
+      state.drawer = { ...state.drawer, open: false };
     
     },
     [refreshTableForPagination.fulfilled.type]: (state, action) => {
@@ -148,9 +157,10 @@ export const managedTableSlice = createSlice({
       state.data = {};
      
       state.loading = false;
+      
+      state.drawer = { ...state.drawer, open: false };
     
     },
-
 
   }
 });

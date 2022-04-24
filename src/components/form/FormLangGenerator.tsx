@@ -1,16 +1,21 @@
 import { FormInputEnum } from '@assets/enums/FormInputEnum';
-import { ILangFormGenerator } from '@assets/types/ILangFormGenerator';
-import { Box, SxProps, TextField } from '@mui/material';
+import {
+  Box, 
+  SxProps,
+  TextField, 
+  Typography 
+} from '@mui/material';
 import React from 'react';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
 import NextImage from 'next/image';
+import { ILangFormGenerator } from '@assets/types/ILangFormGenerator';
 
 const defaultSxprops : SxProps = {
   mt: 1,
   py: 2,
+  px: [1, 1, 3]
 };
 
 type props ={
@@ -18,7 +23,7 @@ type props ={
     register: any,
     errors: any
 }
-    
+
 export default function FormLangGenerator({ langFormList, register, errors, }: props) {
 
   const { arrayName, form, defaultValues } = langFormList;
@@ -72,9 +77,20 @@ export default function FormLangGenerator({ langFormList, register, errors, }: p
 
         </Box>
 
-        <TabPanel value="1">
+        <Typography
+          component="div"
+          role="tabpanel"
+          hidden={value !== '1'}
+          id={`simple-tabpanel-${1}`}
+          aria-labelledby={`simple-tab-${1}`}
+        >
 
-          <input hidden {...register(`${arrayName}.${0}.systemLanguageId`)} value={0} />
+          <input
+            hidden 
+            {...register(`${arrayName}.${0}.systemLanguageId`)}
+            value={1}
+            type="number"
+          />
 
           {
             React.Children.toArray(form?.map((item) => {
@@ -84,7 +100,7 @@ export default function FormLangGenerator({ langFormList, register, errors, }: p
                 return (
                   <Box sx={defaultSxprops} {...item?.boxProps}>                       
                     <TextField                             
-                      defaultValue={defaultValues?.[0]?.[item.name] || ''}
+                      defaultValue={defaultValues?.[1]?.[item.name] || ''}
                       placeholder={item?.placeholder}
                       label={item?.title}
                       helperText={errors?.[`${arrayName}.${0}.${item.name}`] || item?.helperText}
@@ -102,11 +118,22 @@ export default function FormLangGenerator({ langFormList, register, errors, }: p
 
             }))
           }
-        </TabPanel>
+        </Typography>
 
-        <TabPanel value="2">
+        <Typography
+          component="div"
+          role="tabpanel"
+          hidden={value !== '2'}
+          id={`simple-tabpanel-${2}`}
+          aria-labelledby={`simple-tab-${2}`}
+        >
           
-          <input hidden {...register(`${arrayName}.${1}.systemLanguageId`)} value={1} />
+          <input
+            hidden
+            {...register(`${arrayName}.${1}.systemLanguageId`)} 
+            type="number"
+            value={2}
+          />
 
           {
             React.Children.toArray(form?.map((item) => {
@@ -116,7 +143,7 @@ export default function FormLangGenerator({ langFormList, register, errors, }: p
                 return (
                   <Box sx={defaultSxprops} {...item?.boxProps}>               
                     <TextField        
-                      defaultValue={defaultValues?.[1]?.[item.name] || ''}
+                      defaultValue={defaultValues?.[2]?.[item.name] || ''}
                       placeholder={item?.placeholder}
                       label={item?.title}
                       helperText={errors?.[item?.name] || item?.helperText}
@@ -133,7 +160,7 @@ export default function FormLangGenerator({ langFormList, register, errors, }: p
 
             }))
           }
-        </TabPanel>
+        </Typography>
 
       </TabContext>
      

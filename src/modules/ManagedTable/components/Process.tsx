@@ -36,9 +36,18 @@ export default function Process({
 
   const openDrawer = useCallback((param: IDrawerState) => dispatch(openTableDrawer(param)), [dispatch]);
   
-  const handleEdit = useCallback(() => openDrawer({ component: DrawerEnum.Edit, data: rowData }), [rowData, openDrawer]);
+  const handleEdit = useCallback(
+    () => (
+      defaultButtons?.editClick 
+        ? defaultButtons?.editClick(rowData)
+        : openDrawer({ component: DrawerEnum.Edit, data: rowData })),
+    [defaultButtons, rowData, openDrawer]
+  );
 
-  const handleDelete = useCallback(() => openDrawer({ component: DrawerEnum.Delete, data: rowData }), [rowData, openDrawer]);
+  const handleDelete = useCallback(() => (
+    defaultButtons?.deleteClick 
+      ? defaultButtons?.deleteClick(rowData)
+      : openDrawer({ component: DrawerEnum.Delete, data: rowData })), [defaultButtons, rowData, openDrawer]);
     
   return (
     <ActionComponent>

@@ -1,3 +1,4 @@
+import { DrawerEnum } from '@assets/enums/DrawerEnum';
 import { IDataInfo } from '@assets/types/IDataInfo';
 import { IDrawerState } from '@assets/types/IDrawerState';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -27,7 +28,7 @@ export const managedTableSlice = createSlice({
     },
     closeTableDrawer: (state) => {
 
-      state.drawer = { open: false };
+      state.drawer = { open: false, component: DrawerEnum.Any };
     
     },
     openTableDrawer: (state, action: PayloadAction<IDrawerState>) => {

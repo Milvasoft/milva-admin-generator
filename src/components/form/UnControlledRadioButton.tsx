@@ -12,7 +12,7 @@ import OutlinedWrapper from './OutlinedWrapper';
       label?: string,
       value?: any
     }>,
-    register?: any,
+    setValue?: any,
     title?: string,
     name: string,
     defaultValue?: any
@@ -20,11 +20,14 @@ import OutlinedWrapper from './OutlinedWrapper';
   
 export default memo(function UnControlledRadioButton({
   data,
-  register,
+  setValue,
   title,
   name,
   defaultValue
+
 }: params) {
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setValue(name, (event.target as HTMLInputElement).value);
   
   return (
     <OutlinedWrapper label={title}> 
@@ -33,7 +36,8 @@ export default memo(function UnControlledRadioButton({
           row 
           sx={{ alignSelf: 'flex-start', }} 
           defaultValue={defaultValue}
-          {...register(name)}
+          onChange={handleChange}
+          name={name}
         >
           {data.map((element) => (
             <FormControlLabel

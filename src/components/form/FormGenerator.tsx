@@ -221,7 +221,7 @@ export default function FormGenerator({
                       title={item.title}
                       name={item.name}
                       defaultValue={item?.defaultValue}
-                      register={register}
+                      setValue={setValue}
                     />
                   </Box>
                 );

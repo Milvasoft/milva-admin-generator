@@ -39,7 +39,7 @@ export default function Drawer({
       onClose={handleClose} 
       PaperProps={{
         sx: {
-          width: ['100%', 540],
+          width: ['100%', drawer?.component === DrawerEnum.Delete ? 450 : 540],
           px: [2, 5],
           pt: 2,
           pb: 5

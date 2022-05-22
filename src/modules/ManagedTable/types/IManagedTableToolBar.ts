@@ -20,7 +20,7 @@ export interface IManagedTableToolBarDefaultButtons {
 
     add: {
         title?: string;
-        hide?: (data: any[]) =>boolean,
-        click?: () =>boolean,
+        hide?: (data?: any[]) =>boolean,
+        click?: () => void,
     }
 }

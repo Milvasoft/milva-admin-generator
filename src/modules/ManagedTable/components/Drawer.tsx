@@ -2,17 +2,19 @@ import React, { useCallback, useMemo, } from 'react';
 import { DrawerEnum } from '@assets/enums/DrawerEnum';
 import CustomDrawer from '@components/drawer/CustomDrawer';
 import { useAppDispatch, useAppSelector } from '@utils/store';
+import { SxProps } from '@mui/material';
 import DeleteDrawer from './DeleteDrawer';
 import { closeTableDrawer } from '../redux/slice';
 import { IManagedTableToolBarButtons } from '../types/IManagedTableToolBar';
 import { IManagedTableActions } from '../types/IManagedTableActions';
   
 type props ={
-    DrawerComponent: React.FunctionComponent<any>,
+    DrawerComponent?: React.FunctionComponent<any>,
     onDelete?: () => void,
     getLabelForDeleteDrawer?: (data?:any) => string,
     buttons?: IManagedTableToolBarButtons[],
     actions?: IManagedTableActions[],
+    drawerPaperSx?: SxProps
 }
   
 export default function Drawer({ 
@@ -20,7 +22,8 @@ export default function Drawer({
   onDelete,
   getLabelForDeleteDrawer,
   buttons,
-  actions
+  actions,
+  drawerPaperSx
 }:props) {
   
   const drawer = useAppSelector((s) => s.managedTable?.drawer);
@@ -29,7 +32,11 @@ export default function Drawer({
 
   const handleClose = useCallback(() => dispatch(closeTableDrawer()), [dispatch]); 
 
-  const drawerEnumList = useMemo(() => [DrawerEnum.Add, DrawerEnum.Edit, buttons?.map((s) => s.drawerEnum), actions?.map((s) => s.drawerEnum)], [actions, buttons]);
+  const drawerEnumList = useMemo(() => [
+    DrawerEnum.Add,
+    DrawerEnum.Edit,
+    ...(buttons?.map((s) => s.drawerEnum) || []),
+    ...(actions?.map((s) => s.drawerEnum) || [])], [actions, buttons]);
 
   const isDrawer = useMemo(() => drawerEnumList.findIndex((s) => s === drawer.component), [drawer.component, drawerEnumList]);
 
@@ -42,14 +49,15 @@ export default function Drawer({
           width: ['100%', drawer?.component === DrawerEnum.Delete ? 450 : 540],
           px: [2, 5],
           pt: 2,
-          pb: 5
+          pb: 5,
+          ...drawerPaperSx
         } 
       }}
     >
   
       { drawer?.component === DrawerEnum.Delete && (<DeleteDrawer onDelete={onDelete} getLabelForDeleteDrawer={getLabelForDeleteDrawer} />)}
           
-      {isDrawer !== -1 && <DrawerComponent />}
+      {(isDrawer !== -1 && DrawerComponent) && <DrawerComponent />}
   
     </CustomDrawer>    
   );

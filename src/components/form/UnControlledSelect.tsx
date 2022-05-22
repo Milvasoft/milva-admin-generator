@@ -6,7 +6,6 @@ import {
 } from '@mui/material';
 import { ISelectItem } from '@src/modules/App/types/ISelectItem';
 import React, { memo } from 'react';
-import { Controller } from 'react-hook-form';
 
 type params = {
   label?: any,
@@ -14,7 +13,7 @@ type params = {
   name: string,
   disabled?: boolean,
   itemList?: Array<ISelectItem>,
-  control: any,
+  setValue: any,
 }
 
 export default memo(function UnControlledSelect({
@@ -22,37 +21,33 @@ export default memo(function UnControlledSelect({
   label,
   itemList,
   defaultValue,
-  control,
   disabled,
+  setValue
 }: params) {
 
   return (
-    <FormControl variant="outlined" key={`${label}-select-form`}>
+    <FormControl variant="outlined" key={`${label}-select-form`} fullWidth>
 
       <InputLabel>{label}</InputLabel>
 
-      <Controller
-        control={control}
-        name={name}
+      <Select
+        id={`${name}-select-id`}
+        label={label}
+        disabled={disabled}
         defaultValue={defaultValue}
-        render={() => (
-          <Select
-            id={`${name}-select-id`}
-            label={label}
-            disabled={disabled}
+        onChange={(e) => setValue(name, e.target.value)}
+      >
+        {itemList?.map((item) => (
+          <MenuItem
+            value={item.value}
+            key={item.value}
           >
-            {itemList?.map((item) => (
-              <MenuItem
-                value={item.value}
-                key={item.value}
-              >
-                {item.label}
+            {item.label}
 
-              </MenuItem>
-            ))}
-          </Select>
-        )}
-      />
+          </MenuItem>
+        ))}
+      </Select>
+
 
     </FormControl>
   );

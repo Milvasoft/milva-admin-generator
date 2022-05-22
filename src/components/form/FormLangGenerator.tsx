@@ -169,3 +169,216 @@ export default function FormLangGenerator({ langFormList, register, errors, }: p
   );
 
 }
+
+// /* eslint-disable react-hooks/exhaustive-deps */
+// /* eslint-disable @typescript-eslint/ban-ts-comment */
+// import { FormInputEnum } from '@assets/enums/FormInputEnum';
+// import {
+//   Box,
+//   SxProps,
+//   TextField, 
+//   Typography 
+// } from '@mui/material';
+// import React, { useCallback, useEffect, useState } from 'react';
+// import Tab from '@mui/material/Tab';
+// import TabContext from '@mui/lab/TabContext';
+// import TabList from '@mui/lab/TabList';
+// import NextImage from 'next/image';
+// import { ILangFormGenerator } from '@src/modules/App/types/ILangFormGenerator';
+// import 'react-quill/dist/quill.snow.css';
+// import dynamic from 'next/dynamic';
+// import { useAppSelector } from '@utils/store';
+// import { useTranslation } from 'next-i18next';
+
+// const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+
+// const modules = {
+//   toolbar: [
+//     [{ header: '1' }, { header: '2' }, { font: [] }],
+//     [{ size: [] }],
+//     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+//     [
+//       { list: 'ordered' },
+//       { list: 'bullet' },
+//       { indent: '-1' },
+//       { indent: '+1' },
+//     ],
+//     ['link'],
+//     ['clean'],
+//   ],
+//   clipboard: {
+//     matchVisual: false,
+//   },
+// };
+
+// const defaultSxprops : SxProps = {
+//   mt: 1,
+//   py: 2,
+//   px: [1, 1, 3]
+// };
+
+// type props ={
+//     langFormList:ILangFormGenerator,
+//     register: any,
+//     errors: any,
+//     setFormState: any
+// }
+
+// export default function FormLangGenerator({
+//   langFormList,
+//   register,
+//   errors,
+//   setFormState 
+// }: props) {
+
+//   const systemParametersDTO = useAppSelector((s) => s.appReducer.user?.systemParametersDTO);
+
+//   const { arrayName, form, defaultValues } = langFormList;
+
+//   const { t } = useTranslation();
+    
+//   const [tab, setTab] = useState<any>(1);
+  
+//   const [values, setValues] = useState<any>();
+
+//   const onChangeValue = useCallback((name: string, value:any) => {
+
+//     setValues({ ...values, [name]: value });
+
+//     setFormState(name, value);
+
+//   }, [setFormState, values]);
+
+//   const handleChange = (event: React.SyntheticEvent, newValue: any) => setTab(newValue);
+
+//   useEffect(() => {
+    
+//     form?.forEach((item) => {
+
+//       if (item.input === FormInputEnum.Editor) {
+
+//         systemParametersDTO?.usedLanguageIdList?.forEach((lang, index) => {
+
+//           setFormState(`${arrayName}.${index}.${item.name}`, defaultValues?.[lang]?.[item.name] || '');
+
+//         });
+      
+//       }
+     
+//     });
+  
+//   }, []);
+      
+//   return (        
+//     <Box sx={{ width: '100%', typography: 'body1', mt: 3 }}>
+
+//       <TabContext value={tab}>
+
+//         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+
+//           <TabList onChange={handleChange} variant="fullWidth">
+
+//             {
+
+//               systemParametersDTO?.usedLanguageIdList?.map((lang) => (
+//                 <Tab
+//                   key={lang}
+//                   label={t(`languagesNumber.${lang}`)}
+//                   value={lang}
+//                   icon={(
+//                     <Box>
+//                       <NextImage
+//                         src={`/images/flag/${lang}.png`}
+//                         width={42} 
+//                         height={28}    
+//                       />
+//                     </Box>
+//                   )}
+//                 />
+//               ))
+//             }
+
+//           </TabList>
+
+//         </Box>
+
+//         {
+
+//           systemParametersDTO?.usedLanguageIdList?.map((lang, index) => (
+//             <Typography
+//               key={lang}
+//               component="div"
+//               role="tabpanel"
+//               hidden={tab !== lang}
+//               id={`simple-tabpanel-${lang}`}
+//               aria-labelledby={`simple-tab-${lang}`}
+//             >
+
+//               <input
+//                 hidden 
+//                 {...register(`${arrayName}.${index}.systemLanguageId`)}
+//                 value={lang}
+//                 type="number"
+//               />
+
+//               {
+//                 React.Children.toArray(form?.map((item) => {
+
+//                   if (item.input === FormInputEnum.Text) {
+
+//                     return (
+//                       <Box sx={defaultSxprops} {...item?.boxProps}>                       
+//                         <TextField                             
+//                           defaultValue={defaultValues?.[lang]?.[item.name] || ''}
+//                           placeholder={item?.placeholder}
+//                           label={item?.title}
+//                           helperText={errors?.[`${arrayName}`]?.[index]?.[`${item.name}`]
+//                            && (lang === systemParametersDTO.defaultSystemLanguageId ? item?.defaultLangHelperText : item.helperText)}
+//                           fullWidth
+//                           {...item?.textFieldProps}
+//                           {...register(
+//                             `${arrayName}.${index}.${item.name}`, 
+//                             lang === systemParametersDTO.defaultSystemLanguageId ? { ...item.defaultLangValidation } : { ...item.validation }
+//                           )}
+//                         />
+//                       </Box>
+                  
+//                     );
+
+//                   }
+
+//                   if (item.input === FormInputEnum.Editor) {
+
+//                     return (
+//                       <Box sx={defaultSxprops} {...item?.boxProps}>
+//                         {/* @ts-ignore */}
+//                         <ReactQuill 
+//                           theme="snow"
+//                           key={defaultValues?.[lang]?.[item.name] || ''}
+//                           defaultValue={defaultValues?.[lang]?.[item.name] || ''}                   
+//                           onChange={(value) => onChangeValue(`${arrayName}.${index}.${item.name}`, value)}  
+//                           modules={modules}
+//                           placeholder={item.placeholder}
+//                         />
+
+//                       </Box>
+
+//                     );
+
+//                   }
+
+//                   return null;
+
+//                 }))
+//               }
+//             </Typography>
+//           ))
+//         }
+
+//       </TabContext>
+     
+
+//     </Box>
+//   );
+
+// }

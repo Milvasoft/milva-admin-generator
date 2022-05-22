@@ -19,7 +19,7 @@ import { useRouter } from 'next/router';
 import { CookieEnum } from '@assets/enums/CookieEnum';
 import { useTranslation } from 'next-i18next';
 import DrawerHeader from '@components/drawer/DrawerHeader';
-import { pages } from '@utils/Routes';
+import Pages from '@utils/Pages';
 import { getCookie, setCookie } from '@helpers/cookieService';
 import LayoutAppBar from './LayoutAppBar';
 
@@ -145,7 +145,7 @@ export default function Layout({ children }: any) {
           <DrawerHeader title={t('pages')} handleCancel={handleDrawerClose} />
         
           {
-            pages?.map((item) => (
+            Pages?.map((item) => (
               <Accordion
                 elevation={0} 
                 defaultExpanded={item?.children?.some((s) => s.href === path)}
@@ -206,7 +206,7 @@ export default function Layout({ children }: any) {
           <Box sx={{ mt: 1, p: 1 }}>
 
             {
-              pages?.map((item) => (
+              Pages?.map((item) => (
                 <Accordion
                   elevation={0} 
                   defaultExpanded={item?.children?.some((s) => s.href === path)}
@@ -269,3 +269,29 @@ export default function Layout({ children }: any) {
   );
 
 }
+
+// useEffect(() => {
+
+//   if (roles !== undefined) {
+
+//     const list: any[] = [];
+
+//     const oldPages = [...Pages]; 
+
+//     // Yetkiye göre sayfaları gösterme
+//     oldPages.forEach((element) => {
+
+//       const newElement = { ...element };
+
+//       newElement.children = newElement.children
+//         .filter((c) => c.permission.split('|').some((p) => roles?.some((role) => role === p)));
+
+//       if (newElement.children.length > 0) list.push(newElement);
+
+//     });
+
+//     setAuthPages(list);
+  
+//   }
+ 
+// }, [roles]);

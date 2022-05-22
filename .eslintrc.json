@@ -42,6 +42,7 @@
     ],
   
     "rules": {
+      "no-restricted-syntax":"off",
       "@typescript-eslint/no-var-requires": "off",
       "react/destructuring-assignment": "off",
       "no-restricted-imports": [ "error", { "patterns": [ "@material-ui/*/*/*","!@material-ui/core/test-utils/*" ] }],

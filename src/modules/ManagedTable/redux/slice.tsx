@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IDataInfo } from '@src/modules/App/types/IDataInfo';
 import { IDrawerState } from '@src/modules/App/types/IDrawerState';
 import { IPaginationDTO } from '@src/modules/App/types/IPaginationDTO';
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import CancelablePromise from '@utils/CancelablePromise';
 import { Result as ApiResult } from '@utils/network/networkParams';
 
@@ -41,6 +41,7 @@ export const refreshTable = createAsyncThunk(
 );
 
 type fetchPaginationDataType = (data:IDataInfo<any>) => CancelablePromise<ApiResult<IPaginationDTO<any>>>;
+
 export const refreshTableForPagination = createAsyncThunk(
   'refreshTableForPagination', 
   async (fetchPaginationData:fetchPaginationDataType, thunkAPI) => {
@@ -79,6 +80,11 @@ export const managedTableSlice = createSlice({
     openTableDrawer: (state, action: PayloadAction<IDrawerState>) => {
 
       state.drawer = { ...action.payload, open: true, }; 
+    
+    },
+    updateTableDrawerData: (state, action: PayloadAction<any>) => {
+
+      state.drawer = { ...state.drawer, data: action.payload, }; 
     
     },
     updateTableLoading: (state, action:PayloadAction<boolean>) => {
@@ -176,7 +182,9 @@ export const {
   updateTableData,
   updateTableLoadingWithInfo,
   updateTableDataInfo,
-  resetTable,  
+  resetTable, 
+  updateTableDrawerData
+  
 } = managedTableSlice.actions;
 
 export default managedTableSlice.reducer;

@@ -29,6 +29,12 @@ export interface IFormGenerator{
   /** All */
   validation ?: any,
 
+  /** Lang */
+  defaultLangValidation ?: any,
+
+  /** Lang */
+  defaultLangHelperText ?: string,
+
   /** All */
   placeholder ?: string,
 
@@ -48,7 +54,7 @@ export interface IFormGenerator{
   limitTags?: number,
   
   /** AutoSelect */
-  autoSelectRequired?: number,
+  autoSelectRequired?: boolean,
    
   /** AutoSelect */
   fetchData?: () => Promise<any>,

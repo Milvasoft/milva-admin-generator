@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useCallback, useEffect, } from 'react';
@@ -143,9 +144,10 @@ const AntDesignStyledDataGrid = styled(DataGrid)(({ theme }) => ({
 type props ={
     columns : GridColumns<any>, 
     fetchPaginationData?: (data:IDataInfo<any>) => CancelablePromise<ApiResult<IPaginationDTO<any>>>,
-    fetchData?: () => CancelablePromise<ApiResult<any[]>>,
+    fetchData?: (getIsActiveFalse?: boolean) => CancelablePromise<ApiResult<any[]>>,
     toolBar?: IManagedTableToolBar,
-    dataGridProps?: Omit<DataGridProps, 'columns' | 'rows'>
+    dataGridProps?: Omit<DataGridProps, 'columns' | 'rows'>,
+    filterData?: (data?:any[], spec?: any) => any[]
 }
   
 const defaultDataInfo = {
@@ -158,7 +160,8 @@ export default function Table({
   toolBar,
   fetchData, 
   dataGridProps,
-  fetchPaginationData
+  fetchPaginationData,
+  filterData
 }:props) {
 
   const [pageSize, setPageSize] = React.useState<number>(10);
@@ -319,35 +322,67 @@ export default function Table({
 
     if (dataGridProps?.pagination) {
 
-      fetchData?.()
+      fetchData?.(dataInfo?.spec?.getIsActivesToo)
         .then((res) => {
 
-          dispatch(updateTableData({ dtoList: res?.result }));
-  
+          if (filterData && dataInfo?.spec) {
+
+            dispatch(updateTableData({ dtoList: filterData?.(res?.result, dataInfo?.spec) }));
+          
+          } else {
+
+            dispatch(updateTableData({ dtoList: res?.result }));
+          
+          }
+            
         })
         .catch(() => {
 
-          dispatch(updateTableData([]));
+          dispatch(updateTableData({}));
   
         });
     
     } else {
 
-      fetchPaginationData?.(dataInfo)
+      const newDataInfo = { ...dataInfo };
+
+      if (newDataInfo?.spec !== undefined) {
+
+        const newSpec = { ...newDataInfo?.spec };
+
+        for (const key in newSpec) {
+
+          const element = newSpec[key];
+
+          if (typeof element === 'object') {
+
+            newSpec[`${key}Id`] = element?.id;
+
+            delete newSpec[key];
+
+          }            
+        
+        }
+
+        newDataInfo.spec = newSpec;
+      
+      }
+
+      fetchPaginationData?.(newDataInfo)
         .then((res) => {
         
-          setPageSize(Number(dataInfo?.requestedItemCount) || 10);
+          setPageSize(Number(newDataInfo?.requestedItemCount) || 10);
 
-          setPage(Number(dataInfo?.pageIndex || 1) - 1);
+          setPage(Number(newDataInfo?.pageIndex || 1) - 1);
 
           dispatch(updateTableData(res?.result));
     
         })
         .catch(() => {
           
-          setPageSize(Number(dataInfo?.requestedItemCount) || 10);
+          setPageSize(Number(newDataInfo?.requestedItemCount) || 10);
 
-          setPage(Number(dataInfo?.pageIndex) - 1);
+          setPage(Number(newDataInfo?.pageIndex) - 1);
 
           dispatch(updateTableData({ ...data, dtoList: [] }));
     
@@ -359,10 +394,18 @@ export default function Table({
   }, [dispatch, dataGridProps?.pagination, fetchData, fetchPaginationData, data]);
 
   const onPageChange = useCallback((page: number) => {
+
+    if (dataGridProps && dataGridProps?.paginationMode === 'client') {
+      
+      setPage(page);
+    
+    } else {
+
+      getData({ ...dataInfo, pageIndex: page + 1, requestedItemCount: dataInfo?.requestedItemCount });
+    
+    }  
   
-    getData({ pageIndex: page + 1, requestedItemCount: dataInfo?.requestedItemCount });
-  
-  }, [dataInfo?.requestedItemCount, getData]);
+  }, [dataGridProps, dataInfo, getData]);
   
   const onPageSizeChange = useCallback((pageSize: number,) => {
   
@@ -372,11 +415,11 @@ export default function Table({
     
     } else {
 
-      getData({ pageIndex: dataInfo?.pageIndex, requestedItemCount: pageSize });
+      getData({ ...dataInfo, pageIndex: dataInfo?.pageIndex, requestedItemCount: pageSize });
     
     }
   
-  }, [dataGridProps, dataInfo?.pageIndex, getData]);
+  }, [dataGridProps, dataInfo, getData]);
 
   const getInitialData = useCallback(() => {
 
@@ -418,7 +461,7 @@ export default function Table({
     
     };
         
-  }, []);
+  }, [dispatch, router?.query]);
 
   return (
     <>
@@ -442,6 +485,7 @@ export default function Table({
         localeText={GRID_DEFAULT_LOCALE_TEXT}   
         disableColumnFilter
         disableColumnMenu
+        disableSelectionOnClick
         pageSize={pageSize}
         rowsPerPageOptions={[10, 25, 50]}
         sx={{ border: 'none', pb: 2 }}

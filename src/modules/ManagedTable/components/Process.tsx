@@ -7,6 +7,7 @@ import { useTranslation } from 'next-i18next';
 import { DrawerEnum } from '@assets/enums/DrawerEnum';
 import { useAppDispatch, } from '@utils/store';
 import { IDrawerState } from '@src/modules/App/types/IDrawerState';
+import PreviewIcon from '@mui/icons-material/Preview';
 import { openTableDrawer } from '../redux/slice';
 import { IManagedTableActions } from '../types/IManagedTableActions';
 import { IManagedTableDefaultButtons } from '../types/IManagedTableDefaultButtons';
@@ -38,19 +39,55 @@ export default function Process({
   
   const handleEdit = useCallback(
     () => (
-      defaultButtons?.editClick 
-        ? defaultButtons?.editClick(rowData)
+      defaultButtons?.editButton?.click 
+        ? defaultButtons?.editButton?.click(rowData)
         : openDrawer({ component: DrawerEnum.Edit, data: rowData })),
     [defaultButtons, rowData, openDrawer]
   );
 
   const handleDelete = useCallback(() => (
-    defaultButtons?.deleteClick 
-      ? defaultButtons?.deleteClick(rowData)
+    defaultButtons?.deleteButton?.click 
+      ? defaultButtons?.deleteButton?.click(rowData)
       : openDrawer({ component: DrawerEnum.Delete, data: rowData })), [defaultButtons, rowData, openDrawer]);
     
   return (
     <ActionComponent>
+
+      {  
+        defaultButtons?.editButton?.href !== undefined
+          ? !defaultButtons?.editButton?.hide?.(rowData) && (
+            <Tooltip title={t('edit') || 'Edit'}>
+              <a href={defaultButtons?.editButton?.href || '#'}>             
+                <IconButton onClick={handleEdit}>
+                  <EditIcon color="primary" />
+                </IconButton>
+              </a>
+            </Tooltip>
+          )
+          : !defaultButtons?.editButton?.hide?.(rowData) && (
+            <Tooltip title={t('edit') || 'Edit'}>
+              <IconButton onClick={handleEdit}>
+                <EditIcon color="primary" />
+              </IconButton>
+            </Tooltip>
+          )
+      }
+       
+      { !defaultButtons?.deleteButton?.hide?.(rowData) && (
+        <Tooltip title={t('delete') || 'Delete'}>
+          <IconButton onClick={handleDelete}>
+            <DeleteIcon color="secondary" />
+          </IconButton>
+        </Tooltip>
+      )}
+
+      { defaultButtons?.routeButton?.show && (
+        <Tooltip title={defaultButtons?.routeButton ? t(defaultButtons?.routeButton?.title) : ''}>
+          <a href={defaultButtons?.routeButton?.href?.(rowData) || '#'}> 
+            <PreviewIcon />
+          </a>
+        </Tooltip>
+      )}
 
       {
         actions?.map((action) => !action?.isHide?.(rowData) && (                    
@@ -60,23 +97,7 @@ export default function Process({
             </IconButton>
           </Tooltip>
         ))
-      }
-              
-      { !defaultButtons?.isDeleteHide?.(rowData) && (
-        <Tooltip title={t('delete') || 'Delete'}>
-          <IconButton onClick={handleDelete}>
-            <DeleteIcon color="secondary" />
-          </IconButton>
-        </Tooltip>
-      )}
-
-      { !defaultButtons?.isEditHide?.(rowData) && (
-        <Tooltip title={t('edit') || 'Edit'}>
-          <IconButton onClick={handleEdit}>
-            <EditIcon color="primary" />
-          </IconButton>
-        </Tooltip>
-      )}
+      }       
 
     </ActionComponent>
   );
